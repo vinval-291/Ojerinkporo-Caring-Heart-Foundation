@@ -143,7 +143,7 @@ export default function Grant() {
         <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-royal/5 skew-x-[-12deg] translate-x-1/4 pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-brand-accent/10 rounded-full blur-[100px] pointer-events-none" />
         
-        <div className="container-max relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center px-18 py-12">
+        <div className="container-max relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center px-6 lg:px-12 py-12">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -398,9 +398,16 @@ export default function Grant() {
             href={FORM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="block bg-brand-royal py-6 rounded-2xl text-white font-bold text-lg md:text-xl shadow-lg hover:bg-brand-royal/90 transition-all flex items-center justify-center gap-4 group"
+            className="block bg-brand-royal py-5 md:py-8 px-6 md:px-12 rounded-[2rem] text-white font-bold text-sm md:text-xl shadow-2xl hover:bg-brand-royal/90 transition-all flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 group"
           >
-            Application form must be filled out latest by 21 of Nov, 2025. Click to fill now <Clock className="w-6 h-6 animate-pulse" />
+            <div className="flex flex-col md:items-start text-center md:text-left">
+              <span className="text-white/70 text-[10px] md:text-xs uppercase tracking-[0.2em] mb-1">Final Submission Deadline</span>
+              <span className="leading-tight">Application form must be filled out latest by 21 of Nov, 2025.</span>
+              <span className="text-brand-accent text-xs md:text-sm mt-1">Click here to begin your application today</span>
+            </div>
+            <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+              <Clock className="w-6 h-6 md:w-8 md:h-8 animate-pulse text-brand-accent" />
+            </div>
           </a>
         </div>
       </section>
