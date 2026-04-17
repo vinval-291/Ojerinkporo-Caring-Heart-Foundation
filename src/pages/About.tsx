@@ -37,7 +37,7 @@ export default function About() {
   return (
     <div className="flex flex-col">
       {/* Hero */}
-      <section className="bg-brand-navy py-32 px-6 text-center text-white relative overflow-hidden">
+      <section className="bg-brand-navy py-16 md:py-32 px-6 text-center text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <img 
             src="https://images.unsplash.com/photo-1524069290683-0457abfe42c3?q=80&w=2070&auto=format&fit=crop" 

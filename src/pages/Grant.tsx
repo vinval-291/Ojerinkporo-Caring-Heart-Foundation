@@ -131,14 +131,14 @@ const selectionCriteria = [
   }
 ];
 
-const FORM_URL = "https://ojerinkporofoundation.com/";
+const FORM_URL = "https://www.linkedin.com/in/kuteyi-oluwaloye-vincent";
 
 export default function Grant() {
   const [openCriteria, setOpenCriteria] = useState<number | null>(0);
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center bg-brand-navy text-white overflow-hidden pt-20">
+      <section className="relative min-h-[60vh] md:min-h-[90vh] flex items-center bg-brand-navy text-white overflow-hidden pt-20 text-center md:text-left">
         {/* Abstract Background Design */}
         <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-royal/5 skew-x-[-12deg] translate-x-1/4 pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-brand-accent/10 rounded-full blur-[100px] pointer-events-none" />

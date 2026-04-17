@@ -43,7 +43,7 @@ export default function Events() {
   return (
     <div className="flex flex-col">
       {/* Header */}
-      <section className="bg-brand-bg py-24 px-6 text-center">
+      <section className="bg-brand-bg py-12 md:py-24 px-6 text-center">
         <div className="container-max">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}

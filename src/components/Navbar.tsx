@@ -17,7 +17,7 @@ const navLinks = [
   },
   { name: 'Gallery', path: '/gallery' },
   { name: 'Visionary', path: '/visionary' },
-  { name: 'FAQ', path: '/faq' },
+  { name: 'Contact Us', path: '/contact' },
 ];
 
 export function Navbar() {

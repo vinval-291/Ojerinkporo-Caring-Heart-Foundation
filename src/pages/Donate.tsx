@@ -42,7 +42,7 @@ export default function Donate() {
 
   return (
     <div className="bg-brand-bg min-h-screen">
-      <section className="bg-brand-navy py-20 px-6 text-center text-white">
+      <section className="bg-brand-navy py-12 md:py-20 px-6 text-center text-white">
         <div className="container-max">
           <h1 className="text-5xl font-bold mb-6">Support the Mission</h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">

@@ -5,7 +5,7 @@ export default function Visionary() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex items-center justify-center bg-brand-navy text-white overflow-hidden">
+      <section className="relative min-h-[50vh] md:min-h-[70vh] flex items-center justify-center bg-brand-navy text-white overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://i.postimg.cc/fLkc10TL/davric-ceo2.jpg" 

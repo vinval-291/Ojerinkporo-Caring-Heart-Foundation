@@ -146,7 +146,7 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section - Sliding */}
-      <section className="relative h-[120vh] flex items-center overflow-hidden bg-brand-navy">
+      <section className="relative h-[80vh] md:h-[120vh] flex items-center overflow-hidden bg-brand-navy">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}

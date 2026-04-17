@@ -35,8 +35,8 @@ export function Footer() {
           <ul className="space-y-4 text-sm text-gray-400">
             <li><Link to="/about" className="hover:text-brand-accent transition-colors">Our Story</Link></li>
             <li><Link to="/events" className="hover:text-brand-accent transition-colors">Events</Link></li>
-            <li><Link to="/visionary" className="hover:text-brand-accent transition-colors">Leadership</Link></li>
-            <li><Link to="/faq" className="hover:text-brand-accent transition-colors">FAQs</Link></li>
+            <li><Link to="/contact" className="hover:text-brand-accent transition-colors">Contact Us</Link></li>
+            <li><Link to="/contact" className="hover:text-brand-accent transition-colors">FAQs</Link></li>
           </ul>
         </div>
 
@@ -74,8 +74,19 @@ export function Footer() {
         </div>
       </div>
       
-      <div className="container-max border-t border-white/10 pt-8 text-center text-xs text-gray-500">
+      <div className="container-max border-t border-white/10 pt-8 text-center text-xs text-gray-500 space-y-2">
         <p>© {new Date().getFullYear()} Ojerinkporo Caring Hearts Foundation. All rights reserved.</p>
+        <p>
+          This website is created by{' '}
+          <a 
+            href="https://www.linkedin.com/in/kuteyi-oluwaloye-vincent" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-brand-accent hover:underline"
+          >
+            Kuteyi Vincent
+          </a>
+        </p>
       </div>
     </footer>
   );

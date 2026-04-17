@@ -135,7 +135,7 @@ export default function EventDetail() {
 
   return (
     <div className="flex flex-col">
-      <section className="relative h-[50vh] min-h-[400px]">
+      <section className="relative h-[40vh] md:h-[50vh] min-h-[400px]">
         <img src={event.image} alt={event.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
         <div className="absolute inset-0 bg-brand-navy/60" />
         <div className="absolute inset-0 flex items-center justify-center text-center px-6">
