@@ -1,8 +1,26 @@
+# Dependencies
 node_modules/
-build/
+
+# Build output
 dist/
-coverage/
-.DS_Store
-*.log
-.env*
+.vercel/
+.sanity/
+
+# Environment — never commit these. .env.local carries ADMIN_PASSWORD and
+# would let anyone who reads the repo sign into the dashboard.
+.env
+.env.*
 !.env.example
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+
+# Original archive — superseded by source/
+*.zip
+
+# Local logs
+*.log
+npm-debug.log*
