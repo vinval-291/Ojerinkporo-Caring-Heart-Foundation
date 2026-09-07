@@ -6,11 +6,10 @@ import { Figure, Breadcrumb, CtaBand, AwaitingContent } from '@/src/components/u
 /**
  * Founder profile.
  *
- * NOTE FOR THE CLIENT — unresolved factual conflict carried over from the previous
- * build: the Visionary page named Mr. Ikechukwu Agwu as founder, while the grant-launch
- * event page named "Elder (Mrs) Patience Ojerinkporo". Only one can be correct. The
- * biography below is the Agwu profile, retained because it was the more detailed of the
- * two. It should not be published until OCHF confirms it.
+ * Confirmed by the client (7 September 2026): Mr. Ikechukwu Agwu is the founder and
+ * visionary of the foundation. The previous build named a different person as founder
+ * on one of its event pages; that attribution was incorrect and has been removed.
+ * This page is the single source for founder attribution — do not reintroduce another.
  */
 const makeFounder = (site: { name: string; short: string }) => ({
   name: 'Mr. Ikechukwu Agwu',

@@ -107,9 +107,12 @@ export default function Home() {
       {/* --------------------------------------------------- portfolio story */}
       <section className="band bg-paper">
         <div className="shell">
-          <div className="text-center max-w-[42ch] mx-auto">
+          {/* No character-width cap here: the heading is a single line in the visual
+              guide, and a 42ch limit broke it across three. It still wraps on narrow
+              screens, where one line will not fit. */}
+          <div className="text-center max-w-5xl mx-auto">
             <p className="eyebrow mb-4">{portfolioStory.eyebrow}</p>
-            <h2 className="text-[28px] md:text-[36px]">{portfolioStory.title}</h2>
+            <h2 className="text-[28px] md:text-[36px] text-balance">{portfolioStory.title}</h2>
           </div>
 
           <div className="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
