@@ -1,0 +1,13 @@
+{
+  "name": "ochf-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Ojerinkporo Caring Hearts Foundation — website (source/) and content studio (cms/)",
+  "scripts": {
+    "install:site": "npm --prefix source install",
+    "build": "npm --prefix source install && npm --prefix source run build",
+    "dev": "npm --prefix source run dev",
+    "studio": "npm --prefix cms run dev",
+    "lint": "npm --prefix source run lint"
+  }
+}
