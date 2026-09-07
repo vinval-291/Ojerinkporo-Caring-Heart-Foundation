@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans:  "Public Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+
+  /* ------------------------------------------------------------------
+     Palette sampled from the OCHF mark. Measured share of the logo:
+     navy 40% · green 20% · teal 16% · yellow-green 11% · gold 13%.
+     ------------------------------------------------------------------ */
+
+  /* Ink — the wordmark and the central building (#081a48, #0a2448). */
+  --color-ink:        #0A1F4A;
+  --color-ink-deep:   #06152F;
+  --color-ink-soft:   #14315F;
+
+  /* Teal — where the mark turns from navy into green (#095667, #075a77). */
+  --color-teal:       #0A5A6B;
+  --color-teal-deep:  #06414F;
+
+  /* Green — the largest colour family after navy (#158843, #268b38).
+     `green-ink` is the accessible weight for text on light (7.5:1). */
+  --color-green:      #158843;
+  --color-green-lift: #3FA84E;
+  --color-green-ink:  #0E6234;
+
+  /* Gold — the mark's highlight (#fbb837, #faa827).
+     `gold` fills carry INK text, not white — 7.9:1 rather than a failing 2.2:1.
+     `gold-ink` is the accessible weight for small text on light (5.9:1). */
+  --color-gold:       #F0A81E;
+  --color-gold-lift:  #FBB837;
+  --color-gold-ink:   #8A5A12;
+
+  /* Grounds */
+  --color-paper:      #FAF9F7;
+  --color-cream:      #F8EFDC;
+  --color-surface:    #FFFFFF;
+
+  /* Type */
+  --color-body:       #3A424E;
+  --color-muted:      #6B7480;
+  --color-faint:      #99A1AC;
+
+  /* Lines — given a slight blue bias so they sit with the navy rather than
+     reading as a neutral grey borrowed from somewhere else. */
+  --color-rule:       #E1E2E0;
+  --color-rule-dark:  #1C3559;
+
+  --radius-institutional: 3px;
+}
+
+@layer base {
+  body {
+    @apply bg-paper text-body font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-serif text-ink;
+    font-weight: 600;
+    letter-spacing: -0.014em;
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  ::selection { background: var(--color-gold); color: #fff; }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold-ink);
+    outline-offset: 2px;
+  }
+}
+
+/* ---- layout primitives ---- */
+
+.shell        { @apply max-w-[1240px] mx-auto px-6 md:px-10; }
+.shell-narrow { @apply max-w-[860px] mx-auto px-6 md:px-10; }
+.band         { @apply py-20 md:py-28; }
+.band-tight   { @apply py-14 md:py-20; }
+
+/* Small uppercase letterspaced label used above every section heading. */
+.eyebrow {
+  @apply font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-gold-ink;
+}
+.eyebrow-dark { @apply text-gold-lift; }
+
+.lede { @apply text-[17px] md:text-lg leading-relaxed text-muted max-w-[62ch]; }
+
+/* ---- buttons: near-square, institutional ---- */
+
+/* Shared base. Tailwind v4 cannot @apply a custom class, so the variants below
+   extend this via the comma selector rather than `@apply btn`. */
+.btn, .btn-gold, .btn-ink, .btn-green, .btn-outline, .btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3
+         text-[14px] font-semibold rounded-[3px] transition-colors duration-200;
+}
+/* Ink on gold, not white: 7.9:1 instead of 2.2:1, and truer to the mark. */
+.btn-gold    { @apply bg-gold text-ink hover:bg-gold-lift; }
+.btn-ink     { @apply bg-ink text-white hover:bg-ink-soft; }
+.btn-green   { @apply bg-green text-white hover:bg-green-ink; }
+.btn-outline { @apply border border-rule bg-surface text-ink hover:border-ink hover:bg-paper; }
+.btn-ghost   { @apply border border-white/25 text-white hover:bg-white/10; }
+
+/* Inline "Learn more →" style link. */
+.link-arrow {
+  @apply inline-flex items-center gap-1.5 text-[13px] font-semibold text-gold-ink
+         hover:text-ink transition-colors;
+}
+.link-arrow-dark { @apply text-gold-lift hover:text-white; }
+
+/* Dark bands carry the mark's navy→teal transition rather than a flat fill.
+   Kept subtle: it should read as depth, not as a gradient effect. */
+.band-ink {
+  background: linear-gradient(158deg, var(--color-ink-deep) 0%, var(--color-ink) 52%, var(--color-teal-deep) 100%);
+}
+
+/* Each programme pillar takes a colour from the mark. The assignment is meaningful —
+   agriculture green, wellbeing teal, enterprise gold, education navy — not decorative. */
+.pillar-enterprise  { --pillar: var(--color-gold); }
+.pillar-education   { --pillar: var(--color-ink-soft); }
+.pillar-agriculture { --pillar: var(--color-green); }
+.pillar-wellbeing   { --pillar: var(--color-teal); }
+.pillar-bar { border-top: 2px solid var(--pillar, var(--color-gold)); }
+
+/* ---- figures & numbers ---- */
+
+.rule-top { @apply border-t border-rule pt-5; }
+
+/* Stat figures line up in columns across the impact bands. */
+.figure-num {
+  @apply font-serif text-3xl md:text-[40px] leading-none text-ink;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.figure-num-dark { @apply text-gold-lift; }
+
+.figure-label { @apply text-[13px] font-semibold text-ink mt-3; }
+.figure-note  { @apply text-[11.5px] text-faint mt-1 leading-snug; }
+
+/* Photo credit strip that sits over the bottom-left of every image. */
+.photo-credit {
+  @apply absolute bottom-0 left-0 bg-ink/85 text-white/90
+         text-[9.5px] font-semibold uppercase tracking-[0.14em] px-3 py-2;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
