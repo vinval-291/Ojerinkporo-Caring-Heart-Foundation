@@ -4,7 +4,7 @@ import {
   ArrowLeft, Check, Loader2, LogOut, Plus, Trash2, AlertCircle, ExternalLink,
 } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
-import { api, type Doc } from './api';
+import { api, ServerUnavailableError, type Doc } from './api';
 import { sections, getSection, type Section } from './schema';
 import { FieldInput } from './Fields';
 
@@ -17,10 +17,18 @@ import { FieldInput } from './Fields';
 
 export default function AdminApp() {
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
+  const [unavailable, setUnavailable] = useState(false);
 
   useEffect(() => {
-    api.me().then((r) => setSignedIn(r.signedIn)).catch(() => setSignedIn(false));
+    api.me()
+      .then((r) => setSignedIn(r.signedIn === true))
+      .catch((err) => {
+        if (err instanceof ServerUnavailableError) setUnavailable(true);
+        setSignedIn(false);
+      });
   }, []);
+
+  if (unavailable) return <Unavailable />;
 
   if (signedIn === null) {
     return (
@@ -69,6 +77,30 @@ function Header({ onSignOut }: { onSignOut: () => void }) {
         </div>
       </div>
     </header>
+  );
+}
+
+/* ------------------------------------------------------------- unavailable */
+
+function Unavailable() {
+  return (
+    <div className="min-h-screen grid place-items-center bg-paper px-6">
+      <div className="w-full max-w-[460px] text-center">
+        <p className="font-serif text-[26px] font-bold text-ink">OCHF</p>
+        <p className="text-[14px] text-muted mt-1 mb-8">Content dashboard</p>
+        <div className="bg-white border border-rule rounded-[3px] p-7 text-left">
+          <p className="flex items-start gap-2 text-[15px] font-semibold text-ink">
+            <AlertCircle className="w-5 h-5 text-gold-ink shrink-0 mt-0.5" />
+            The dashboard isn't available at this address
+          </p>
+          <p className="text-[14px] text-muted leading-relaxed mt-3">
+            Its server part isn't running here, so content can't be loaded or saved. Your
+            content is safe in the CMS. Edit it through Sanity Studio until the dashboard is
+            set up on this hosting.
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -160,14 +192,16 @@ function Home() {
 
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [pending, setPending] = useState(0);
+  const [loadError, setLoadError] = useState('');
 
   useEffect(() => {
-    Promise.all(sections.map((s) => api.list(s.type).then((r) => [s.key, r.docs] as const).catch(() => [s.key, []] as const)))
+    Promise.all(sections.map((s) => api.list(s.type).then((r) => [s.key, r.docs] as const)))
       .then((pairs) => {
         setCounts(Object.fromEntries(pairs.map(([k, docs]) => [k, docs.length])));
         const figures = pairs.find(([k]) => k === 'figures')?.[1] ?? [];
         setPending(figures.filter((d) => d.status !== 'verified').length);
-      });
+      })
+      .catch((err) => setLoadError(err instanceof Error ? err.message : 'Could not load content.'));
   }, []);
 
   return (
@@ -176,6 +210,8 @@ function Home() {
       <p className="text-[15px] text-muted mb-9">
         Changes appear on the website as soon as you save.
       </p>
+
+      {loadError && <LoadError message={loadError} />}
 
       {pending > 0 && (
         <div className="flex items-start gap-3 bg-cream border border-gold/30 rounded-[3px] p-4 mb-8">
@@ -218,10 +254,14 @@ function ListView({
 }: { sectionKey: string; onBack: () => void; onEdit: (id?: string) => void }) {
   const section = getSection(sectionKey);
   const [docs, setDocs] = useState<Doc[] | null>(null);
+  const [loadError, setLoadError] = useState('');
 
   const load = useCallback(() => {
     if (!section) return;
-    api.list(section.type).then((r) => setDocs(r.docs)).catch(() => setDocs([]));
+    setLoadError('');
+    api.list(section.type)
+      .then((r) => setDocs(r.docs))
+      .catch((err) => setLoadError(err instanceof Error ? err.message : 'Could not load this section.'));
   }, [section]);
 
   useEffect(() => { load(); }, [load]);
@@ -230,8 +270,12 @@ function ListView({
 
   async function remove(id: string, label: string) {
     if (!window.confirm(`Delete "${label}"? This cannot be undone.`)) return;
-    await api.remove(id);
-    load();
+    try {
+      await api.remove(id);
+      load();
+    } catch (err) {
+      setLoadError(err instanceof Error ? `Not deleted: ${err.message}` : 'Not deleted.');
+    }
   }
 
   return (
@@ -250,7 +294,9 @@ function ListView({
         </button>
       </div>
 
-      {docs === null ? (
+      {loadError ? (
+        <LoadError message={loadError} />
+      ) : docs === null ? (
         <Loader2 className="w-5 h-5 animate-spin text-muted" />
       ) : docs.length === 0 ? (
         <div className="border border-dashed border-rule rounded-[3px] p-12 text-center">
@@ -310,12 +356,14 @@ function EditView({
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState('');
+  const [loadError, setLoadError] = useState('');
 
   useEffect(() => {
     if (!id) return;
     api.get(id)
       .then((r) => setDoc(r.doc ?? { _id: id, _type: section.type }))
-      .catch(() => setDoc({ _id: id, _type: section.type }));
+      // Do NOT fall back to an empty record: saving that would overwrite the real one.
+      .catch((err) => setLoadError(err instanceof Error ? err.message : 'Could not load this item.'));
   }, [id, section.type]);
 
   const change = (name: string, value: unknown) => {
@@ -349,6 +397,17 @@ function EditView({
     } finally {
       setSaving(false);
     }
+  }
+
+  if (loadError) {
+    return (
+      <>
+        <button onClick={onBack} className="link-arrow mb-6">
+          <ArrowLeft className="w-3.5 h-3.5" /> Back
+        </button>
+        <LoadError message={loadError} />
+      </>
+    );
   }
 
   if (!doc) {
@@ -391,5 +450,15 @@ function EditView({
         )}
       </div>
     </>
+  );
+}
+
+/* ------------------------------------------------------------------ errors */
+
+function LoadError({ message }: { message: string }) {
+  return (
+    <p role="alert" className="flex items-start gap-2 text-[14px] text-[#A81E17] bg-white border border-[#A81E17]/25 rounded-[3px] p-4 mb-8">
+      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" /> {message}
+    </p>
   );
 }
