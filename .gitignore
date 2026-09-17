@@ -24,3 +24,6 @@ Thumbs.db
 # Local logs
 *.log
 npm-debug.log*
+
+# Local CMS backups — may contain draft and test content
+cms/backups/

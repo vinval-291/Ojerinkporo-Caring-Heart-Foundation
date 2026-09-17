@@ -7,25 +7,20 @@ import type { Metric } from '@/src/data/impact';
 
 /**
  * Colour for a programme or story category, taken from the OCHF mark.
- * Enterprise gold, Education navy, Agriculture green, Wellbeing teal — the
- * assignment carries information, so a reader learns the mapping by seeing it.
+ * Enterprise gold, Education navy, Community green.
  */
 const PILLAR_COLOURS = [
-  'bg-gold text-ink',        // gold — the mark's highlight
-  'bg-ink-soft text-white',  // navy — the wordmark
-  'bg-green text-white',     // green — the largest family after navy
-  'bg-teal text-white',      // teal — where navy turns to green
+  'bg-gold text-ink',        // Enterprise — the mark's highlight
+  'bg-ink-soft text-white',  // Education — the wordmark navy
+  'bg-green text-white',     // Community — the mark's green
 ];
 
 export function categoryTag(name: string, index = 0): string {
   const key = name.toLowerCase();
-  if (key.includes('enterprise'))  return PILLAR_COLOURS[0];
-  if (key.includes('education'))   return PILLAR_COLOURS[1];
-  if (key.includes('agriculture')) return PILLAR_COLOURS[2];
-  if (key.includes('wellbeing'))   return PILLAR_COLOURS[3];
-  if (key.includes('foundation'))  return 'bg-ink text-white';
-  // Renamed or newly added programmes still get a colour from the mark rather
-  // than falling back to flat navy.
+  if (key.includes('enterprise')) return PILLAR_COLOURS[0];
+  if (key.includes('education'))  return PILLAR_COLOURS[1];
+  if (key.includes('community'))  return PILLAR_COLOURS[2];
+  if (key.includes('foundation')) return 'bg-ink text-white';
   return PILLAR_COLOURS[index % PILLAR_COLOURS.length];
 }
 
@@ -59,34 +54,6 @@ export function Figure({
       />
       {photo.credit && <figcaption className="photo-credit">{photo.credit}</figcaption>}
     </figure>
-  );
-}
-
-/**
- * Stand-in for photography OCHF has not supplied yet. Deliberately looks like a
- * brief, not like a design element — it tells the client exactly what to shoot.
- */
-export function PhotoSlot({ brief, ratio = 'aspect-[4/3]', className }: {
-  brief: string;
-  ratio?: string;
-  className?: string;
-}) {
-  return (
-    <div
-      className={cn(
-        'relative rounded-[3px] border border-dashed border-rule bg-cream/40',
-        'flex items-center justify-center p-8',
-        ratio,
-        className,
-      )}
-    >
-      <p className="text-center text-[11px] font-semibold uppercase tracking-[0.14em] text-gold-ink max-w-[26ch] leading-relaxed">
-        Photograph to be supplied
-        <span className="block mt-2 font-sans normal-case tracking-normal text-[12px] font-normal text-muted">
-          {brief}
-        </span>
-      </p>
-    </div>
   );
 }
 
@@ -171,17 +138,23 @@ export function Stat({ metric, dark = false }: { metric: Metric; dark?: boolean 
   return (
     <div>
       {pending ? (
-        <div className="flex items-baseline gap-1.5" aria-label={`${metric.label}: figure pending verification`}>
+        // ₦ and M sit in identical fixed-height boxes, centred on the same axis as the
+        // rule. Aligning on the text baseline left them uneven, because the ₦ glyph does
+        // not share the M's metrics.
+        <div className="flex h-[30px] md:h-[40px] items-center gap-2" aria-label={metric.label}>
           {metric.prefix && (
-            <span className={cn('figure-num', dark && 'figure-num-dark')}>{metric.prefix}</span>
+            <span className={cn('figure-num flex h-full items-center', dark && 'figure-num-dark')}>
+              {metric.prefix}
+            </span>
           )}
           <span
-            className={cn('inline-block h-px w-10 md:w-14 translate-y-[-0.35em]',
-              dark ? 'bg-gold-lift/50' : 'bg-rule')}
+            className={cn('block h-px w-10 md:w-14', dark ? 'bg-gold-lift/50' : 'bg-rule')}
             aria-hidden="true"
           />
           {metric.prefix && (
-            <span className={cn('figure-num', dark && 'figure-num-dark')}>M</span>
+            <span className={cn('figure-num flex h-full items-center', dark && 'figure-num-dark')}>
+              M
+            </span>
           )}
         </div>
       ) : (
@@ -194,7 +167,7 @@ export function Stat({ metric, dark = false }: { metric: Metric; dark?: boolean 
 
       <p className={cn('figure-label', dark && 'text-white')}>{metric.label}</p>
       <p className={cn('figure-note', dark && 'text-white/45')}>
-        {metric.period}{pending && ' · pending verification'}
+        {metric.period}
       </p>
     </div>
   );
@@ -215,21 +188,5 @@ export function CtaBand({
         <div className="flex flex-wrap justify-center gap-3">{children}</div>
       </div>
     </section>
-  );
-}
-
-/**
- * Honest empty state for pages whose copy OCHF has not yet supplied. Used instead
- * of inventing programme detail, governance policy or beneficiary narratives.
- */
-export function AwaitingContent({ what, detail }: { what: string; detail?: string }) {
-  return (
-    <div className="border border-dashed border-rule bg-surface rounded-[3px] p-8 md:p-12 max-w-[62ch]">
-      <p className="eyebrow mb-3">In preparation</p>
-      <h3 className="text-[21px] mb-3">{what}</h3>
-      <p className="text-[14.5px] text-muted leading-relaxed">
-        {detail ?? 'This section is being written with the foundation and will publish once confirmed.'}
-      </p>
-    </div>
   );
 }

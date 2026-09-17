@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, useCallback, type React
 import { cmsEnabled, fetchCms, queries, imageUrl, onContentChange } from '@/src/lib/sanity';
 
 import { site as localSite, type Site } from '@/src/data/site';
-import { programmes as localProgrammes, type Programme } from '@/src/data/programmes';
+import { programmes as localProgrammes, splitFocusAreas, type Programme } from '@/src/data/programmes';
 import { headlineMetrics, impactMetrics as localMetrics, milestones as localMilestones, type Metric } from '@/src/data/impact';
 import { stories as localStories, partners as localPartners, type Story } from '@/src/data/stories';
 import { faqs as localFaqs, type Faq } from '@/src/data/faq';
@@ -93,7 +93,8 @@ export function ContentProvider({ children }: { children: ReactNode }) {
               slug: String(p.slug),
               name: String(p.name),
               tag: String(p.tag ?? ''),
-              blurb: String(p.tag ?? ''),
+              focusAreas: splitFocusAreas(String(p.tag ?? '')),
+              blurb: splitFocusAreas(String(p.tag ?? '')).join(' · '),
               summary: String(p.summary ?? ''),
               image: toPhoto(p.image, local?.image ?? localProgrammes[0].image),
               detail: p.modelTitle
@@ -102,7 +103,6 @@ export function ContentProvider({ children }: { children: ReactNode }) {
                     modelTitle: String(p.modelTitle),
                     terms,
                     panels,
-                    metrics: local?.detail?.metrics ?? [],
                     ctaTitle: 'Ready to grow your business?',
                     ctaPrimary: {
                       label: p.applicationOpen ? 'Apply for the Grant' : 'Enquire about this programme',

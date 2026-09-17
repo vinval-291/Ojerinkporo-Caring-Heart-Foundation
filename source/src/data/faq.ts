@@ -4,7 +4,7 @@
  *
  * Updated for the new positioning:
  *  - grant eligibility is Nigeria-wide, not Ebonyi-only (client directive)
- *  - widows support described under Wellbeing, not as a standalone pillar
+ *  - three pillars: Enterprise, Education, Community
  *  - references to sections that do not exist have been corrected
  *
  * CMS NOTE: maps to an `faq` document type with an order field.
@@ -18,8 +18,8 @@ export interface Faq {
 export const faqs: Faq[] = [
   {
     q: 'What does Ojerinkporo Caring Hearts Foundation do?',
-    a: 'OCHF expands access to opportunity through four programmes: Enterprise, Education, ' +
-       'Agriculture and Wellbeing. We combine funding with structured support so that what we ' +
+    a: 'OCHF expands access to opportunity through three pillars: Enterprise, Education and ' +
+       'Community. We combine funding with structured support so that what we ' +
        'back keeps working after the grant is disbursed.',
   },
   {
@@ -58,7 +58,7 @@ export const faqs: Faq[] = [
   },
   {
     q: 'Does OCHF still support widows?',
-    a: 'Yes. Support for widows and vulnerable households continues under the Wellbeing ' +
+    a: 'Yes. Support for widows and vulnerable households continues under the Community ' +
        'programme, and is reported as a measured outcome on our Impact page.',
   },
   {

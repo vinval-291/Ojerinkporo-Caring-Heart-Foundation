@@ -1,15 +1,14 @@
 /**
- * The four programme pillars.
+ * The three programme pillars: Enterprise, Education, Community.
  *
- * Client directive: "Take out Widows Support, start with Entrepreneurship Grants,
- * Scholarships and Community Outreach." Widows support is no longer a top-level
- * pillar — it is now a measured outcome under Wellbeing (see impact.ts).
+ * Client directive (September 2026): "Three pillars. One direction." Agriculture is now
+ * part of Enterprise (Agribusiness) and Wellbeing is part of Community (Direct Support).
  *
- * Enterprise carries full detail from the visual guide. The other three await
- * client copy; their `detail` is null and the page renders an honest
- * "programme detail in preparation" state rather than invented claims.
+ * `focusAreas` are the client's own sub-headings for each pillar. The site renders them
+ * wherever a pillar appears, so they are the one place to change them.
  *
- * CMS NOTE: maps to a `programme` document type.
+ * CMS NOTE: maps to a `programme` document type. In the CMS the focus areas live in the
+ * `tag` field, separated by " | ".
  */
 
 import { photo, type Photo } from './media';
@@ -20,8 +19,6 @@ export interface ProgrammeDetail {
   /** Two headline terms shown large in the dark band. */
   terms: { value: string; label: string }[];
   panels: { heading: string; body: string }[];
-  /** Values intentionally empty until verified — the label and note still publish. */
-  metrics: { label: string; value?: string; note?: string }[];
   ctaTitle: string;
   ctaPrimary: { label: string; path: string };
 }
@@ -29,22 +26,34 @@ export interface ProgrammeDetail {
 export interface Programme {
   slug: string;
   name: string;
+  /** Focus areas joined with " | " — shown in menus and cards. */
   tag: string;
+  focusAreas: string[];
   summary: string;
   blurb: string;
   image: Photo;
   detail: ProgrammeDetail | null;
 }
 
+/** Split a " | " separated tag into its focus areas. */
+export const splitFocusAreas = (tag: string) =>
+  tag.split('|').map((s) => s.trim()).filter(Boolean);
+
+const pillar = (p: Omit<Programme, 'tag' | 'blurb'>): Programme => ({
+  ...p,
+  tag: p.focusAreas.join(' | '),
+  blurb: p.focusAreas.join(' · '),
+});
+
 export const programmes: Programme[] = [
-  {
+  pillar({
     slug: 'enterprise',
     name: 'Enterprise',
-    tag: 'Business growth, grants & jobs',
-    blurb: 'Business growth, grants and jobs.',
+    focusAreas: ['Entrepreneurship', 'Agribusiness', 'Technology'],
     summary:
-      'Business growth, grants and jobs. OCHF backs Nigerian entrepreneurs with catalytic ' +
-      'funding and structured support built to create employment and lasting enterprises.',
+      'OCHF backs Nigerian entrepreneurs, agribusinesses and technology ventures with ' +
+      'catalytic funding and structured support built to create employment and lasting ' +
+      'enterprises.',
     image: photo.workshopFloor,
     detail: {
       modelEyebrow: 'The grant model',
@@ -69,49 +78,30 @@ export const programmes: Programme[] = [
           body: "Job creation potential · originality · plan strength · founder experience · fit with OCHF's programme priorities.",
         },
       ],
-      metrics: [
-        { label: 'Businesses funded to date', note: 'Pending verification' },
-        { label: 'Jobs created or sustained', note: 'Pending verification' },
-        { label: 'Average revenue growth',    note: 'Pending verification' },
-        { label: 'Application-to-award rate', note: 'Pending verification' },
-      ],
       ctaTitle: 'Ready to grow your business?',
       ctaPrimary: { label: 'Apply for the Grant', path: '/support/apply' },
     },
-  },
-  {
+  }),
+  pillar({
     slug: 'education',
     name: 'Education',
-    tag: 'Access, learning & opportunity',
-    blurb: 'Access, learning and opportunity.',
+    focusAreas: ['Scholarships', 'Training Programmes', 'Skills Development'],
     summary:
-      'Access, learning and opportunity. OCHF funds scholarships and educational support for ' +
-      'students whose progress is limited by cost rather than ability.',
+      'OCHF funds scholarships, training programmes and skills development for people whose ' +
+      'progress is limited by cost rather than ability.',
     image: photo.keynote,
     detail: null,
-  },
-  {
-    slug: 'agriculture',
-    name: 'Agriculture',
-    tag: 'Food systems & livelihoods',
-    blurb: 'Food systems and livelihoods.',
+  }),
+  pillar({
+    slug: 'community',
+    name: 'Community',
+    focusAreas: ['Direct Support', 'Infrastructure'],
     summary:
-      'Food systems and livelihoods. OCHF supports farmers and agricultural value chains to ' +
-      'strengthen food security and build durable rural incomes.',
-    image: photo.equipmentHandover,
-    detail: null,
-  },
-  {
-    slug: 'wellbeing',
-    name: 'Wellbeing',
-    tag: 'Community health & resilience',
-    blurb: 'Community health and resilience.',
-    summary:
-      'Community health and resilience. OCHF delivers health, care and household support to ' +
-      'communities carrying the heaviest need.',
+      'OCHF delivers direct support to households in need and invests in the infrastructure ' +
+      'that communities depend on.',
     image: photo.guests,
     detail: null,
-  },
+  }),
 ];
 
 export const getProgramme = (slug?: string) =>
@@ -125,29 +115,26 @@ export const flagship = {
     "Through OCHF's Entrepreneurship Grant Programme, businesses receive catalytic funding — " +
     '₦1,000,000 to ₦3,000,000 per recipient — alongside structured mentorship designed to ' +
     'strengthen operations, create employment and build sustainable enterprises.',
-  note: 'Funding range confirmed from the current programme · outcome figures pending verification.',
   cta: { label: 'Explore the Programme', path: '/our-work/enterprise' },
   image: photo.heroGrant,
 };
 
 /**
- * Portfolio story structure shown on the homepage and Enterprise page.
- * Marked illustrative — do not publish named beneficiary figures until verified.
+ * Portfolio story shown on the homepage and Enterprise page.
+ *
+ * The visual guide's version also carried three example figures (3 new employees,
+ * 2× capacity, 2 new markets) marked "illustrative". Those were not real numbers for any
+ * real business, so they have been removed rather than published as fact. The
+ * before / intervention / result narrative describes the programme model and stays.
  */
 export const portfolioStory = {
   eyebrow: 'Portfolio story',
   title: 'From production constraint to growing enterprise.',
   stages: [
-    { heading: 'Before OCHF',      body: 'Manual production capped growth at local scale.' },
+    { heading: 'Before OCHF',       body: 'Manual production capped growth at local scale.' },
     { heading: 'OCHF intervention', body: 'Entrepreneurship grant plus equipment and mentorship.' },
     { heading: 'Result',            body: 'Expanded capacity, new hires, new markets.' },
   ],
-  figures: [
-    { value: '3',  label: 'New employees' },
-    { value: '2×', label: 'Production capacity' },
-    { value: '2',  label: 'New markets entered' },
-  ],
-  note: 'Illustrative structure — publish only with verified beneficiary figures.',
-  cta: { label: 'Meet more entrepreneurs', path: '/stories' },
+  cta: { label: 'See the programme', path: '/our-work/enterprise' },
   image: photo.chequeDetail,
 };

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useContent } from '@/src/content/ContentProvider';
 import { photo } from '@/src/data/media';
-import { Figure, Breadcrumb, CtaBand, AwaitingContent } from '@/src/components/ui';
+import { Figure, Breadcrumb, CtaBand } from '@/src/components/ui';
 
 /** "Our Story" — how and why OCHF was founded. */
 export default function Story() {
@@ -67,19 +67,6 @@ export default function Story() {
               </li>
             ))}
           </ol>
-        </div>
-      </section>
-
-      <section className="band bg-paper">
-        <div className="shell">
-          <AwaitingContent
-            what="The founding account, in full"
-            detail={
-              "A longer first-person account of why the foundation was established — the need it " +
-              'was created to answer, and the decision to begin — is being written with the ' +
-              'founder. It will publish here.'
-            }
-          />
         </div>
       </section>
 

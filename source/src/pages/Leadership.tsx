@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useContent } from '@/src/content/ContentProvider';
 import { photo } from '@/src/data/media';
-import { Figure, Breadcrumb, CtaBand, AwaitingContent } from '@/src/components/ui';
+import { Figure, Breadcrumb, CtaBand } from '@/src/components/ui';
 
 /**
  * Founder profile.
@@ -75,19 +75,6 @@ export default function Leadership() {
               {founder.bio.map((para, i) => <p key={i}>{para}</p>)}
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="pb-20 bg-paper">
-        <div className="shell">
-          <AwaitingContent
-            what="Leadership team and board"
-            detail={
-              'Profiles for the wider leadership team and board of trustees have not yet been ' +
-              'supplied. Each will carry a name, role, and short professional biography in the ' +
-              'same format as above.'
-            }
-          />
         </div>
       </section>
 

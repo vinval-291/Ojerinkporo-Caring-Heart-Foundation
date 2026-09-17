@@ -94,7 +94,7 @@ export const nav: NavItem[] = [
           links: [
             { name: 'About OCHF',  path: '/about',            desc: 'Who we are, mission, vision and model' },
             { name: 'Our Story',   path: '/about/story',      desc: 'How and why OCHF was founded' },
-            { name: 'Leadership',  path: '/about/leadership', desc: 'Founder, leadership team and board' },
+            { name: 'Leadership',  path: '/about/leadership', desc: 'Our founder and visionary' },
             { name: 'Governance',  path: '/about/governance', desc: 'Accountability, structure and policies' },
           ],
         },
@@ -103,7 +103,7 @@ export const nav: NavItem[] = [
         {
           eyebrow: '',
           title: 'Meet the Leadership',
-          desc: 'Concise, professional profiles',
+          desc: 'Mr. Ikechukwu Agwu, founder',
           cta: 'View profiles',
           path: '/about/leadership',
           image: 'https://i.postimg.cc/fLkc10TL/davric-ceo2.jpg',
@@ -111,7 +111,7 @@ export const nav: NavItem[] = [
         {
           eyebrow: '',
           title: "How We're Governed",
-          desc: 'Board, policy and financial oversight',
+          desc: 'Reporting and grant award standards',
           cta: 'Read more',
           path: '/about/governance',
           image: 'https://i.postimg.cc/nLWfFRC0/speaker-1.jpg',
@@ -132,10 +132,9 @@ export const nav: NavItem[] = [
         {
           heading: 'Programmes',
           links: [
-            { name: 'Enterprise',  path: '/our-work/enterprise',  desc: 'Business growth, grants & jobs' },
-            { name: 'Education',   path: '/our-work/education',   desc: 'Access, learning & opportunity' },
-            { name: 'Agriculture', path: '/our-work/agriculture', desc: 'Food systems & livelihoods' },
-            { name: 'Wellbeing',   path: '/our-work/wellbeing',   desc: 'Community health & resilience' },
+            { name: 'Enterprise', path: '/our-work/enterprise', desc: 'Entrepreneurship | Agribusiness | Technology' },
+            { name: 'Education',  path: '/our-work/education',  desc: 'Scholarships | Training Programmes | Skills Development' },
+            { name: 'Community',  path: '/our-work/community',  desc: 'Direct Support | Infrastructure' },
           ],
         },
         {
@@ -149,10 +148,10 @@ export const nav: NavItem[] = [
       ],
       features: [
         {
-          eyebrow: 'Featured story',
-          title: 'Where our entrepreneurs are now',
-          cta: 'Read story',
-          path: '/stories/where-our-entrepreneurs-are-now',
+          eyebrow: 'Flagship programme',
+          title: 'The Entrepreneurship Grant Programme',
+          cta: 'Explore',
+          path: '/our-work/enterprise',
           image: 'https://i.postimg.cc/9X7wjsrL/equipment-1.jpg',
         },
       ],

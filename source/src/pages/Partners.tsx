@@ -32,7 +32,7 @@ const partnerTypes = [
 ];
 
 export default function Partners() {
-  const { site, partners } = useContent();
+  const { partners } = useContent();
   return (
     <>
       <section className="bg-paper border-b border-rule">
@@ -66,12 +66,11 @@ export default function Partners() {
         </div>
       </section>
 
-      {/* Partner logos — empty until permissioned logos are supplied. */}
-      <section className="band-tight bg-cream">
-        <div className="shell text-center">
-          <p className="eyebrow mb-8">Current partners</p>
-
-          {partners.length > 0 ? (
+      {/* Partner logos appear only once real, permissioned logos exist. */}
+      {partners.length > 0 && (
+        <section className="band-tight bg-cream">
+          <div className="shell text-center">
+            <p className="eyebrow mb-8">Current partners</p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 max-w-3xl mx-auto">
               {partners.map((p) => (
                 <div key={p.name} className="h-20 flex items-center justify-center bg-surface rounded-[3px] px-5">
@@ -79,28 +78,9 @@ export default function Partners() {
                 </div>
               ))}
             </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 max-w-3xl mx-auto">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-20 flex items-center justify-center border border-dashed border-gold/30 rounded-[3px]"
-                  >
-                    <span className="text-[10px] uppercase tracking-[0.14em] text-gold-ink/50">
-                      Partner logo
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-6 text-[12px] text-gold-ink/70 italic max-w-[48ch] mx-auto">
-                {partnerIntro.note} Logos publish here once {site.short} confirms written
-                permission from each partner.
-              </p>
-            </>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       <CtaBand title="Let's talk about working together." tone="ink">
         <Link to="/contact" className="btn-gold">Start a Conversation</Link>

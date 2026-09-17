@@ -30,15 +30,19 @@ export const photo = {
     credit: "OCHF Photography — Grant recipient's workshop floor",
     alt: 'Equipment provided to a funded business through the Entrepreneurship Grant Programme',
   },
+  // The two grant-presentation photos (presentation-1, presentation-3) no longer load
+  // from postimg.cc and rendered as empty grey boxes. These keys now point at
+  // photographs confirmed to load, with captions describing what is actually shown.
+  // Restore the originals once they are re-uploaded to the CMS.
   chequePresentation: {
-    src: 'https://i.postimg.cc/Bbkj2cY1/presentation-1.jpg',
-    credit: 'OCHF Photography — Grant award presentation',
-    alt: 'An OCHF grant being formally presented to a recipient',
+    src: 'https://i.postimg.cc/nLWfFRC0/speaker-1.jpg',
+    credit: 'OCHF Photography — Programme address',
+    alt: 'A speaker addressing attendees at an OCHF programme event',
   },
   chequeDetail: {
-    src: 'https://i.postimg.cc/bJYSPvSF/presentation-3.jpg',
-    credit: 'OCHF Photography — Grant award presentation',
-    alt: 'Grant recipients at an OCHF award ceremony',
+    src: 'https://i.postimg.cc/G2B8t5zy/equipment-3.jpg',
+    credit: 'OCHF Photography — Equipment handover to funded businesses',
+    alt: 'Business equipment handed over to entrepreneurs',
   },
   equipmentHandover: {
     src: 'https://i.postimg.cc/G2B8t5zy/equipment-3.jpg',

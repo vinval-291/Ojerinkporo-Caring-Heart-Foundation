@@ -73,76 +73,82 @@
   }
 }
 
-/* ---- layout primitives ---- */
+/* Component classes live in the components layer so Tailwind utilities can
+   override them. Unlayered, `.btn-gold { display: inline-flex }` beat `hidden`,
+   which is why the header Support button showed on phones. */
+@layer components {
+  /* ---- layout primitives ---- */
 
-.shell        { @apply max-w-[1240px] mx-auto px-6 md:px-10; }
-.shell-narrow { @apply max-w-[860px] mx-auto px-6 md:px-10; }
-.band         { @apply py-20 md:py-28; }
-.band-tight   { @apply py-14 md:py-20; }
+  .shell        { @apply max-w-[1240px] mx-auto px-6 md:px-10; }
+  .shell-narrow { @apply max-w-[860px] mx-auto px-6 md:px-10; }
+  .band         { @apply py-20 md:py-28; }
+  .band-tight   { @apply py-14 md:py-20; }
 
-/* Small uppercase letterspaced label used above every section heading. */
-.eyebrow {
-  @apply font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-gold-ink;
-}
-.eyebrow-dark { @apply text-gold-lift; }
+  /* Small uppercase letterspaced label used above every section heading. */
+  .eyebrow {
+    @apply font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-gold-ink;
+  }
+  .eyebrow-dark { @apply text-gold-lift; }
 
-.lede { @apply text-[17px] md:text-lg leading-relaxed text-muted max-w-[62ch]; }
+  .lede { @apply text-[17px] md:text-lg leading-relaxed text-muted max-w-[62ch]; }
 
-/* ---- buttons: near-square, institutional ---- */
+  /* ---- buttons: near-square, institutional ---- */
 
-/* Shared base. Tailwind v4 cannot @apply a custom class, so the variants below
-   extend this via the comma selector rather than `@apply btn`. */
-.btn, .btn-gold, .btn-ink, .btn-green, .btn-outline, .btn-ghost {
-  @apply inline-flex items-center justify-center gap-2 px-6 py-3
-         text-[14px] font-semibold rounded-[3px] transition-colors duration-200;
-}
-/* Ink on gold, not white: 7.9:1 instead of 2.2:1, and truer to the mark. */
-.btn-gold    { @apply bg-gold text-ink hover:bg-gold-lift; }
-.btn-ink     { @apply bg-ink text-white hover:bg-ink-soft; }
-.btn-green   { @apply bg-green text-white hover:bg-green-ink; }
-.btn-outline { @apply border border-rule bg-surface text-ink hover:border-ink hover:bg-paper; }
-.btn-ghost   { @apply border border-white/25 text-white hover:bg-white/10; }
+  /* Shared base. Tailwind v4 cannot @apply a custom class, so the variants below
+     extend this via the comma selector rather than `@apply btn`. */
+  .btn, .btn-gold, .btn-ink, .btn-green, .btn-outline, .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3
+           text-[14px] font-semibold rounded-[3px] transition-colors duration-200;
+  }
+  /* Ink on gold, not white: 7.9:1 instead of 2.2:1, and truer to the mark. */
+  .btn-gold    { @apply bg-gold text-ink hover:bg-gold-lift; }
+  .btn-ink     { @apply bg-ink text-white hover:bg-ink-soft; }
+  .btn-green   { @apply bg-green text-white hover:bg-green-ink; }
+  .btn-outline { @apply border border-rule bg-surface text-ink hover:border-ink hover:bg-paper; }
+  .btn-ghost   { @apply border border-white/25 text-white hover:bg-white/10; }
 
-/* Inline "Learn more →" style link. */
-.link-arrow {
-  @apply inline-flex items-center gap-1.5 text-[13px] font-semibold text-gold-ink
-         hover:text-ink transition-colors;
-}
-.link-arrow-dark { @apply text-gold-lift hover:text-white; }
+  /* Inline "Learn more →" style link. */
+  .link-arrow {
+    @apply inline-flex items-center gap-1.5 text-[13px] font-semibold text-gold-ink
+           hover:text-ink transition-colors;
+  }
+  .link-arrow-dark { @apply text-gold-lift hover:text-white; }
 
-/* Dark bands carry the mark's navy→teal transition rather than a flat fill.
-   Kept subtle: it should read as depth, not as a gradient effect. */
-.band-ink {
-  background: linear-gradient(158deg, var(--color-ink-deep) 0%, var(--color-ink) 52%, var(--color-teal-deep) 100%);
-}
+  /* Dark bands carry the mark's navy→teal transition rather than a flat fill.
+     Kept subtle: it should read as depth, not as a gradient effect. */
+  .band-ink {
+    background: linear-gradient(158deg, var(--color-ink-deep) 0%, var(--color-ink) 52%, var(--color-teal-deep) 100%);
+  }
 
-/* Each programme pillar takes a colour from the mark. The assignment is meaningful —
-   agriculture green, wellbeing teal, enterprise gold, education navy — not decorative. */
-.pillar-enterprise  { --pillar: var(--color-gold); }
-.pillar-education   { --pillar: var(--color-ink-soft); }
-.pillar-agriculture { --pillar: var(--color-green); }
-.pillar-wellbeing   { --pillar: var(--color-teal); }
-.pillar-bar { border-top: 2px solid var(--pillar, var(--color-gold)); }
+  /* Each programme pillar takes a colour from the mark: enterprise gold,
+     education navy, community green. */
+  .pillar-enterprise { --pillar: var(--color-gold); }
+  .pillar-education  { --pillar: var(--color-ink-soft); }
+  .pillar-community  { --pillar: var(--color-green); }
+  .pillar-bar { border-top: 2px solid var(--pillar, var(--color-gold)); }
 
-/* ---- figures & numbers ---- */
+  /* ---- figures & numbers ---- */
 
-.rule-top { @apply border-t border-rule pt-5; }
+  .rule-top { @apply border-t border-rule pt-5; }
 
-/* Stat figures line up in columns across the impact bands. */
-.figure-num {
-  @apply font-serif text-3xl md:text-[40px] leading-none text-ink;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-}
-.figure-num-dark { @apply text-gold-lift; }
+  /* Stat figures line up in columns across the impact bands. */
+  .figure-num {
+    @apply font-serif text-3xl md:text-[40px] leading-none text-ink;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .figure-num-dark { @apply text-gold-lift; }
 
-.figure-label { @apply text-[13px] font-semibold text-ink mt-3; }
-.figure-note  { @apply text-[11.5px] text-faint mt-1 leading-snug; }
+  /* Uppercase regardless of how the label was typed in the CMS, so a band of figures
+     reads as one set. */
+  .figure-label { @apply text-[12px] font-semibold uppercase tracking-[0.06em] text-ink mt-3; }
+  .figure-note  { @apply text-[11.5px] text-faint mt-1 leading-snug; }
 
-/* Photo credit strip that sits over the bottom-left of every image. */
-.photo-credit {
-  @apply absolute bottom-0 left-0 bg-ink/85 text-white/90
-         text-[9.5px] font-semibold uppercase tracking-[0.14em] px-3 py-2;
+  /* Photo credit strip that sits over the bottom-left of every image. */
+  .photo-credit {
+    @apply absolute bottom-0 left-0 bg-ink/85 text-white/90
+           text-[9.5px] font-semibold uppercase tracking-[0.14em] px-3 py-2;
+  }
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }

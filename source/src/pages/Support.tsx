@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useContent } from '@/src/content/ContentProvider';
 import { Mail, Phone } from 'lucide-react';
 import { photo } from '@/src/data/media';
-import { Figure, Breadcrumb, CtaBand, AwaitingContent } from '@/src/components/ui';
+import { Figure, Breadcrumb, CtaBand } from '@/src/components/ui';
 
 /**
  * Support page — replaces the previous Donate page.
@@ -73,17 +73,13 @@ export default function Support() {
               ))}
             </div>
 
-            {/* Honest state: no payment processor is connected yet. */}
-            <div className="mt-10">
-              <AwaitingContent
-                what="Online giving is not yet live"
-                detail={
-                  'We are not accepting card payments through this website yet. Rather than show ' +
-                  'a payment form that cannot take money, we ask you to contact the foundation ' +
-                  'directly — we will confirm every contribution in writing. Online giving will ' +
-                  'open here once payment processing is connected.'
-                }
-              />
+            {/* No payment processor is connected, so giving is arranged directly. */}
+            <div className="mt-10 border-t border-rule pt-6 max-w-[62ch]">
+              <h3 className="text-[19px] mb-2">Giving by direct arrangement</h3>
+              <p className="text-[14px] text-muted leading-relaxed">
+                Contributions are arranged directly with the foundation. Contact us and we will
+                send the giving details and confirm every contribution in writing.
+              </p>
             </div>
           </div>
 
@@ -192,15 +188,13 @@ export function Apply() {
                 </a>
               </div>
             ) : (
-              <AwaitingContent
-                what="Cycle dates and application form"
-                detail={
-                  'The application route for the current cycle has not been published yet. ' +
-                  'Contact the foundation and we will send you the form and the closing date ' +
-                  'directly. Applications are open to Nigerian entrepreneurs, not to Ebonyi ' +
-                  'indigenes only.'
-                }
-              />
+              <div className="bg-surface border border-rule rounded-[3px] p-8">
+                <p className="eyebrow mb-4">How to apply</p>
+                <p className="text-[14px] text-muted leading-relaxed">
+                  Request the application form and the current closing date from the foundation.
+                  The programme is open to Nigerian entrepreneurs.
+                </p>
+              </div>
             )}
 
             <Link to="/contact" className="btn-outline w-full mt-5">Request the application form</Link>

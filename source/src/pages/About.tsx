@@ -17,8 +17,7 @@ export default function About() {
             Who we are, and how we work.
           </h1>
           <p className="mt-6 lede">
-            {site.name} expands access to opportunity through enterprise, education, agriculture
-            and community development. We originated in Ebonyi State and work across Nigeria.
+            {site.name} expands access to opportunity through enterprise, education and community development. We originated in Ebonyi State and work across Nigeria.
           </p>
         </div>
       </section>
@@ -48,7 +47,7 @@ export default function About() {
             <div className="border-t-2 border-gold pt-5">
               <p className="eyebrow mb-3">Mission</p>
               <p className="font-serif text-[19px] text-ink leading-snug">
-                To expand access to opportunity through enterprise, education, agriculture and
+                To expand access to opportunity through enterprise, education and
                 community development — and to report honestly on what that produces.
               </p>
             </div>

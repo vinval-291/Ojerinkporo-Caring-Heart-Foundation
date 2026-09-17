@@ -37,20 +37,15 @@ export default function Impact() {
       {/* ------------------------------------------------------- by pillar */}
       <section className="band-ink text-white">
         <div className="shell py-16 md:py-20">
-          <p className="eyebrow eyebrow-dark mb-10">By pillar</p>
+          <p className="eyebrow eyebrow-dark mb-10">Three pillars. One direction.</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-10">
             {byPillar.map((p) => (
               <div key={p.pillar} className={`pillar-bar pillar-${p.pillar.toLowerCase()} pt-5`}>
                 <h2 className="text-white text-[17px] mb-5">{p.pillar}</h2>
                 <ul className="space-y-3">
                   {p.rows.map((r) => (
-                    <li key={r.label} className="flex items-baseline justify-between gap-4">
-                      <span className="text-[13px] text-white/60">{r.label}</span>
-                      <span className="text-[13px] font-semibold text-gold-lift tabular-nums shrink-0">
-                        {r.value || '—'}
-                      </span>
-                    </li>
+                    <li key={r} className="text-[14px] text-white/75">{r}</li>
                   ))}
                 </ul>
               </div>

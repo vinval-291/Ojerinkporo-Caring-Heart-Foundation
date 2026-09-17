@@ -52,7 +52,7 @@ export const story = defineType({
       title: 'Category',
       type: 'string',
       options: {
-        list: ['Enterprise', 'Education', 'Agriculture', 'Wellbeing', 'Foundation'],
+        list: ['Enterprise', 'Education', 'Community', 'Foundation'],
       },
       validation: (r) => r.required(),
     }),

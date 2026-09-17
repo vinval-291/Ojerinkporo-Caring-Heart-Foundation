@@ -39,7 +39,7 @@ cd cms
 npm run seed
 ```
 
-This writes the foundation details, four programmes, six impact figures, three
+This writes the foundation details, three programmes, six impact figures, three
 milestones, the founder profile, thirteen questions and three story drafts into the CMS.
 Safe to re-run — it updates rather than duplicates.
 
@@ -67,7 +67,7 @@ database is structured:
 
 | Section | What it holds |
 |---|---|
-| **Programmes** | Enterprise, Education, Agriculture, Wellbeing — summary, grant model, eligibility, application link |
+| **Programmes** | Enterprise, Education, Community — summary, grant model, eligibility, application link |
 | **Stories & updates** | Field stories and news, with a publish toggle |
 | **Photo albums** | Uploaded photographs grouped into sections |
 | **Impact figures** | Split into *Awaiting verification* and *Published* |

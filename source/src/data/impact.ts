@@ -29,7 +29,7 @@ export const headlineMetrics: Metric[] = [
   { label: 'Entrepreneurs supported', value: '', period: 'FY2025–26', status: 'pending' },
   { label: 'Students supported',      value: '', period: 'FY2025–26', status: 'pending' },
   { label: 'Communities reached',     value: '', period: 'FY2025–26', status: 'pending' },
-  { label: 'Jobs created or sustained', value: '', period: 'Once verified', status: 'pending' },
+  { label: 'Jobs created or sustained', value: '', period: 'FY2025–26', status: 'pending' },
 ];
 
 /** Full grid on the Impact page. */
@@ -38,36 +38,14 @@ export const impactMetrics: Metric[] = [
   { label: 'Families supported', value: '', period: 'FY2025–26', status: 'pending' },
 ];
 
-/** Breakdown by programme pillar. Widows support now sits here, under Wellbeing. */
+/**
+ * The three pillars and their focus areas, shown on the Impact page.
+ * Replaces a table of empty figure rows, which read as unfinished.
+ */
 export const byPillar = [
-  {
-    pillar: 'Enterprise',
-    rows: [
-      { label: 'Businesses funded', value: '' },
-      { label: 'Jobs created', value: '' },
-    ],
-  },
-  {
-    pillar: 'Education',
-    rows: [
-      { label: 'Scholarships awarded', value: '' },
-      { label: 'Schools reached', value: '' },
-    ],
-  },
-  {
-    pillar: 'Agriculture',
-    rows: [
-      { label: 'Farmers supported', value: '' },
-      { label: 'Hectares reached', value: '' },
-    ],
-  },
-  {
-    pillar: 'Wellbeing',
-    rows: [
-      { label: 'Households reached', value: '' },
-      { label: 'Widows supported', value: '' },
-    ],
-  },
+  { pillar: 'Enterprise', rows: ['Entrepreneurship', 'Agribusiness', 'Technology'] },
+  { pillar: 'Education',  rows: ['Scholarships', 'Training Programmes', 'Skills Development'] },
+  { pillar: 'Community',  rows: ['Direct Support', 'Infrastructure'] },
 ];
 
 export const methodology = {
@@ -89,6 +67,6 @@ export const milestones = [
   },
   {
     year: '2026',
-    body: 'First cohort of grant recipients report outcomes — figures pending verification.',
+    body: 'First cohort of grant recipients report outcomes.',
   },
 ];

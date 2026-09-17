@@ -6,7 +6,8 @@ import { photo } from '@/src/data/media';
 import { Figure, SectionHead, ArrowLink, Stat, CtaBand, categoryTag } from '@/src/components/ui';
 
 export default function Home() {
-  const { site, programmes, headlineMetrics, stories, partners } = useContent();
+  const { site, programmes, headlineMetrics, stories: allStories, partners } = useContent();
+  const stories = allStories.filter((s) => !s.draft);
   return (
     <>
       {/* ------------------------------------------------------------- hero */}
@@ -31,8 +32,8 @@ export default function Home() {
             Building stronger communities.
           </h1>
           <p className="mt-7 text-[16px] md:text-[17px] text-white/75 max-w-[54ch] leading-relaxed">
-            {site.name} expands access to opportunity through enterprise, education,
-            agriculture and community development.
+            {site.name} expands access to opportunity through enterprise, education
+            and community development.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Link to="/impact" className="btn-gold">Explore Our Impact</Link>
@@ -54,16 +55,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ------------------------------------------------------- four pillars */}
+      {/* ------------------------------------------------------ three pillars */}
       <section className="band bg-paper">
         <div className="shell">
           <SectionHead
             eyebrow="What we do"
-            title="Four pillars, one direction."
+            title="Three pillars. One direction."
             aside="Structured programmes built to grow — not a list of activities we happen to run."
           />
 
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
             {programmes.map((p, idx) => (
               <Link key={p.slug} to={`/our-work/${p.slug}`} className="group block">
                 <div className="relative overflow-hidden rounded-[3px] bg-ink/5 aspect-[4/3]">
@@ -78,8 +79,10 @@ export default function Home() {
                     {p.name}
                   </span>
                 </div>
-                <h3 className="text-[19px] mt-5 group-hover:text-gold-ink transition-colors">{p.name}</h3>
-                <p className="text-[13.5px] text-muted mt-1.5 leading-relaxed">{p.blurb}</p>
+                <h3 className="text-[21px] mt-5 group-hover:text-gold-ink transition-colors">{p.name}</h3>
+                <p className="text-[13.5px] text-muted mt-2 leading-relaxed">
+                  {p.focusAreas.join(' | ')}
+                </p>
                 <span className="link-arrow mt-3">Learn more →</span>
               </Link>
             ))}
@@ -97,7 +100,6 @@ export default function Home() {
               <p className="eyebrow mb-4">{flagship.eyebrow}</p>
               <h2 className="text-[30px] md:text-[38px]">{flagship.title}</h2>
               <p className="mt-6 text-[15px] leading-relaxed text-body">{flagship.body}</p>
-              <p className="mt-5 text-[12.5px] text-faint italic leading-relaxed">{flagship.note}</p>
               <ArrowLink to={flagship.cta.path} className="mt-7">{flagship.cta.label}</ArrowLink>
             </div>
           </div>
@@ -128,17 +130,7 @@ export default function Home() {
                 ))}
               </div>
 
-              <div className="mt-10 flex flex-wrap gap-10">
-                {portfolioStory.figures.map((f) => (
-                  <div key={f.label}>
-                    <p className="figure-num text-[32px]">{f.value}</p>
-                    <p className="text-[12px] text-muted mt-2">{f.label}</p>
-                  </div>
-                ))}
-              </div>
-
-              <p className="mt-8 text-[12.5px] text-faint italic">{portfolioStory.note}</p>
-              <ArrowLink to={portfolioStory.cta.path} className="mt-5">{portfolioStory.cta.label}</ArrowLink>
+              <ArrowLink to={portfolioStory.cta.path} className="mt-10">{portfolioStory.cta.label}</ArrowLink>
             </div>
           </div>
         </div>
@@ -153,29 +145,20 @@ export default function Home() {
           </p>
           <Link to="/partners" className="btn-gold mt-9">Partner With Us</Link>
 
-          <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
-            {partners.length > 0
-              ? partners.map((p) => (
-                  <div key={p.name} className="h-16 flex items-center justify-center bg-surface/60 rounded-[3px] px-4">
-                    <img src={p.logoUrl} alt={p.alt ?? p.name} className="max-h-8 w-auto object-contain" />
-                  </div>
-                ))
-              : Array.from({ length: 4 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-16 flex items-center justify-center border border-dashed border-gold/30 rounded-[3px]"
-                  >
-                    <span className="text-[10px] uppercase tracking-[0.14em] text-gold-ink/50">
-                      Partner logo
-                    </span>
-                  </div>
-                ))}
-          </div>
-          <p className="mt-5 text-[11.5px] text-gold-ink/60 italic">{partnerIntro.note}</p>
+          {partners.length > 0 && (
+            <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
+              {partners.map((p) => (
+                <div key={p.name} className="h-16 flex items-center justify-center bg-surface/60 rounded-[3px] px-4">
+                  <img src={p.logoUrl} alt={p.alt ?? p.name} className="max-h-8 w-auto object-contain" />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
       {/* ----------------------------------------------------- recent stories */}
+      {stories.length > 0 && (
       <section className="band bg-paper">
         <div className="shell">
           <SectionHead eyebrow="From the field" title="Recent stories." />
@@ -204,6 +187,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      )}
 
       {/* --------------------------------------------------------------- CTA */}
       <CtaBand title="Help us expand what works." tone="ink">

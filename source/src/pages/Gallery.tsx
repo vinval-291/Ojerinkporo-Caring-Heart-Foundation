@@ -62,7 +62,7 @@ export default function Gallery() {
         <div className="shell space-y-16">
           {album.sets.map((set) => (
             <div key={set.name}>
-              <div className={`flex items-baseline gap-4 mb-7 pillar-bar pt-5 ${["pillar-enterprise","pillar-agriculture","pillar-wellbeing","pillar-education"][album.sets.indexOf(set) % 4]}`}>
+              <div className={`flex items-baseline gap-4 mb-7 pillar-bar pt-5 ${["pillar-enterprise","pillar-education","pillar-community"][album.sets.indexOf(set) % 3]}`}>
                 <h2 className="text-[21px] md:text-[24px]">{set.name}</h2>
                 <span className="text-[12px] text-faint tabular-nums ml-auto shrink-0">
                   {set.images.length}

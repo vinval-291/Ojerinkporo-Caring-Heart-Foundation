@@ -229,7 +229,13 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link to="/support" className="btn-gold hidden sm:inline-flex">Support</Link>
+            {/* Compact on phones so it doesn't outweigh the logo; full size from lg. */}
+            <Link
+              to="/support"
+              className="btn-gold px-3 py-1.5 text-[12.5px] lg:px-6 lg:py-3 lg:text-[14px]"
+            >
+              Support
+            </Link>
             <button
               type="button"
               className="lg:hidden p-2 -mr-2 text-ink"

@@ -1,17 +1,22 @@
 import { Link, useParams } from 'react-router-dom';
-import { getProgramme, portfolioStory, programmes } from '@/src/data/programmes';
-import { Figure, Breadcrumb, ArrowLink, CtaBand, AwaitingContent } from '@/src/components/ui';
+import { useContent } from '@/src/content/ContentProvider';
+import { portfolioStory } from '@/src/data/programmes';
+import { Figure, Breadcrumb, CtaBand, categoryTag } from '@/src/components/ui';
 
 export default function Programme() {
   const { slug } = useParams();
-  const programme = getProgramme(slug);
+  // Read from content (CMS when connected) rather than the local file, so a programme
+  // edited in the dashboard is what this page shows.
+  const { programmes } = useContent();
+  const index = programmes.findIndex((p) => p.slug === slug);
+  const programme = programmes[index];
 
   if (!programme) {
     return (
       <div className="shell band text-center">
         <h1 className="text-[32px] mb-4">Programme not found</h1>
         <p className="lede mx-auto mb-8">
-          That programme does not exist. These are the four OCHF works through.
+          That programme does not exist. These are the pillars OCHF works through.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           {programmes.map((p) => (
@@ -23,6 +28,7 @@ export default function Programme() {
   }
 
   const { detail } = programme;
+  const others = programmes.filter((p) => p.slug !== programme.slug);
 
   return (
     <>
@@ -39,7 +45,7 @@ export default function Programme() {
 
         <div className="shell grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center py-14 md:py-20">
           <div className="max-w-[46ch]">
-            <p className="eyebrow mb-5">Our Work — Programme</p>
+            <p className="eyebrow mb-5">Our Work — Pillar</p>
             <h1 className="text-[42px] md:text-[54px]">{programme.name}</h1>
             <p className="mt-6 text-[15.5px] leading-relaxed text-body">{programme.summary}</p>
           </div>
@@ -48,7 +54,28 @@ export default function Programme() {
         </div>
       </section>
 
-      {detail ? (
+      {/* ------------------------------------------------------- focus areas */}
+      <section className="band-tight bg-surface border-b border-rule">
+        <div className="shell">
+          <p className="eyebrow mb-8">Focus areas</p>
+          <ul
+            className={`grid grid-cols-1 gap-6 ${
+              programme.focusAreas.length > 2 ? 'sm:grid-cols-3' : 'sm:grid-cols-2'
+            }`}
+          >
+            {programme.focusAreas.map((area) => (
+              <li
+                key={area}
+                className={`pillar-bar pillar-${programme.slug} pt-5 font-serif text-[22px] md:text-[26px] font-semibold text-ink`}
+              >
+                {area}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {detail && (
         <>
           {/* ------------------------------------------------- the model */}
           <section className="band-ink text-white">
@@ -80,74 +107,70 @@ export default function Programme() {
             </div>
           </section>
 
-          {/* ---------------------------------------------- metric strip */}
-          <section className="bg-paper border-b border-rule">
-            <div className="shell py-12 grid grid-cols-2 lg:grid-cols-4 gap-8">
-              {detail.metrics.map((m) => (
-                <div key={m.label}>
-                  <span className="block h-px w-8 bg-rule mb-4" aria-hidden="true" />
-                  <p className="text-[13px] font-semibold text-ink">{m.label}</p>
-                  {m.note && <p className="figure-note">{m.note}</p>}
-                </div>
-              ))}
-            </div>
-          </section>
-
           {/* -------------------------------------------- portfolio story */}
-          <section className="band bg-paper">
-            <div className="shell grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <Figure photo={portfolioStory.image} ratio="aspect-[5/4]" />
+          {programme.slug === 'enterprise' && (
+            <section className="band bg-paper">
+              <div className="shell grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <Figure photo={portfolioStory.image} ratio="aspect-[5/4]" />
 
-              <div className="max-w-[46ch]">
-                <p className="eyebrow mb-4">{portfolioStory.eyebrow}</p>
-                <h2 className="text-[26px] md:text-[32px]">{portfolioStory.title}</h2>
+                <div className="max-w-[46ch]">
+                  <p className="eyebrow mb-4">{portfolioStory.eyebrow}</p>
+                  <h2 className="text-[26px] md:text-[32px]">{portfolioStory.title}</h2>
 
-                <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
-                  {portfolioStory.stages.map((s, i) => (
-                    <div key={s.heading} className="rule-top">
-                      <p className={`eyebrow mb-2 ${i === 1 ? 'text-gold-ink' : 'text-faint'}`}>
-                        {s.heading}
-                      </p>
-                      <p className="text-[13px] text-body leading-relaxed">{s.body}</p>
-                    </div>
-                  ))}
+                  <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    {portfolioStory.stages.map((s, i) => (
+                      <div key={s.heading} className="rule-top">
+                        <p className={`eyebrow mb-2 ${i === 1 ? 'text-gold-ink' : 'text-faint'}`}>
+                          {s.heading}
+                        </p>
+                        <p className="text-[13px] text-body leading-relaxed">{s.body}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-
-                <p className="mt-8 text-[12.5px] text-faint italic">{portfolioStory.note}</p>
               </div>
-            </div>
-          </section>
-
-          <CtaBand title={detail.ctaTitle}>
-            <Link to={detail.ctaPrimary.path} className="btn-gold">{detail.ctaPrimary.label}</Link>
-            <Link to="/our-work" className="btn-outline">Explore Other Programmes</Link>
-          </CtaBand>
-        </>
-      ) : (
-        <>
-          <section className="band bg-paper">
-            <div className="shell">
-              <AwaitingContent
-                what={`${programme.name} programme detail`}
-                detail={
-                  `The ${programme.name} pillar is live in the foundation's work, but its programme ` +
-                  `model, eligibility and reporting figures have not yet been supplied for ` +
-                  `publication. This page will carry the same structure as Enterprise once ` +
-                  `OCHF confirms the detail.`
-                }
-              />
-              <ArrowLink to="/our-work/enterprise" className="mt-8">
-                See the Enterprise programme
-              </ArrowLink>
-            </div>
-          </section>
-
-          <CtaBand title="Work with us on this programme.">
-            <Link to="/partners" className="btn-gold">Become a Partner</Link>
-            <Link to="/our-work" className="btn-outline">Explore Other Programmes</Link>
-          </CtaBand>
+            </section>
+          )}
         </>
       )}
+
+      {/* ---------------------------------------------------- other pillars */}
+      {others.length > 0 && (
+        <section className="band bg-paper">
+          <div className="shell">
+            <p className="eyebrow mb-8">The other pillars</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              {others.map((p) => (
+                <Link key={p.slug} to={`/our-work/${p.slug}`} className="group block">
+                  <div className="relative overflow-hidden rounded-[3px] bg-ink/5 aspect-[16/9]">
+                    <img
+                      src={p.image.src}
+                      alt={p.image.alt}
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
+                    />
+                    <span className={`absolute bottom-0 left-0 text-[9.5px] font-semibold uppercase tracking-[0.14em] px-3 py-2 ${categoryTag(p.name, programmes.indexOf(p))}`}>
+                      {p.name}
+                    </span>
+                  </div>
+                  <h3 className="text-[21px] mt-5 group-hover:text-gold-ink transition-colors">{p.name}</h3>
+                  <p className="text-[13.5px] text-muted mt-2">{p.focusAreas.join(' | ')}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <CtaBand title={detail ? detail.ctaTitle : 'Work with us on this pillar.'}>
+        {detail ? (
+          <Link to={detail.ctaPrimary.path} className="btn-gold">{detail.ctaPrimary.label}</Link>
+        ) : (
+          <Link to="/partners" className="btn-gold">Become a Partner</Link>
+        )}
+        <Link to="/contact" className="btn-outline">Contact the Foundation</Link>
+      </CtaBand>
     </>
   );
 }

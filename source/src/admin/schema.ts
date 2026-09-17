@@ -105,7 +105,7 @@ export const sections: Section[] = [
     fields: [
       { name: 'title', label: 'Headline', kind: 'text', required: true },
       { name: 'category', label: 'Category', kind: 'select', required: true,
-        options: ['Enterprise', 'Education', 'Agriculture', 'Wellbeing', 'Foundation'] },
+        options: ['Enterprise', 'Education', 'Community', 'Foundation'] },
       { name: 'date', label: 'Date', kind: 'date', required: true },
       { name: 'standfirst', label: 'Short introduction', kind: 'textarea', required: true,
         help: 'One or two sentences, shown under the headline and on the story card.' },
@@ -122,7 +122,7 @@ export const sections: Section[] = [
     key: 'programmes',
     type: 'programme',
     title: 'Programmes',
-    blurb: 'Enterprise, Education, Agriculture and Wellbeing — what each one is and how it works.',
+    blurb: 'Enterprise, Education and Community — what each one is and how it works.',
     titleField: 'name',
     subtitleField: 'tag',
     addLabel: 'Add a programme',

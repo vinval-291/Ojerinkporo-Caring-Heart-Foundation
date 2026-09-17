@@ -14,7 +14,7 @@ import { photo, type Photo } from './media';
 
 export interface Story {
   slug: string;
-  category: 'Enterprise' | 'Education' | 'Agriculture' | 'Wellbeing' | 'Foundation';
+  category: 'Enterprise' | 'Education' | 'Community' | 'Foundation';
   title: string;
   standfirst: string;
   date: string;
@@ -38,7 +38,7 @@ export const stories: Story[] = [
   },
   {
     slug: 'building-stronger-agricultural-value-chains',
-    category: 'Agriculture',
+    category: 'Enterprise',
     title: 'Building stronger agricultural value chains',
     standfirst:
       'How support at the processing stage changes what a farming household can earn from ' +

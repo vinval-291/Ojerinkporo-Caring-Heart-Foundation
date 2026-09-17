@@ -1,7 +1,7 @@
 import { defineField, defineType } from 'sanity';
 
 /**
- * A programme pillar — Enterprise, Education, Agriculture, Wellbeing.
+ * A programme pillar — Enterprise, Education, Community.
  *
  * `detail` is optional throughout. A programme with no grant model published simply
  * renders its summary and an honest "in preparation" note, rather than inventing
@@ -43,11 +43,11 @@ export const programme = defineType({
     }),
     defineField({
       name: 'tag',
-      title: 'Short descriptor',
+      title: 'Focus areas',
       type: 'string',
       group: 'basics',
-      description: 'Three or four words, shown in the menu. E.g. "Business growth, grants & jobs".',
-      validation: (r) => r.required().max(50),
+      description: 'Separate each focus area with " | ". E.g. "Entrepreneurship | Agribusiness | Technology".',
+      validation: (r) => r.required().max(90),
     }),
     defineField({
       name: 'summary',

@@ -1,10 +1,12 @@
 import { Link, useParams } from 'react-router-dom';
 import { useContent } from '@/src/content/ContentProvider';
 import { getStory } from '@/src/data/stories';
-import { Figure, Breadcrumb, CtaBand, ArrowLink, AwaitingContent, categoryTag } from '@/src/components/ui';
+import { photo } from '@/src/data/media';
+import { Figure, Breadcrumb, CtaBand, ArrowLink, categoryTag } from '@/src/components/ui';
 
 export function StoriesIndex() {
-  const { stories } = useContent();
+  const { stories: allStories } = useContent();
+  const stories = allStories.filter((s) => !s.draft);
   return (
     <>
       <section className="bg-paper border-b border-rule">
@@ -22,6 +24,23 @@ export function StoriesIndex() {
       </section>
 
       <section className="band bg-paper">
+        {stories.length === 0 ? (
+          <div className="shell">
+            <Link to="/gallery" className="group grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+              <Figure photo={photo.guests} ratio="aspect-[16/10]" />
+              <div className="max-w-[46ch]">
+                <p className="eyebrow mb-4">Visual documentation</p>
+                <h2 className="text-[26px] md:text-[32px] group-hover:text-gold-ink transition-colors">
+                  The foundation's work, in photographs.
+                </h2>
+                <p className="mt-5 text-[14.5px] text-body leading-relaxed">
+                  From the inauguration to grant awards and equipment handovers to entrepreneurs.
+                </p>
+                <span className="link-arrow mt-6">Open the gallery →</span>
+              </div>
+            </Link>
+          </div>
+        ) : (
         <div className="shell grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {stories.map((s, i) => (
             <article key={s.slug}>
@@ -47,6 +66,7 @@ export function StoriesIndex() {
             </article>
           ))}
         </div>
+        )}
       </section>
 
       <CtaBand title="See the numbers behind the stories.">
@@ -59,7 +79,8 @@ export function StoriesIndex() {
 
 export function StoryDetail() {
   const { slug } = useParams();
-  const story = getStory(slug);
+  const found = getStory(slug);
+  const story = found && !found.draft ? found : undefined;
 
   if (!story) {
     return (
@@ -97,20 +118,9 @@ export function StoryDetail() {
 
       <section className="band bg-paper">
         <div className="shell">
-          {story.draft ? (
-            <AwaitingContent
-              what="This story is being written"
-              detail={
-                'OCHF is gathering this piece with the people involved. Beneficiary stories ' +
-                'publish only with the subject’s permission and with figures that have been ' +
-                'verified — never as illustrative copy.'
-              }
-            />
-          ) : (
-            <div className="max-w-[64ch] space-y-6 text-[16px] leading-relaxed text-body">
+          <div className="max-w-[64ch] space-y-6 text-[16px] leading-relaxed text-body">
               {story.body?.map((para, i) => <p key={i}>{para}</p>)}
             </div>
-          )}
 
           <ArrowLink to="/stories" className="mt-10">All stories</ArrowLink>
         </div>

@@ -13,7 +13,7 @@ export default function OurWork() {
         </div>
         <div className="shell pt-10 pb-14">
           <p className="eyebrow mb-5">Our Work</p>
-          <h1 className="text-[38px] md:text-[50px] max-w-[18ch]">Four pillars, one direction.</h1>
+          <h1 className="text-[38px] md:text-[50px] max-w-[18ch]">Three pillars. One direction.</h1>
           <p className="mt-6 lede">
             Structured programmes built to grow — not a list of activities we happen to run. Each
             pillar has its own model, its own eligibility, and its own reported outcomes.

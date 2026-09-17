@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useContent } from '@/src/content/ContentProvider';
 import { methodology } from '@/src/data/impact';
-import { Breadcrumb, CtaBand, AwaitingContent } from '@/src/components/ui';
+import { Breadcrumb, CtaBand } from '@/src/components/ui';
 
 /**
  * Governance page.
@@ -11,29 +11,6 @@ import { Breadcrumb, CtaBand, AwaitingContent } from '@/src/components/ui';
  * organisation. Nothing here is invented. The page publishes what the foundation has
  * already stated in its own materials, and marks the rest as awaiting confirmation.
  */
-
-const pending = [
-  {
-    title: 'Registration and legal status',
-    need: 'Registered entity name, CAC registration number, and date of incorporation.',
-  },
-  {
-    title: 'Board of trustees',
-    need: 'Names, roles and appointment dates for each trustee, plus meeting frequency.',
-  },
-  {
-    title: 'Financial oversight',
-    need: 'Who prepares accounts, who audits them, and the reporting period covered.',
-  },
-  {
-    title: 'Grant award process',
-    need: 'Who sits on the selection panel and how conflicts of interest are declared.',
-  },
-  {
-    title: 'Safeguarding and complaints',
-    need: 'Policy for handling beneficiary complaints and safeguarding concerns.',
-  },
-];
 
 export default function Governance() {
   const { site } = useContent();
@@ -74,32 +51,6 @@ export default function Governance() {
               assessment begins.
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* What OCHF still needs to supply. */}
-      <section className="band bg-surface border-t border-rule">
-        <div className="shell">
-          <AwaitingContent
-            what="Full governance disclosure"
-            detail={
-              `${site.short} has not yet supplied the following for publication. Each is a ` +
-              'statement of fact about the organisation and will publish only once confirmed by ' +
-              'the foundation.'
-            }
-          />
-
-          <ul className="mt-10 border-t border-rule max-w-[68ch]">
-            {pending.map((p) => (
-              <li key={p.title} className="py-5 border-b border-rule">
-                <p className="font-semibold text-[15px] text-ink">{p.title}</p>
-                <p className="text-[13.5px] text-muted mt-1 leading-relaxed">
-                  <span className="text-gold-ink font-semibold">Required: </span>
-                  {p.need}
-                </p>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 

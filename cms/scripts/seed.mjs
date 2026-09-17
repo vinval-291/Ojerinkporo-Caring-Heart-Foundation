@@ -50,7 +50,7 @@ const settings = doc({
   tagline: 'Investing in people. Building stronger communities.',
   intro:
     'Ojerinkporo Caring Hearts Foundation expands access to opportunity through ' +
-    'enterprise, education, agriculture and community development.',
+    'enterprise, education and community development.',
   address: 'Amas Autonomous Community, Ebonyi State, Nigeria',
   location: 'Ebonyi State, Nigeria',
   email: 'info@ojerinkporofoundation.com',
@@ -58,7 +58,7 @@ const settings = doc({
   social: {},
   seoDescription:
     'Ojerinkporo Caring Hearts Foundation expands access to opportunity across Nigeria ' +
-    'through enterprise, education, agriculture and community development.',
+    'through enterprise, education and community development.',
 });
 
 /* ----------------------------------------------------------- programmes */
@@ -70,38 +70,20 @@ const programmes = [
     name: 'Enterprise',
     slug: { _type: 'slug', current: 'enterprise' },
     order: 1,
-    tag: 'Business growth, grants & jobs',
+    tag: 'Entrepreneurship | Agribusiness | Technology',
     summary:
-      'Business growth, grants and jobs. OCHF backs Nigerian entrepreneurs with catalytic ' +
+      'OCHF backs Nigerian entrepreneurs, agribusinesses and technology ventures with catalytic ' +
       'funding and structured support built to create employment and lasting enterprises.',
     modelTitle: 'Catalytic funding, paired with real support.',
     terms: [
-      {
-        _key: 'amount',
-        value: '₦1M–₦3M',
-        label: "Per recipient, sized to the business's specific needs and evaluation.",
-      },
-      {
-        _key: 'mentorship',
-        value: '1:1',
-        label: 'Mentorship paired with every funded business, not funding alone.',
-      },
+      { _key: 'amount', value: '₦1M–₦3M', label: "Per recipient, sized to the business's specific needs and evaluation." },
+      { _key: 'mentorship', value: '1:1', label: 'Mentorship paired with every funded business, not funding alone.' },
     ],
     panels: [
-      {
-        _key: 'eligibility',
-        heading: 'Eligibility',
-        body: 'Registered business (CAC) · Nigerian citizen · clear business plan · demonstrated need.',
-      },
-      {
-        _key: 'criteria',
-        heading: 'Selection criteria',
-        body: "Job creation potential · originality · plan strength · founder experience · fit with OCHF's programme priorities.",
-      },
+      { _key: 'eligibility', heading: 'Eligibility', body: 'Registered business (CAC) · Nigerian citizen · clear business plan · demonstrated need.' },
+      { _key: 'criteria', heading: 'Selection criteria', body: "Job creation potential · originality · plan strength · founder experience · fit with OCHF's programme priorities." },
     ],
-    // Deliberately empty: the old site pointed "Apply" at a personal LinkedIn profile.
-    applicationUrl: undefined,
-    applicationOpen: false,
+    applicationOpen: true,
   },
   {
     _id: 'programme-education',
@@ -109,34 +91,22 @@ const programmes = [
     name: 'Education',
     slug: { _type: 'slug', current: 'education' },
     order: 2,
-    tag: 'Access, learning & opportunity',
+    tag: 'Scholarships | Training Programmes | Skills Development',
     summary:
-      'Access, learning and opportunity. OCHF funds scholarships and educational support ' +
-      'for students whose progress is limited by cost rather than ability.',
+      'OCHF funds scholarships, training programmes and skills development for people whose ' +
+      'progress is limited by cost rather than ability.',
     applicationOpen: false,
   },
   {
-    _id: 'programme-agriculture',
+    _id: 'programme-community',
     _type: 'programme',
-    name: 'Agriculture',
-    slug: { _type: 'slug', current: 'agriculture' },
+    name: 'Community',
+    slug: { _type: 'slug', current: 'community' },
     order: 3,
-    tag: 'Food systems & livelihoods',
+    tag: 'Direct Support | Infrastructure',
     summary:
-      'Food systems and livelihoods. OCHF supports farmers and agricultural value chains ' +
-      'to strengthen food security and build durable rural incomes.',
-    applicationOpen: false,
-  },
-  {
-    _id: 'programme-wellbeing',
-    _type: 'programme',
-    name: 'Wellbeing',
-    slug: { _type: 'slug', current: 'wellbeing' },
-    order: 4,
-    tag: 'Community health & resilience',
-    summary:
-      'Community health and resilience. OCHF delivers health, care and household support ' +
-      'to communities carrying the heaviest need.',
+      'OCHF delivers direct support to households in need and invests in the infrastructure ' +
+      'that communities depend on.',
     applicationOpen: false,
   },
 ];
@@ -235,7 +205,7 @@ const people = [
 
 const faqSource = [
   ['What does Ojerinkporo Caring Hearts Foundation do?',
-   'OCHF expands access to opportunity through four programmes: Enterprise, Education, Agriculture and Wellbeing. We combine funding with structured support so that what we back keeps working after the grant is disbursed.'],
+   'OCHF expands access to opportunity through three pillars: Enterprise, Education and Community. We combine funding with structured support so that what we back keeps working after the grant is disbursed.'],
   ['Where does the foundation work?',
    'OCHF originated in Ebonyi State and remains headquartered there. Our programmes are open across Nigeria — the Entrepreneurship Grant Programme is not restricted to Ebonyi indigenes.'],
   ['Who is eligible for the Entrepreneurship Grant?',
@@ -249,7 +219,7 @@ const faqSource = [
   ['What educational support does the foundation offer?',
    'The Education programme funds scholarships and related support for students whose progress is limited by cost rather than ability.'],
   ['Does OCHF still support widows?',
-   'Yes. Support for widows and vulnerable households continues under the Wellbeing programme, and is reported as a measured outcome on our Impact page.'],
+   'Yes. Support for widows and vulnerable households continues under the Community programme, and is reported as a measured outcome on our Impact page.'],
   ['How does OCHF select beneficiaries?',
    'Through documented assessment against published criteria for each programme, weighing demonstrated need, potential impact and fit with our programme priorities.'],
   ['How are your impact figures verified?',
@@ -291,7 +261,7 @@ const stories = [
     _type: 'story',
     title: 'Building stronger agricultural value chains',
     slug: { _type: 'slug', current: 'building-stronger-agricultural-value-chains' },
-    category: 'Agriculture',
+    category: 'Enterprise',
     date: '2026-02-10',
     standfirst:
       'How support at the processing stage changes what a farming household can earn from ' +
