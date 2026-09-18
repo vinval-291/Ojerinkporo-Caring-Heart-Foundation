@@ -3,18 +3,24 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import { defineConfig, loadEnv, type Plugin } from 'vite';
 
+import { ADMIN_ENDPOINT } from './src/admin/endpoint';
+
 /**
- * Serves /api/admin during local development.
+ * Serves /api/content during local development.
  *
- * In production Vercel runs api/admin.ts as a serverless function. Locally there is no
+ * In production Vercel runs api/content.ts as a serverless function. Locally there is no
  * such runtime, so this middleware imports the same handler and mounts it — one
  * implementation, both environments.
+ *
+ * The path deliberately avoids the word "admin": Namecheap's LiteSpeed blocks
+ * `POST /api/admin` outright with an HTML 429 brute-force page, which never reaches
+ * the app and made the dashboard report its server as unavailable.
  */
 function adminApiPlugin(): Plugin {
   return {
     name: 'ochf-admin-api',
     configureServer(server) {
-      server.middlewares.use('/api/admin', async (req, res) => {
+      server.middlewares.use(ADMIN_ENDPOINT, async (req, res) => {
         if (req.method !== 'POST') {
           res.statusCode = 405;
           res.end(JSON.stringify({ error: 'POST only' }));
@@ -25,7 +31,7 @@ function adminApiPlugin(): Plugin {
           for await (const chunk of req) chunks.push(chunk as Buffer);
           const body = JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}');
 
-          const { handleAdmin } = await server.ssrLoadModule('/api/admin.ts');
+          const { handleAdmin } = await server.ssrLoadModule('/api/content.ts');
           const result = await handleAdmin(body, req.headers.cookie);
 
           if (result.setCookie) res.setHeader('Set-Cookie', result.setCookie);
@@ -67,7 +73,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     // Expose only what the browser legitimately needs. The write token is deliberately
-    // NOT here — it stays server-side in api/admin.ts.
+    // NOT here — it stays server-side in api/content.ts.
     define: {
       __CMS_PROJECT__: JSON.stringify(env.VITE_SANITY_PROJECT_ID ?? ''),
     },

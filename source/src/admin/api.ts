@@ -3,6 +3,8 @@
  * HttpOnly cookie the browser cannot read, and the Sanity token stays on the server.
  */
 
+import { ADMIN_ENDPOINT } from './endpoint';
+
 export interface Doc extends Record<string, unknown> {
   _id?: string;
   _type?: string;
@@ -10,7 +12,7 @@ export interface Doc extends Record<string, unknown> {
 
 /**
  * Raised when the dashboard's server part isn't running at this address, e.g. on
- * static hosting where /api/admin returns the website's HTML instead of data.
+ * static hosting where the endpoint returns the website's HTML instead of data.
  */
 export class ServerUnavailableError extends Error {
   constructor() {
@@ -22,7 +24,7 @@ export class ServerUnavailableError extends Error {
 async function call<T>(action: string, payload: Record<string, unknown> = {}): Promise<T> {
   let res: Response;
   try {
-    res = await fetch('/api/admin', {
+    res = await fetch(ADMIN_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'same-origin',

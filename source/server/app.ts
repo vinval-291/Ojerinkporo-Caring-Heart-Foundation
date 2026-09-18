@@ -2,7 +2,7 @@
  * Standalone server for the admin API, for hosting that runs Node.js apps
  * (Namecheap cPanel "Setup Node.js App", which uses Phusion Passenger).
  *
- * It wraps the same handler Vercel and the Vite dev server use (api/admin.ts), so the
+ * It wraps the same handler Vercel and the Vite dev server use (api/content.ts), so the
  * dashboard behaves identically everywhere. Built into a single file with no
  * dependencies to install: `npm run build:api`.
  *
@@ -13,7 +13,7 @@
  */
 
 import http from 'node:http';
-import { handleAdmin, type AdminRequest } from '../api/admin';
+import { handleAdmin, type AdminRequest } from '../api/content';
 
 /** Largest request accepted. Photos are sent base64-encoded, which adds about a third. */
 const MAX_BODY = 20 * 1024 * 1024;
