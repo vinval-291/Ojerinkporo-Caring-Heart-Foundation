@@ -51,7 +51,7 @@ export default function About() {
                 community development — and to report honestly on what that produces.
               </p>
             </div>
-            <div className="border-t-2 border-green pt-5">
+            <div className="border-t-2 border-bronze pt-5">
               <p className="eyebrow mb-3">Vision</p>
               <p className="font-serif text-[19px] text-ink leading-snug">
                 Nigerian communities where opportunity is determined by capability, not by

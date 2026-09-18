@@ -90,7 +90,7 @@ export default function Programme() {
               <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-10">
                 {detail.terms.map((t) => (
                   <div key={t.value}>
-                    <p className="font-serif text-[30px] md:text-[34px] text-gold-lift leading-none tracking-tight">
+                    <p className="font-serif text-[30px] md:text-[34px] text-gold leading-none tracking-tight">
                       {t.value}
                     </p>
                     <p className="mt-3 text-[13.5px] text-white/65 leading-relaxed">{t.label}</p>

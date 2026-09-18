@@ -6,13 +6,13 @@ import type { Photo } from '@/src/data/media';
 import type { Metric } from '@/src/data/impact';
 
 /**
- * Colour for a programme or story category, taken from the OCHF mark.
- * Enterprise gold, Education navy, Community green.
+ * Colour for a programme or story category, taken from the brand palette.
+ * Enterprise gold, Education navy, Community bronze.
  */
 const PILLAR_COLOURS = [
-  'bg-gold text-ink',        // Enterprise — the mark's highlight
+  'bg-gold text-ink',        // Enterprise — the logo gold, 10:1 with ink
   'bg-ink-soft text-white',  // Education — the wordmark navy
-  'bg-green text-white',     // Community — the mark's green
+  'bg-bronze text-white',    // Community — the gradient's middle stop, 5:1
 ];
 
 export function categoryTag(name: string, index = 0): string {
@@ -148,7 +148,7 @@ export function Stat({ metric, dark = false }: { metric: Metric; dark?: boolean 
             </span>
           )}
           <span
-            className={cn('block h-px w-10 md:w-14', dark ? 'bg-gold-lift/50' : 'bg-rule')}
+            className={cn('block h-px w-10 md:w-14', dark ? 'bg-gold/50' : 'bg-rule')}
             aria-hidden="true"
           />
           {metric.prefix && (
@@ -158,15 +158,16 @@ export function Stat({ metric, dark = false }: { metric: Metric; dark?: boolean 
           )}
         </div>
       ) : (
-        // A verified figure reads in green — the mark's growth colour — so a checked
+        // A verified figure reads in gold — the palette's one accent — so a checked
         // number is visibly different from one still awaiting verification.
-        <p className={cn('figure-num', dark ? 'text-green-lift' : 'text-green-ink')}>
+        // Only these gold weights work as text: 10:1 on ink, 4.9:1 on page.
+        <p className={cn('figure-num', dark ? 'text-gold' : 'text-gold-ink')}>
           {metric.prefix}{metric.value}
         </p>
       )}
 
       <p className={cn('figure-label', dark && 'text-white')}>{metric.label}</p>
-      <p className={cn('figure-note', dark && 'text-white/45')}>
+      <p className={cn('figure-note', dark && 'text-white/60')}>
         {metric.period}
       </p>
     </div>

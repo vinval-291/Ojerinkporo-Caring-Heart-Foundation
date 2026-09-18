@@ -60,7 +60,7 @@ export default function Story() {
                 key={m.year}
                 className="grid grid-cols-[64px_1fr] md:grid-cols-[110px_1fr] gap-6 py-5 border-b border-rule-dark"
               >
-                <span className="font-serif text-[19px] font-semibold text-gold-lift tabular-nums">
+                <span className="font-serif text-[19px] font-semibold text-gold tabular-nums">
                   {m.year}
                 </span>
                 <span className="text-[14px] text-white/70 leading-relaxed">{m.body}</span>

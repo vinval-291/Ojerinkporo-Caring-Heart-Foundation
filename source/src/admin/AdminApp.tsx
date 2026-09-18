@@ -63,7 +63,7 @@ function Header({ onSignOut }: { onSignOut: () => void }) {
       <div className="max-w-[1000px] mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-baseline gap-3">
           <span className="font-serif text-[20px] font-bold">OCHF</span>
-          <span className="text-[13px] text-white/50">Content dashboard</span>
+          <span className="text-[13px] text-white/65">Content dashboard</span>
         </div>
         <div className="flex items-center gap-4">
           <a href="/" target="_blank" rel="noreferrer"
