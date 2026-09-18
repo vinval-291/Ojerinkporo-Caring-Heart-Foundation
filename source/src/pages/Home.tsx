@@ -137,7 +137,7 @@ export default function Home() {
       </section>
 
       {/* ------------------------------------------------------- partnership */}
-      <section className="band-tight bg-cream">
+      <section className="band-tight bg-gold-tint">
         <div className="shell text-center">
           <h2 className="text-[28px] md:text-[36px] max-w-[24ch] mx-auto">{partnerIntro.title}</h2>
           <p className="mt-5 text-[14.5px] text-body/80 leading-relaxed max-w-[64ch] mx-auto">

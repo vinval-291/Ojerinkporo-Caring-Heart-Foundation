@@ -83,7 +83,7 @@ function MegaPanel({
               key={f.path}
               to={f.path}
               onClick={onNavigate}
-              className="group block bg-cream rounded-[3px] overflow-hidden hover:bg-cream/70 transition-colors"
+              className="group block bg-gold-tint rounded-[3px] overflow-hidden hover:bg-cream transition-colors"
             >
               {f.image && (
                 <div className="aspect-[16/9] overflow-hidden bg-ink/5">
@@ -172,6 +172,8 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50">
+      {/* The signature gradient as a standing rule across the top of every page. */}
+      <div className="surface-gradient h-1" aria-hidden="true" />
       <div
         className="bg-surface border-b border-rule"
         onMouseLeave={scheduleClose}
@@ -229,11 +231,9 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-3">
-            {/* Compact on phones so it doesn't outweigh the logo; full size from lg. */}
-            <Link
-              to="/support"
-              className="btn-gold px-3 py-1.5 text-[12.5px] lg:px-6 lg:py-3 lg:text-[14px]"
-            >
+            {/* Desktop only. On phones Support lives inside the menu panel instead,
+                so the header carries just the wordmark and the menu button. */}
+            <Link to="/support" className="hidden lg:inline-flex btn-gold">
               Support
             </Link>
             <button
@@ -262,7 +262,7 @@ export function Navbar() {
 
       {/* Mobile drawer */}
       {mobileOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-[70px] bottom-0 bg-surface overflow-y-auto">
+        <div className="lg:hidden fixed inset-x-0 top-[74px] bottom-0 bg-surface overflow-y-auto">
           <div className="shell py-8">
             <ul className="divide-y divide-rule">
               {nav.map((item) => (

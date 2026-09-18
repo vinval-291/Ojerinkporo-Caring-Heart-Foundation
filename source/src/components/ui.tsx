@@ -43,7 +43,9 @@ export function Figure({
   priority?: boolean;
 }) {
   return (
-    <figure className={cn('relative overflow-hidden bg-ink/5 rounded-[3px]', ratio, className)}>
+    /* The signature gradient sits behind every image, so a slot shows the brand
+       while the photo loads — and still does if the photo never arrives. */
+    <figure className={cn('surface-gradient relative overflow-hidden rounded-[3px]', ratio, className)}>
       <img
         src={photo.src}
         alt={photo.alt}
@@ -183,7 +185,9 @@ export function CtaBand({
 }) {
   const ink = tone === 'ink';
   return (
-    <section className={cn('band-tight', ink ? 'bg-ink' : 'bg-cream')}>
+    <section className={cn('band-tight relative', ink ? 'band-ink' : 'bg-gold-tint')}>
+      {/* The signature gradient, as a rule across the top of every strip. */}
+      <span className="surface-gradient absolute inset-x-0 top-0 h-1" aria-hidden="true" />
       <div className="shell text-center">
         <h2 className={cn('text-[26px] md:text-[34px] mb-8', ink && 'text-white')}>{title}</h2>
         <div className="flex flex-wrap justify-center gap-3">{children}</div>
