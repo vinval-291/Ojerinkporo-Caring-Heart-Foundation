@@ -52,7 +52,7 @@ export const programmes: Programme[] = [
     focusAreas: ['Entrepreneurship', 'Agribusiness', 'Technology'],
     summary:
       'OCHF backs Nigerian entrepreneurs, agribusinesses and technology ventures with ' +
-      'catalytic funding and structured support built to create employment and lasting ' +
+      'growth funding and structured support built to create employment and lasting ' +
       'enterprises.',
     image: photo.workshopFloor,
     detail: {
@@ -112,7 +112,7 @@ export const flagship = {
   eyebrow: 'Flagship programme',
   title: 'Backing entrepreneurs who create jobs.',
   body:
-    "Through OCHF's Entrepreneurship Grant Programme, businesses receive catalytic funding — " +
+    "Through OCHF's Entrepreneurship Grant Programme, businesses receive growth funding — " +
     '₦1,000,000 to ₦3,000,000 per recipient — alongside structured mentorship designed to ' +
     'strengthen operations, create employment and build sustainable enterprises.',
   cta: { label: 'Explore the Programme', path: '/our-work/enterprise' },

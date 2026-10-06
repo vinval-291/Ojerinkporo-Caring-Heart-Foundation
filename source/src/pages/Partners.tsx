@@ -83,8 +83,7 @@ export default function Partners() {
       )}
 
       <CtaBand title="Let's talk about working together." tone="ink">
-        <Link to="/contact" className="btn-gold">Start a Conversation</Link>
-        <Link to="/impact" className="btn-ghost">See Our Impact</Link>
+        <Link to="/contact" className="btn-gold">Contact Our Team</Link>
       </CtaBand>
     </>
   );

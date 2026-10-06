@@ -58,7 +58,6 @@ export default function OurWork() {
 
       <CtaBand title="See what the work has produced.">
         <Link to="/impact" className="btn-gold">Explore Our Impact</Link>
-        <Link to="/stories" className="btn-outline">Read Field Stories</Link>
       </CtaBand>
     </>
   );

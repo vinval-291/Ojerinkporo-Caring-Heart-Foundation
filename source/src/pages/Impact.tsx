@@ -15,10 +15,10 @@ export default function Impact() {
 
         <div className="shell pt-10 pb-14">
           <p className="eyebrow mb-5">Our Work — Evidence</p>
-          <h1 className="text-[38px] md:text-[50px] max-w-[20ch]">The evidence behind the work.</h1>
+          <h1 className="text-[38px] md:text-[50px] max-w-[20ch]">Beyond the Numbers</h1>
           <p className="mt-6 lede">
-            Every figure below is checked against grant disbursement records, programme registers
-            and partner reporting before publication — with the period it covers stated alongside it.
+            Impact is more than the amount deployed. We track who our programmes reach, how
+            support is used and what changes afterwards.
           </p>
         </div>
       </section>
@@ -82,8 +82,7 @@ export default function Impact() {
       </section>
 
       <CtaBand title="See the people behind the numbers.">
-        <Link to="/stories" className="btn-gold">Meet the Entrepreneurs</Link>
-        <Link to="/contact" className="btn-outline">Request the Full Report</Link>
+        <Link to="/partners" className="btn-gold">Partner With Us</Link>
       </CtaBand>
     </>
   );

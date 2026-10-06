@@ -24,20 +24,23 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-ink/40" />
         </div>
 
-        <div className="shell relative py-24 md:py-36 lg:py-44">
+        {/* Deliberately short. The figures are the strongest proof on the page and the
+            brief asks for them without scrolling, so the hero is sized to leave room
+            for the strip below it on a laptop screen. */}
+        <div className="shell relative py-14 md:py-16 lg:py-20">
           <p className="eyebrow eyebrow-dark mb-6">{site.name}</p>
-          <h1 className="text-white text-[38px] sm:text-[52px] lg:text-[62px] max-w-[16ch] leading-[1.06]">
+          <h1 className="text-white text-[34px] sm:text-[46px] lg:text-[56px] max-w-[16ch] leading-[1.06]">
             Investing in people.
             <br />
             Building stronger communities.
           </h1>
-          <p className="mt-7 text-[16px] md:text-[17px] text-white/75 max-w-[54ch] leading-relaxed">
-            {site.name} expands access to opportunity through enterprise, education
-            and community development.
+          <p className="mt-5 text-[16px] md:text-[17px] text-white/75 max-w-[54ch] leading-relaxed">
+            OCHF expands opportunity across Nigeria through enterprise funding,
+            education and direct community investment.
           </p>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Link to="/impact" className="btn-gold">Explore Our Impact</Link>
-            <Link to="/partners" className="btn-ghost">Partner With {site.short}</Link>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link to="/our-work" className="btn-gold">Explore Our Work</Link>
+            <Link to="/partners" className="btn-ghost">Partner With Us</Link>
           </div>
         </div>
 
@@ -46,7 +49,10 @@ export default function Home() {
 
       {/* ------------------------------------------------- headline figures */}
       <section className="band-ink border-t border-rule-dark">
-        <div className="shell py-12 md:py-14">
+        <div className="shell py-10 md:py-12">
+          <h2 className="text-white text-[22px] md:text-[26px] mb-8">
+            Impact, measured beyond the grant.
+          </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-6">
             {headlineMetrics.map((m) => (
               <Stat key={m.label} metric={m} dark />
@@ -191,8 +197,7 @@ export default function Home() {
 
       {/* --------------------------------------------------------------- CTA */}
       <CtaBand title="Help us expand what works." tone="ink">
-        <Link to="/partners" className="btn-gold">Become a Partner</Link>
-        <Link to="/support" className="btn-ghost">Support Our Work</Link>
+        <Link to="/partners" className="btn-gold">Partner With Us</Link>
       </CtaBand>
     </>
   );

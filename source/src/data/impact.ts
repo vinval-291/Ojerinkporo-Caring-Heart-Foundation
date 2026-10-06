@@ -23,20 +23,26 @@ export interface Metric {
   status: MetricStatus;
 }
 
-/** Headline band on the homepage. */
+/**
+ * Headline band on the homepage.
+ *
+ * These mirror the figures held in the CMS, which is the source of truth. They are
+ * repeated here because the CMS fetch can fail — a missing CORS origin for a new
+ * domain is enough — and an empty fallback published nothing at all, so the site
+ * silently showed five blank rules where its strongest evidence should be.
+ *
+ * Keep the two in step. Change a figure in the dashboard and change it here.
+ */
 export const headlineMetrics: Metric[] = [
-  { label: 'Invested in communities', value: '', prefix: '₦', period: 'FY2025–26', status: 'pending' },
-  { label: 'Entrepreneurs supported', value: '', period: 'FY2025–26', status: 'pending' },
-  { label: 'Students supported',      value: '', period: 'FY2025–26', status: 'pending' },
-  { label: 'Communities reached',     value: '', period: 'FY2025–26', status: 'pending' },
-  { label: 'Jobs created or sustained', value: '', period: 'FY2025–26', status: 'pending' },
+  { label: 'Invested in communities', value: '250M+', prefix: '₦', period: '2024–2026', status: 'verified' },
+  { label: 'Entrepreneurs supported', value: '100+', period: '2024–2026', status: 'verified' },
+  { label: 'Students supported',      value: '200+', period: '2024–2026', status: 'verified' },
+  { label: 'Communities reached',     value: '36+',  period: '2024–2026', status: 'verified' },
+  { label: 'Jobs created or sustained', value: '70+', period: '2024–2026', status: 'verified' },
 ];
 
 /** Full grid on the Impact page. */
-export const impactMetrics: Metric[] = [
-  ...headlineMetrics,
-  { label: 'Families supported', value: '', period: 'FY2025–26', status: 'pending' },
-];
+export const impactMetrics: Metric[] = [...headlineMetrics];
 
 /**
  * The three pillars and their focus areas, shown on the Impact page.

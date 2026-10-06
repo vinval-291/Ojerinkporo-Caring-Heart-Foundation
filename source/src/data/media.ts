@@ -20,10 +20,28 @@ export interface Photo {
 }
 
 export const photo = {
+  /* Supplied by OCHF and served from /public/images, so these four do not depend on
+     postimg.cc. Captions follow the launch brief: who, what, where, in a few words,
+     with no "OCHF Photography —" prefix. */
   heroGrant: {
-    src: 'https://i.postimg.cc/9X7wjsrL/equipment-1.jpg',
-    credit: 'OCHF Photography — Entrepreneurship grant recipients, Ebonyi State',
+    src: '/images/hero-grant.jpeg',
+    credit: 'Entrepreneurship grant recipients, Ebonyi State',
     alt: 'Grant recipients receiving business equipment at an OCHF distribution',
+  },
+  storyOne: {
+    src: '/images/story-1.jpeg',
+    credit: 'Business Growth Grant recipient',
+    alt: 'An OCHF grant recipient at their business',
+  },
+  storyTwo: {
+    src: '/images/story-2.jpeg',
+    credit: 'Business Growth Grant recipient',
+    alt: 'An OCHF grant recipient at their business',
+  },
+  storyThree: {
+    src: '/images/story-3.jpeg',
+    credit: 'Business Growth Grant recipient',
+    alt: 'An OCHF grant recipient at their business',
   },
   workshopFloor: {
     src: 'https://i.postimg.cc/T1gKq5z2/equipment-2.jpg',

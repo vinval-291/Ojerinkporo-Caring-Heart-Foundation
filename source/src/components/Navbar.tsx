@@ -233,8 +233,8 @@ export function Navbar() {
           <div className="flex items-center gap-3">
             {/* Desktop only. On phones Support lives inside the menu panel instead,
                 so the header carries just the wordmark and the menu button. */}
-            <Link to="/support" className="hidden lg:inline-flex btn-gold">
-              Support
+            <Link to="/partners" className="hidden lg:inline-flex btn-gold">
+              Partner With Us
             </Link>
             <button
               type="button"
@@ -314,7 +314,7 @@ export function Navbar() {
               ))}
             </ul>
 
-            <Link to="/support" className="btn-gold w-full mt-8">Support Our Work</Link>
+            <Link to="/partners" className="btn-gold w-full mt-8">Partner With Us</Link>
           </div>
         </div>
       )}

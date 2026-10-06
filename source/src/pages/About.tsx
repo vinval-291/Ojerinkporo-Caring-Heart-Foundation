@@ -99,8 +99,7 @@ export default function About() {
       </section>
 
       <CtaBand title="Work with us.">
-        <Link to="/partners" className="btn-gold">Become a Partner</Link>
-        <Link to="/about/leadership" className="btn-outline">Meet the Leadership</Link>
+        <Link to="/our-work" className="btn-gold">Explore Our Work</Link>
       </CtaBand>
     </>
   );

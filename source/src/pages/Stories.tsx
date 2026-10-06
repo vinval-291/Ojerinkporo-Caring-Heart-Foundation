@@ -70,8 +70,7 @@ export function StoriesIndex() {
       </section>
 
       <CtaBand title="See the numbers behind the stories.">
-        <Link to="/impact" className="btn-gold">Impact & Evidence</Link>
-        <Link to="/gallery" className="btn-outline">Visual Documentation</Link>
+        <Link to="/partners" className="btn-gold">Partner With Us</Link>
       </CtaBand>
     </>
   );
@@ -127,8 +126,7 @@ export function StoryDetail() {
       </section>
 
       <CtaBand title="Help us expand what works.">
-        <Link to="/partners" className="btn-gold">Become a Partner</Link>
-        <Link to="/support" className="btn-outline">Support Our Work</Link>
+        <Link to="/partners" className="btn-gold">Partner With Us</Link>
       </CtaBand>
     </>
   );

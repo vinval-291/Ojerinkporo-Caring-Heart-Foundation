@@ -110,8 +110,7 @@ export default function Support() {
       </section>
 
       <CtaBand title="See what your support would fund.">
-        <Link to="/our-work" className="btn-gold">Our Programmes</Link>
-        <Link to="/impact" className="btn-outline">Impact & Evidence</Link>
+        <Link to="/our-work" className="btn-gold">Explore Our Work</Link>
       </CtaBand>
     </>
   );
@@ -204,7 +203,6 @@ export function Apply() {
 
       <CtaBand title="Read how the programme works first.">
         <Link to="/our-work/enterprise" className="btn-gold">The Enterprise Programme</Link>
-        <Link to="/faq" className="btn-outline">Common Questions</Link>
       </CtaBand>
     </>
   );

@@ -161,32 +161,28 @@ export const nav: NavItem[] = [
   { name: 'Contact',  path: '/contact' },
 ];
 
+/**
+ * Compact footer, per the launch brief: no more than five quick links plus the three
+ * pillars. The previous footer carried twelve links across three columns, which read
+ * as a second navigation menu rather than a footer.
+ */
 export const footerNav: NavColumn[] = [
   {
-    heading: 'About',
+    heading: 'Quick links',
     links: [
-      { name: 'About OCHF', path: '/about' },
-      { name: 'Our Story',  path: '/about/story' },
-      { name: 'Leadership', path: '/about/leadership' },
-      { name: 'Governance', path: '/about/governance' },
+      { name: 'About',             path: '/about' },
+      { name: 'Our Work',          path: '/our-work' },
+      { name: 'Impact & Stories',  path: '/impact' },
+      { name: 'Partner With Us',   path: '/partners' },
+      { name: 'Contact',           path: '/contact' },
     ],
   },
   {
     heading: 'Our Work',
     links: [
-      { name: 'Overview', path: '/our-work' },
-      { name: 'Impact',   path: '/impact' },
-      { name: 'Stories',  path: '/stories' },
-      { name: 'Gallery',  path: '/gallery' },
-    ],
-  },
-  {
-    heading: 'More',
-    links: [
-      { name: 'Partners', path: '/partners' },
-      { name: 'Contact',  path: '/contact' },
-      { name: 'FAQ',      path: '/faq' },
-      { name: 'Support',  path: '/support' },
+      { name: 'Enterprise', path: '/our-work/enterprise' },
+      { name: 'Education',  path: '/our-work/education' },
+      { name: 'Community',  path: '/our-work/community' },
     ],
   },
 ];

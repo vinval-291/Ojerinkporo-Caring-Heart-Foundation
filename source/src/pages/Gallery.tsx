@@ -148,8 +148,7 @@ export default function Gallery() {
       )}
 
       <CtaBand title="See what these programmes produced.">
-        <Link to="/impact" className="btn-gold">Impact & Evidence</Link>
-        <Link to="/stories" className="btn-outline">Field Stories</Link>
+        <Link to="/impact" className="btn-gold">Explore Our Impact</Link>
       </CtaBand>
     </>
   );

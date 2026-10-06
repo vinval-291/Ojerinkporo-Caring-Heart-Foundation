@@ -71,8 +71,7 @@ export default function Story() {
       </section>
 
       <CtaBand title="See where the work stands now.">
-        <Link to="/impact" className="btn-gold">Impact & Evidence</Link>
-        <Link to="/our-work" className="btn-outline">Our Programmes</Link>
+        <Link to="/partners" className="btn-gold">Partner With Us</Link>
       </CtaBand>
     </>
   );

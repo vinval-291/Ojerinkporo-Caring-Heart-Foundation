@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { cn } from '@/src/lib/utils';
 import type { Photo } from '@/src/data/media';
 import type { Metric } from '@/src/data/impact';
+import { CountUp } from '@/src/components/Counter';
 
 /**
  * Colour for a programme or story category, taken from the brand palette.
@@ -164,7 +165,8 @@ export function Stat({ metric, dark = false }: { metric: Metric; dark?: boolean 
         // number is visibly different from one still awaiting verification.
         // Only these gold weights work as text: 10:1 on ink, 4.9:1 on page.
         <p className={cn('figure-num', dark ? 'text-gold' : 'text-gold-ink')}>
-          {metric.prefix}{metric.value}
+          {metric.prefix}
+          <CountUp value={metric.value} />
         </p>
       )}
 

@@ -13,18 +13,14 @@ import { Figure, Breadcrumb, CtaBand } from '@/src/components/ui';
  */
 const makeFounder = (site: { name: string; short: string }) => ({
   name: 'Mr. Ikechukwu Agwu',
-  known: 'Iyke',
   role: 'Founder',
-  quote: 'Service to humanity is the best work of life. We are the bridge to a better future.',
-  expertise: ['Business Development', 'Real Estate', 'Telecommunications', 'Logistics', 'Oil & Gas'],
   bio: [
-    `Mr. Ikechukwu Agwu — known as Iyke — is the founder of ${site.name}. He holds a degree in ` +
-    'Pure and Applied Mathematics from the University of Ibadan, and has completed leadership ' +
-    'and management programmes at Harvard University and other institutions internationally.',
+    `Mr. Ikechukwu Agwu is the founder of ${site.name}. He holds a degree in Pure and Applied ` +
+    'Mathematics from the University of Ibadan, and has completed leadership and management ' +
+    'programmes at Harvard University and other institutions internationally.',
 
-    'He began Dav-Ric Nigeria Limited as a one-man startup in 2008. Today, as Chief Executive ' +
-    'of DAVRIC International Limited, he leads an organisation of over 100 professionals working ' +
-    'across business development, oil and gas, real estate, telecommunications and logistics.',
+    'He is Chief Executive of DAVRIC International Limited, which he built from a one-man ' +
+    'startup in 2008 into an organisation of over 100 professionals.',
 
     `That operating experience shapes how ${site.short} is run. The foundation applies the same ` +
     'discipline it would apply to a business: fund what can grow, pair capital with support, ' +
@@ -51,25 +47,11 @@ export default function Leadership() {
         <div className="shell grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           <div className="lg:col-span-5">
             <Figure photo={photo.founder} ratio="aspect-[4/5]" priority />
-            <div className="mt-6 border-t-2 border-gold pt-5">
-              <p className="eyebrow mb-3">Areas of expertise</p>
-              <ul className="space-y-1.5">
-                {founder.expertise.map((e) => (
-                  <li key={e} className="text-[13.5px] text-body">{e}</li>
-                ))}
-              </ul>
-            </div>
           </div>
 
           <div className="lg:col-span-7 max-w-[58ch]">
             <p className="eyebrow mb-4">{founder.role}</p>
             <h2 className="text-[32px] md:text-[40px]">{founder.name}</h2>
-
-            <blockquote className="mt-8 border-l-2 border-gold pl-6">
-              <p className="font-serif italic text-[19px] md:text-[21px] text-ink leading-snug">
-                "{founder.quote}"
-              </p>
-            </blockquote>
 
             <div className="mt-8 space-y-5 text-[15px] leading-relaxed text-body">
               {founder.bio.map((para, i) => <p key={i}>{para}</p>)}
@@ -79,8 +61,7 @@ export default function Leadership() {
       </section>
 
       <CtaBand title="Understand how we're held accountable.">
-        <Link to="/about/governance" className="btn-gold">Governance</Link>
-        <Link to="/impact" className="btn-outline">Impact & Evidence</Link>
+        <Link to="/about/governance" className="btn-gold">How We’re Governed</Link>
       </CtaBand>
     </>
   );

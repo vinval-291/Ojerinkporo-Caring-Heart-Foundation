@@ -33,7 +33,7 @@ export const stories: Story[] = [
       'Following up with the first cohort of Entrepreneurship Grant recipients — what the ' +
       'funding changed, and what it did not.',
     date: '2026',
-    image: photo.workshopFloor,
+    image: photo.storyOne,
     draft: true,
   },
   {
@@ -44,7 +44,7 @@ export const stories: Story[] = [
       'How support at the processing stage changes what a farming household can earn from ' +
       'the same harvest.',
     date: '2026',
-    image: photo.equipmentHandover,
+    image: photo.storyTwo,
     draft: true,
   },
   {
@@ -55,7 +55,7 @@ export const stories: Story[] = [
       'A look at how a programme moves from design to disbursement, and the checks applied ' +
       'at each stage.',
     date: '2026',
-    image: photo.chequePresentation,
+    image: photo.storyThree,
     draft: true,
   },
 ];

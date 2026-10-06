@@ -163,13 +163,14 @@ export default function Programme() {
         </section>
       )}
 
+      {/* One closing CTA per the launch brief: Enterprise invites partnership,
+          Education and Community send the reader to the evidence. */}
       <CtaBand title={detail ? detail.ctaTitle : 'Work with us on this pillar.'}>
-        {detail ? (
-          <Link to={detail.ctaPrimary.path} className="btn-gold">{detail.ctaPrimary.label}</Link>
+        {programme.slug === 'enterprise' ? (
+          <Link to="/partners" className="btn-gold">Partner With Us</Link>
         ) : (
-          <Link to="/partners" className="btn-gold">Become a Partner</Link>
+          <Link to="/impact" className="btn-gold">Explore Our Impact</Link>
         )}
-        <Link to="/contact" className="btn-outline">Contact the Foundation</Link>
       </CtaBand>
     </>
   );
