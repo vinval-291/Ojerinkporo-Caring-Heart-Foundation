@@ -40,7 +40,7 @@ function MegaPanel({
           <Link
             to={intro.path}
             onClick={onNavigate}
-            className="group inline-flex items-center gap-2 font-serif text-[26px] font-semibold text-ink hover:text-gold-ink transition-colors"
+            className="group inline-flex items-center gap-2 font-sans text-[26px] font-semibold text-ink hover:text-red transition-colors"
           >
             {intro.title}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
@@ -62,7 +62,7 @@ function MegaPanel({
                 {col.links.map((link) => (
                   <li key={link.path}>
                     <Link to={link.path} onClick={onNavigate} className="group block">
-                      <span className="font-serif text-[17px] font-semibold text-ink group-hover:text-gold-ink transition-colors">
+                      <span className="font-sans text-[17px] font-semibold text-ink group-hover:text-red transition-colors">
                         {link.name}
                       </span>
                       {link.desc && (
@@ -83,7 +83,7 @@ function MegaPanel({
               key={f.path}
               to={f.path}
               onClick={onNavigate}
-              className="group block bg-gold-tint rounded-[3px] overflow-hidden hover:bg-cream transition-colors"
+              className="group block bg-red-tint rounded-[3px] overflow-hidden hover:bg-cream transition-colors"
             >
               {f.image && (
                 <div className="aspect-[16/9] overflow-hidden bg-ink/5">
@@ -181,7 +181,7 @@ export function Navbar() {
         <div className="shell flex items-center justify-between h-[70px]">
           <Link to="/" className="flex items-center gap-2.5 shrink-0" aria-label={`${site.short} — home`}>
             <img src={site.logo} alt="" className="h-8 w-auto object-contain" referrerPolicy="no-referrer" />
-            <span className="font-serif text-[21px] font-bold tracking-tight text-ink leading-none">
+            <span className="font-sans text-[21px] font-bold tracking-tight text-ink leading-none">
               {site.short}
             </span>
           </Link>
@@ -202,8 +202,8 @@ export function Navbar() {
                     className={cn(
                       'flex items-center gap-1.5 text-[14px] font-medium py-6 border-b-2 -mb-px transition-colors',
                       openMega === item.name || isActive(item.path)
-                        ? 'text-gold-ink border-gold'
-                        : 'text-ink border-transparent hover:text-gold-ink',
+                        ? 'text-red border-red'
+                        : 'text-ink border-transparent hover:text-red',
                     )}
                   >
                     {item.name}
@@ -219,8 +219,8 @@ export function Navbar() {
                     className={cn(
                       'block text-[14px] font-medium py-6 border-b-2 -mb-px transition-colors',
                       isActive(item.path)
-                        ? 'text-gold-ink border-gold'
-                        : 'text-ink border-transparent hover:text-gold-ink',
+                        ? 'text-red border-red'
+                        : 'text-ink border-transparent hover:text-red',
                     )}
                   >
                     {item.name}
@@ -233,7 +233,7 @@ export function Navbar() {
           <div className="flex items-center gap-3">
             {/* Desktop only. On phones Support lives inside the menu panel instead,
                 so the header carries just the wordmark and the menu button. */}
-            <Link to="/partners" className="hidden lg:inline-flex btn-gold">
+            <Link to="/partners" className="hidden lg:inline-flex btn-red">
               Partner With Us
             </Link>
             <button
@@ -275,7 +275,7 @@ export function Navbar() {
                         onClick={() => setMobileSection(mobileSection === item.name ? null : item.name)}
                         className="flex w-full items-center justify-between text-left"
                       >
-                        <span className="font-serif text-[22px] font-semibold text-ink">{item.name}</span>
+                        <span className="font-sans text-[22px] font-semibold text-ink">{item.name}</span>
                         <ChevronDown
                           className={cn('w-5 h-5 text-muted transition-transform',
                             mobileSection === item.name && 'rotate-180')}
@@ -306,7 +306,7 @@ export function Navbar() {
                       )}
                     </>
                   ) : (
-                    <Link to={item.path} className="font-serif text-[22px] font-semibold text-ink block">
+                    <Link to={item.path} className="font-sans text-[22px] font-semibold text-ink block">
                       {item.name}
                     </Link>
                   )}
@@ -314,7 +314,7 @@ export function Navbar() {
               ))}
             </ul>
 
-            <Link to="/partners" className="btn-gold w-full mt-8">Partner With Us</Link>
+            <Link to="/partners" className="btn-red w-full mt-8">Partner With Us</Link>
           </div>
         </div>
       )}

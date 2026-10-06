@@ -44,7 +44,7 @@ export default function About() {
           </div>
 
           <div className="lg:col-span-5 space-y-8">
-            <div className="border-t-2 border-gold pt-5">
+            <div className="border-t-2 border-red pt-5">
               <p className="eyebrow mb-3">Mission</p>
               <p className="font-serif text-[19px] text-ink leading-snug">
                 To expand access to opportunity through enterprise, education and
@@ -99,7 +99,7 @@ export default function About() {
       </section>
 
       <CtaBand title="Work with us.">
-        <Link to="/our-work" className="btn-gold">Explore Our Work</Link>
+        <Link to="/our-work" className="btn-red">Explore Our Work</Link>
       </CtaBand>
     </>
   );

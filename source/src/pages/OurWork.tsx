@@ -36,7 +36,7 @@ export default function OurWork() {
                 <p className="eyebrow mb-4">Programme {String(i + 1).padStart(2, '0')}</p>
                 <span className={`block h-0.5 w-10 mb-5 ${categoryTag(p.name, i).split(' ')[0]}`} aria-hidden="true" />
                 <h2 className="text-[28px] md:text-[34px]">{p.name}</h2>
-                <p className="mt-2 text-[13px] font-semibold text-gold-ink">{p.tag}</p>
+                <p className="mt-2 text-[13px] font-semibold text-red">{p.tag}</p>
                 <p className="mt-5 text-[14.5px] leading-relaxed text-body">{p.summary}</p>
                 <ArrowLink to={`/our-work/${p.slug}`} className="mt-6">
                   {p.detail ? `Explore ${p.name}` : `About ${p.name}`}
@@ -57,7 +57,7 @@ export default function OurWork() {
       </section>
 
       <CtaBand title="See what the work has produced.">
-        <Link to="/impact" className="btn-gold">Explore Our Impact</Link>
+        <Link to="/impact" className="btn-red">Explore Our Impact</Link>
       </CtaBand>
     </>
   );

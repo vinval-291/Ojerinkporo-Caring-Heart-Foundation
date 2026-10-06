@@ -6,7 +6,7 @@ import type { Field } from './schema';
 
 const input =
   'w-full px-4 py-3 bg-white border border-rule rounded-[3px] text-[15px] text-ink ' +
-  'focus:border-gold focus:ring-1 focus:ring-gold outline-none transition-colors';
+  'focus:border-red focus:ring-1 focus:ring-red outline-none transition-colors';
 
 /** Rich text is stored as Sanity blocks; the dashboard edits it as plain paragraphs. */
 export function blocksToText(blocks: unknown): string {
@@ -48,7 +48,7 @@ export function FieldInput({
     <div className="mb-7">
       <label htmlFor={id} className="block text-[13px] font-semibold text-ink mb-1.5">
         {field.label}
-        {field.required && <span className="text-gold-ink ml-1" aria-hidden="true">*</span>}
+        {field.required && <span className="text-red ml-1" aria-hidden="true">*</span>}
       </label>
       {field.help && <p className="text-[12.5px] text-muted mb-2.5 leading-relaxed">{field.help}</p>}
 
@@ -102,11 +102,11 @@ export function FieldInput({
                 onClick={() => onChange(field.name, !value)}
                 className={cn(
                   'flex items-center gap-3 px-4 py-3 rounded-[3px] border w-full text-left transition-colors',
-                  value ? 'border-gold bg-gold/10' : 'border-rule bg-white hover:border-ink/30',
+                  value ? 'border-red bg-red/10' : 'border-rule bg-white hover:border-ink/30',
                 )}>
                 <span className={cn(
                   'w-10 h-6 rounded-full flex items-center px-0.5 shrink-0 transition-colors',
-                  value ? 'bg-gold justify-end' : 'bg-rule justify-start',
+                  value ? 'bg-red justify-end' : 'bg-rule justify-start',
                 )}>
                   <span className="w-5 h-5 rounded-full bg-white shadow-sm" />
                 </span>

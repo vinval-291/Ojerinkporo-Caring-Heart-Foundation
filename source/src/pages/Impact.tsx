@@ -70,7 +70,7 @@ export default function Impact() {
                   key={m.year}
                   className="grid grid-cols-[64px_1fr] md:grid-cols-[110px_1fr] gap-6 py-5 border-b border-rule"
                 >
-                  <span className="font-serif text-[19px] font-semibold text-ink tabular-nums">
+                  <span className="font-sans text-[19px] font-semibold text-ink tabular-nums">
                     {m.year}
                   </span>
                   <span className="text-[14px] text-body leading-relaxed">{m.body}</span>
@@ -82,7 +82,7 @@ export default function Impact() {
       </section>
 
       <CtaBand title="See the people behind the numbers.">
-        <Link to="/partners" className="btn-gold">Partner With Us</Link>
+        <Link to="/partners" className="btn-red">Partner With Us</Link>
       </CtaBand>
     </>
   );

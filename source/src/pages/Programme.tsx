@@ -66,7 +66,7 @@ export default function Programme() {
             {programme.focusAreas.map((area) => (
               <li
                 key={area}
-                className={`pillar-bar pillar-${programme.slug} pt-5 font-serif text-[22px] md:text-[26px] font-semibold text-ink`}
+                className={`pillar-bar pillar-${programme.slug} pt-5 font-sans text-[22px] md:text-[26px] font-semibold text-ink`}
               >
                 {area}
               </li>
@@ -90,7 +90,7 @@ export default function Programme() {
               <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-10">
                 {detail.terms.map((t) => (
                   <div key={t.value}>
-                    <p className="font-serif text-[30px] md:text-[34px] text-gold leading-none tracking-tight">
+                    <p className="font-sans text-[30px] md:text-[34px] text-white leading-none tracking-tight">
                       {t.value}
                     </p>
                     <p className="mt-3 text-[13.5px] text-white/65 leading-relaxed">{t.label}</p>
@@ -120,7 +120,7 @@ export default function Programme() {
                   <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
                     {portfolioStory.stages.map((s, i) => (
                       <div key={s.heading} className="rule-top">
-                        <p className={`eyebrow mb-2 ${i === 1 ? 'text-gold-ink' : 'text-faint'}`}>
+                        <p className={`eyebrow mb-2 ${i === 1 ? 'text-red' : 'text-faint'}`}>
                           {s.heading}
                         </p>
                         <p className="text-[13px] text-body leading-relaxed">{s.body}</p>
@@ -154,7 +154,7 @@ export default function Programme() {
                       {p.name}
                     </span>
                   </div>
-                  <h3 className="text-[21px] mt-5 group-hover:text-gold-ink transition-colors">{p.name}</h3>
+                  <h3 className="text-[21px] mt-5 group-hover:text-red transition-colors">{p.name}</h3>
                   <p className="text-[13.5px] text-muted mt-2">{p.focusAreas.join(' | ')}</p>
                 </Link>
               ))}
@@ -167,9 +167,9 @@ export default function Programme() {
           Education and Community send the reader to the evidence. */}
       <CtaBand title={detail ? detail.ctaTitle : 'Work with us on this pillar.'}>
         {programme.slug === 'enterprise' ? (
-          <Link to="/partners" className="btn-gold">Partner With Us</Link>
+          <Link to="/partners" className="btn-red">Partner With Us</Link>
         ) : (
-          <Link to="/impact" className="btn-gold">Explore Our Impact</Link>
+          <Link to="/impact" className="btn-red">Explore Our Impact</Link>
         )}
       </CtaBand>
     </>

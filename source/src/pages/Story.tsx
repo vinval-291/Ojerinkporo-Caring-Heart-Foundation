@@ -60,7 +60,7 @@ export default function Story() {
                 key={m.year}
                 className="grid grid-cols-[64px_1fr] md:grid-cols-[110px_1fr] gap-6 py-5 border-b border-rule-dark"
               >
-                <span className="font-serif text-[19px] font-semibold text-gold tabular-nums">
+                <span className="font-sans text-[19px] font-semibold text-white tabular-nums">
                   {m.year}
                 </span>
                 <span className="text-[14px] text-white/70 leading-relaxed">{m.body}</span>
@@ -71,7 +71,7 @@ export default function Story() {
       </section>
 
       <CtaBand title="See where the work stands now.">
-        <Link to="/partners" className="btn-gold">Partner With Us</Link>
+        <Link to="/partners" className="btn-red">Partner With Us</Link>
       </CtaBand>
     </>
   );

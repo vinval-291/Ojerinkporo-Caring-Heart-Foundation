@@ -90,15 +90,15 @@ export default function Support() {
               <p className="eyebrow mb-5">Speak to us directly</p>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
-                  <Mail className="w-4 h-4 text-gold-ink mt-1 shrink-0" aria-hidden="true" />
-                  <a href={`mailto:${site.email}`} className="text-[14px] text-ink hover:text-gold-ink transition-colors break-all">
+                  <Mail className="w-4 h-4 text-red mt-1 shrink-0" aria-hidden="true" />
+                  <a href={`mailto:${site.email}`} className="text-[14px] text-ink hover:text-red transition-colors break-all">
                     {site.email}
                   </a>
                 </li>
                 {site.phones.map((p) => (
                   <li key={p} className="flex items-start gap-3">
-                    <Phone className="w-4 h-4 text-gold-ink mt-1 shrink-0" aria-hidden="true" />
-                    <a href={`tel:${p.replace(/\s/g, '')}`} className="text-[14px] text-ink hover:text-gold-ink transition-colors">
+                    <Phone className="w-4 h-4 text-red mt-1 shrink-0" aria-hidden="true" />
+                    <a href={`tel:${p.replace(/\s/g, '')}`} className="text-[14px] text-ink hover:text-red transition-colors">
                       {p}
                     </a>
                   </li>
@@ -110,7 +110,7 @@ export default function Support() {
       </section>
 
       <CtaBand title="See what your support would fund.">
-        <Link to="/our-work" className="btn-gold">Explore Our Work</Link>
+        <Link to="/our-work" className="btn-red">Explore Our Work</Link>
       </CtaBand>
     </>
   );
@@ -163,7 +163,7 @@ export function Apply() {
                 ['Supporting documentation', 'CAC registration, certifications, awards, media coverage.'],
               ].map(([title, body], i) => (
                 <li key={title} className="grid grid-cols-[34px_1fr] gap-4 py-5 border-b border-rule">
-                  <span className="font-serif text-[15px] text-gold-ink tabular-nums pt-0.5">
+                  <span className="font-sans text-[15px] text-red tabular-nums pt-0.5">
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <div>
@@ -182,7 +182,7 @@ export function Apply() {
                 <p className="text-[14px] text-muted leading-relaxed mb-6">
                   Complete the application form to be considered for the current cycle.
                 </p>
-                <a href={APPLICATION_URL} target="_blank" rel="noopener noreferrer" className="btn-gold w-full">
+                <a href={APPLICATION_URL} target="_blank" rel="noopener noreferrer" className="btn-red w-full">
                   Open the application form
                 </a>
               </div>
@@ -202,7 +202,7 @@ export function Apply() {
       </section>
 
       <CtaBand title="Read how the programme works first.">
-        <Link to="/our-work/enterprise" className="btn-gold">The Enterprise Programme</Link>
+        <Link to="/our-work/enterprise" className="btn-red">The Enterprise Programme</Link>
       </CtaBand>
     </>
   );

@@ -61,7 +61,7 @@ export default function Leadership() {
       </section>
 
       <CtaBand title="Understand how we're held accountable.">
-        <Link to="/about/governance" className="btn-gold">How We’re Governed</Link>
+        <Link to="/about/governance" className="btn-red">How We’re Governed</Link>
       </CtaBand>
     </>
   );

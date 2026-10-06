@@ -14,7 +14,7 @@ export function Footer() {
           <div className="md:col-span-5">
             <Link to="/" className="flex items-center gap-2.5 mb-5" aria-label={`${site.short} — home`}>
               <img src={site.logo} alt="" className="h-8 w-auto object-contain" referrerPolicy="no-referrer" />
-              <span className="font-serif text-[21px] font-bold tracking-tight text-ink leading-none">
+              <span className="font-sans text-[21px] font-bold tracking-tight text-ink leading-none">
                 {site.short}
               </span>
             </Link>

@@ -30,7 +30,7 @@ export function StoriesIndex() {
               <Figure photo={photo.guests} ratio="aspect-[16/10]" />
               <div className="max-w-[46ch]">
                 <p className="eyebrow mb-4">Visual documentation</p>
-                <h2 className="text-[26px] md:text-[32px] group-hover:text-gold-ink transition-colors">
+                <h2 className="text-[26px] md:text-[32px] group-hover:text-red transition-colors">
                   The foundation's work, in photographs.
                 </h2>
                 <p className="mt-5 text-[14.5px] text-body leading-relaxed">
@@ -57,7 +57,7 @@ export function StoriesIndex() {
                     {s.category}
                   </span>
                 </div>
-                <h2 className="text-[19px] mt-5 leading-snug group-hover:text-gold-ink transition-colors">
+                <h2 className="text-[19px] mt-5 leading-snug group-hover:text-red transition-colors">
                   {s.title}
                 </h2>
               </Link>
@@ -70,7 +70,7 @@ export function StoriesIndex() {
       </section>
 
       <CtaBand title="See the numbers behind the stories.">
-        <Link to="/partners" className="btn-gold">Partner With Us</Link>
+        <Link to="/partners" className="btn-red">Partner With Us</Link>
       </CtaBand>
     </>
   );
@@ -126,7 +126,7 @@ export function StoryDetail() {
       </section>
 
       <CtaBand title="Help us expand what works.">
-        <Link to="/partners" className="btn-gold">Partner With Us</Link>
+        <Link to="/partners" className="btn-red">Partner With Us</Link>
       </CtaBand>
     </>
   );

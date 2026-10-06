@@ -32,7 +32,7 @@ export const site: Site = {
   email: 'info@ojerinkporofoundation.com',
   phones: ['+234 806 666 7882', '+234 706 072 6910'],
 
-  logo: 'https://i.postimg.cc/FK8yvgj9/ochf-logo.png',
+  logo: '/images/ochf-logo.png',
 
   /** TODO(client): supply real profile URLs. Links are hidden until these exist —
    *  the previous build shipped nine dead `href="#"` icons. */

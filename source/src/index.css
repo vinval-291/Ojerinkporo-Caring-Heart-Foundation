@@ -1,8 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans:  "Public Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  /* Manrope throughout, per the launch brief. Newsreader is kept as an accent serif
+     for occasional pull quotes only — it is no longer the heading face. */
+  --font-sans:  "Manrope", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
 
   /* ==================================================================
@@ -19,15 +21,19 @@
   --color-ink-deep:   #001840;   /* logo navy — 17.4:1 under white */
   --color-ink-soft:   #232B42;   /* derived */
 
-  /* ---- Gold: the one accent -------------------------------------
-     Gold fills always carry INK text. White on gold is 3.2:1 and fails,
-     while ink on gold is 10:1 — and it is truer to the mark besides.
-     Gold as *text* on a light ground only works at `gold-ink` weight;
-     the brighter golds fail badly (logo gold on white is 1.8:1). */
-  --color-gold:       #F8B830;   /* logo gold — fills; 10:1 with ink text */
-  --color-gold-deep:  #B8862F;   /* palette accent — hover fill, borders */
-  --color-gold-ink:   #8C6420;   /* the only gold safe as text: 4.9:1 on page */
-  --color-gold-tint:  #F5EEDA;   /* call-to-action strips; ink on it is 15.2:1 */
+  /* ---- OCHF red: the one accent ---------------------------------
+     Buttons, key numbers, small labels. Never as the background of a
+     whole section — the launch brief is explicit about that.
+
+     Red fills carry WHITE text (7.8:1). Red works as text on every light
+     ground (7.2:1 on cream), which gold never did — gold needed a separate
+     darkened weight for small text.
+
+     It must NOT be used on the navy bands: red on ink is 2.3:1. Anything
+     sitting on a dark band stays white. */
+  --color-red:       #A4161A;   /* 7.2:1 on cream · 7.8:1 under white */
+  --color-red-deep:  #7E1115;   /* hover fill — 10.6:1 under white */
+  --color-red-tint:  #F3EDE4;   /* call-to-action strips; ink on it is 15.0:1 */
 
   /* ---- Bronze: the Community pillar -----------------------------
      The middle stop of the signature gradient. It stands in for the logo
@@ -35,9 +41,11 @@
      have carried text anyway at 2.2:1 on white. */
   --color-bronze:     #8A6A2E;   /* 5.0:1 on white, 5.0:1 under white */
 
-  /* ---- Signature gradient (135°) --------------------------------- */
-  --color-grad-gold:   #E4C77A;  /* 10.7:1 on ink */
-  --color-grad-bronze: #8A6A2E;
+  /* ---- Signature gradient (135°) ---------------------------------
+     Reworked to run from the accent into the navy, since gold is no
+     longer part of the scheme. */
+  --color-grad-red:    #A4161A;
+  --color-grad-mid:    #5E1626;
   --color-grad-navy:   #16233E;
 
   /* ---- Icon only -------------------------------------------------
@@ -46,25 +54,24 @@
   --color-icon-green: #90C030;
   --color-icon-teal:  #205080;
 
-  /* ---- Grounds --------------------------------------------------- */
-  --color-paper:      #F5F6F5;   /* page */
-  --color-surface:    #FAFAF9;   /* panels and cards */
-  --color-cream:      #FBF6EF;
+  /* ---- Grounds ---------------------------------------------------
+     Warm off-white, per the brief. The page was a cool grey before, which
+     read as cold next to the red. */
+  --color-paper:      #FBF6EF;   /* page — warm off-white */
+  --color-surface:    #FFFFFF;   /* panels and cards */
+  --color-cream:      #F7F1E8;   /* a half-step down for alternating bands */
 
   /* ---- Type ------------------------------------------------------
-     Derived from the ink hue, so the greys sit with the navy rather than
-     reading as a neutral borrowed from elsewhere.
-
-     All three steps clear 4.5:1 on every ground. The old `faint` was 2.4:1,
-     and it carries real content — the phone number, the email address, the
-     reporting period under each figure, the field labels on Contact. A
-     reporting period nobody can read defeats the point of publishing it. */
-  --color-body:       #39414F;   /* 9.5:1 on page */
-  --color-muted:      #565E6C;   /* 6.0:1 on page */
-  --color-faint:      #646C7A;   /* 4.9:1 on page, 5.1:1 on panels */
+     Warm charcoals rather than the blue-greys, so the text sits on the
+     cream instead of floating above it. All three steps clear 4.5:1 on
+     every ground: these carry the phone number, the email address and the
+     reporting period under each figure. */
+  --color-body:       #33322E;   /* 11.9:1 on page */
+  --color-muted:      #5A574F;   /* 6.7:1 on page */
+  --color-faint:      #6B675E;   /* 5.2:1 on page */
 
   /* ---- Lines ------------------------------------------------------ */
-  --color-rule:       #E3E4E3;
+  --color-rule:       #E5E0D6;
   --color-rule-dark:  #2A3247;
 
   --radius-institutional: 3px;
@@ -74,28 +81,29 @@
   body {
     @apply bg-paper text-body font-sans antialiased;
     font-size: 16px;
-    line-height: 1.65;
+    line-height: 1.5;   /* the brief's figure for body copy */
   }
 
+  /* Manrope SemiBold sets every heading now. Newsreader is reserved for the
+     occasional pull quote, which is the only place the brief still allows it. */
   h1, h2, h3, h4 {
-    @apply font-serif text-ink;
+    @apply font-sans text-ink;
     font-weight: 600;
-    letter-spacing: -0.014em;
+    letter-spacing: -0.02em;
     line-height: 1.12;
     text-wrap: balance;
   }
 
-  /* Ink on gold, not white — white on gold is 3.2:1 and unreadable. */
-  ::selection { background: var(--color-gold); color: var(--color-ink); }
+  ::selection { background: var(--color-red); color: #fff; }
 
   :focus-visible {
-    outline: 2px solid var(--color-gold-ink);
+    outline: 2px solid var(--color-red);
     outline-offset: 2px;
   }
 }
 
 /* Component classes live in the components layer so Tailwind utilities can
-   override them. Unlayered, `.btn-gold { display: inline-flex }` beat `hidden`,
+   override them. Unlayered, `.btn-red { display: inline-flex }` would beat `hidden`,
    which is why the header Support button showed on phones. */
 @layer components {
   /* ---- layout primitives ---- */
@@ -107,9 +115,10 @@
 
   /* Small uppercase letterspaced label used above every section heading. */
   .eyebrow {
-    @apply font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-gold-ink;
+    @apply font-sans text-[12px] font-semibold uppercase tracking-[0.14em] text-red;
   }
-  .eyebrow-dark { @apply text-gold; }
+  /* Red is 2.3:1 on the navy bands, so anything sitting on one turns white. */
+  .eyebrow-dark { @apply text-white/75; }
 
   .lede { @apply text-[17px] md:text-lg leading-relaxed text-muted max-w-[62ch]; }
 
@@ -117,13 +126,12 @@
 
   /* Shared base. Tailwind v4 cannot @apply a custom class, so the variants below
      extend this via the comma selector rather than `@apply btn`. */
-  .btn, .btn-gold, .btn-ink, .btn-bronze, .btn-outline, .btn-ghost {
+  .btn, .btn-red, .btn-ink, .btn-bronze, .btn-outline, .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 px-6 py-3
-           text-[14px] font-semibold rounded-[3px] transition-colors duration-200;
+           text-[15px] font-semibold rounded-[3px] transition-colors duration-200;
   }
-  /* Ink on gold, not white: 10:1 instead of 3.2:1, and truer to the mark.
-     The hover darkens to the palette's gold accent, still 5.5:1 with ink. */
-  .btn-gold    { @apply bg-gold text-ink hover:bg-gold-deep; }
+  /* White on red: 7.8:1, darkening to 10.6:1 on hover. */
+  .btn-red     { @apply bg-red text-white hover:bg-red-deep; }
   .btn-ink     { @apply bg-ink text-white hover:bg-ink-soft; }
   .btn-bronze  { @apply bg-bronze text-white hover:bg-ink; }
   .btn-outline { @apply border border-rule bg-surface text-ink hover:border-ink hover:bg-paper; }
@@ -131,10 +139,10 @@
 
   /* Inline "Learn more →" style link. */
   .link-arrow {
-    @apply inline-flex items-center gap-1.5 text-[13px] font-semibold text-gold-ink
+    @apply inline-flex items-center gap-1.5 text-[13px] font-semibold text-red
            hover:text-ink transition-colors;
   }
-  .link-arrow-dark { @apply text-gold hover:text-white; }
+  .link-arrow-dark { @apply text-white/75 hover:text-white; }
 
   /* Dark bands move through the palette's three navies rather than a flat fill.
      Kept subtle: it should read as depth, not as a gradient effect. */
@@ -142,27 +150,27 @@
     background: linear-gradient(158deg, var(--color-ink-deep) 0%, var(--color-ink) 52%, var(--color-grad-navy) 100%);
   }
 
-  /* The signature gradient, 135°, light gold → bronze → deep navy. The mockups
-     use it wherever a photograph will eventually go. */
+  /* The signature gradient, 135°, red → deep navy. Used as a standing rule and
+     behind every image slot, so a photograph that has not arrived yet still
+     shows the brand rather than a grey box. */
   .surface-gradient {
-    background: linear-gradient(135deg, var(--color-grad-gold) 0%, var(--color-grad-bronze) 50%, var(--color-grad-navy) 100%);
+    background: linear-gradient(135deg, var(--color-grad-red) 0%, var(--color-grad-mid) 50%, var(--color-grad-navy) 100%);
   }
 
-  /* Each programme pillar takes a colour from the palette: enterprise gold,
-     education navy, community bronze — the gradient's middle stop.
+  /* Enterprise red, Education navy, Community bronze.
 
-     Every pillar needs two values. Logo gold is 1.6:1 on the page and the navy
-     is 1.2:1 on a dark band, so each is invisible on the ground the other is
-     made for. The bars below the dark-band heading had simply vanished. */
-  .pillar-enterprise { --pillar: var(--color-gold-ink); }   /* 4.9:1 on page */
+     Every pillar needs two values. On a navy band the red is 2.3:1 and the navy
+     is 1.2:1 — each is invisible on the ground the other is made for, so the
+     dark-band set uses light weights instead. */
+  .pillar-enterprise { --pillar: var(--color-red); }        /* 7.2:1 on page */
   .pillar-education  { --pillar: var(--color-ink-soft); }   /* 13.0:1 on page */
-  .pillar-community  { --pillar: var(--color-bronze); }     /* 4.6:1 on page */
+  .pillar-community  { --pillar: var(--color-bronze); }     /* 4.7:1 on page */
 
-  .band-ink .pillar-enterprise, .bg-ink .pillar-enterprise { --pillar: var(--color-gold); }        /* 9.9:1 */
-  .band-ink .pillar-education,  .bg-ink .pillar-education  { --pillar: rgb(255 255 255 / 0.55); }  /* 6.0:1 */
-  .band-ink .pillar-community,  .bg-ink .pillar-community  { --pillar: var(--color-bronze); }      /* 3.5:1 */
+  .band-ink .pillar-enterprise, .bg-ink .pillar-enterprise { --pillar: rgb(255 255 255 / 0.85); }
+  .band-ink .pillar-education,  .bg-ink .pillar-education  { --pillar: rgb(255 255 255 / 0.55); }
+  .band-ink .pillar-community,  .bg-ink .pillar-community  { --pillar: var(--color-bronze); }
 
-  .pillar-bar { border-top: 2px solid var(--pillar, var(--color-gold-ink)); }
+  .pillar-bar { border-top: 2px solid var(--pillar, var(--color-red)); }
 
   /* ---- figures & numbers ---- */
 
@@ -170,11 +178,12 @@
 
   /* Stat figures line up in columns across the impact bands. */
   .figure-num {
-    @apply font-serif text-3xl md:text-[40px] leading-none text-ink;
+    @apply font-sans text-3xl md:text-[40px] leading-none text-ink;
     font-variant-numeric: tabular-nums;
     letter-spacing: -0.02em;
   }
-  .figure-num-dark { @apply text-gold; }
+  /* Red fails on navy (2.3:1); figures on a dark band stay white. */
+  .figure-num-dark { @apply text-white; }
 
   /* Uppercase regardless of how the label was typed in the CMS, so a band of figures
      reads as one set. */

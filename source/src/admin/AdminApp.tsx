@@ -62,7 +62,7 @@ function Header({ onSignOut }: { onSignOut: () => void }) {
     <header className="bg-ink text-white">
       <div className="max-w-[1000px] mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-baseline gap-3">
-          <span className="font-serif text-[20px] font-bold">OCHF</span>
+          <span className="font-sans text-[20px] font-bold">OCHF</span>
           <span className="text-[13px] text-white/65">Content dashboard</span>
         </div>
         <div className="flex items-center gap-4">
@@ -86,11 +86,11 @@ function Unavailable() {
   return (
     <div className="min-h-screen grid place-items-center bg-paper px-6">
       <div className="w-full max-w-[460px] text-center">
-        <p className="font-serif text-[26px] font-bold text-ink">OCHF</p>
+        <p className="font-sans text-[26px] font-bold text-ink">OCHF</p>
         <p className="text-[14px] text-muted mt-1 mb-8">Content dashboard</p>
         <div className="bg-white border border-rule rounded-[3px] p-7 text-left">
           <p className="flex items-start gap-2 text-[15px] font-semibold text-ink">
-            <AlertCircle className="w-5 h-5 text-gold-ink shrink-0 mt-0.5" />
+            <AlertCircle className="w-5 h-5 text-red shrink-0 mt-0.5" />
             The dashboard isn't available at this address
           </p>
           <p className="text-[14px] text-muted leading-relaxed mt-3">
@@ -128,7 +128,7 @@ function Login({ onDone }: { onDone: () => void }) {
     <div className="min-h-screen grid place-items-center bg-paper px-6">
       <form onSubmit={submit} className="w-full max-w-[380px]">
         <div className="text-center mb-8">
-          <p className="font-serif text-[26px] font-bold text-ink">OCHF</p>
+          <p className="font-sans text-[26px] font-bold text-ink">OCHF</p>
           <p className="text-[14px] text-muted mt-1">Content dashboard</p>
         </div>
 
@@ -136,7 +136,7 @@ function Login({ onDone }: { onDone: () => void }) {
         <input id="pw" type="password" autoFocus autoComplete="current-password"
           value={password} onChange={(e) => setPassword(e.target.value)}
           className="w-full px-4 py-3 bg-white border border-rule rounded-[3px] text-[15px]
-                     focus:border-gold focus:ring-1 focus:ring-gold outline-none" />
+                     focus:border-red focus:ring-1 focus:ring-red outline-none" />
 
         {error && (
           <p role="alert" className="flex items-start gap-2 text-[13px] text-[#A81E17] mt-3">
@@ -144,7 +144,7 @@ function Login({ onDone }: { onDone: () => void }) {
           </p>
         )}
 
-        <button type="submit" disabled={busy || !password} className="btn-gold w-full mt-5 disabled:opacity-50">
+        <button type="submit" disabled={busy || !password} className="btn-red w-full mt-5 disabled:opacity-50">
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
@@ -214,8 +214,8 @@ function Home() {
       {loadError && <LoadError message={loadError} />}
 
       {pending > 0 && (
-        <div className="flex items-start gap-3 bg-cream border border-gold/30 rounded-[3px] p-4 mb-8">
-          <AlertCircle className="w-5 h-5 text-gold-ink shrink-0 mt-0.5" />
+        <div className="flex items-start gap-3 bg-cream border border-red/30 rounded-[3px] p-4 mb-8">
+          <AlertCircle className="w-5 h-5 text-red shrink-0 mt-0.5" />
           <div>
             <p className="text-[14px] font-semibold text-ink">
               {pending} impact {pending === 1 ? 'figure needs' : 'figures need'} checking
@@ -231,10 +231,10 @@ function Home() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {sections.map((s) => (
           <button key={s.key} onClick={() => onOpen(s.key)}
-            className="text-left bg-white border border-rule rounded-[3px] p-6 hover:border-gold
+            className="text-left bg-white border border-rule rounded-[3px] p-6 hover:border-red
                        hover:shadow-[0_2px_12px_-4px_rgba(14,26,43,0.15)] transition-all group">
             <div className="flex items-baseline justify-between mb-2">
-              <h2 className="text-[18px] group-hover:text-gold-ink transition-colors">{s.title}</h2>
+              <h2 className="text-[18px] group-hover:text-red transition-colors">{s.title}</h2>
               {!s.singleton && counts[s.key] !== undefined && (
                 <span className="text-[13px] text-faint tabular-nums">{counts[s.key]}</span>
               )}
@@ -289,7 +289,7 @@ function ListView({
           <h1 className="text-[28px]">{section.title}</h1>
           <p className="text-[14px] text-muted mt-1.5 max-w-[52ch]">{section.blurb}</p>
         </div>
-        <button onClick={() => onEdit(undefined)} className="btn-gold shrink-0">
+        <button onClick={() => onEdit(undefined)} className="btn-red shrink-0">
           <Plus className="w-4 h-4" /> {section.addLabel ?? 'Add'}
         </button>
       </div>
@@ -314,14 +314,14 @@ function ListView({
               <li key={String(d._id)} className="border-b border-rule">
                 <div className="flex items-center gap-4 py-4">
                   <button onClick={() => onEdit(String(d._id))} className="flex-1 text-left group min-w-0">
-                    <span className="block text-[15.5px] font-medium text-ink group-hover:text-gold-ink transition-colors truncate">
+                    <span className="block text-[15.5px] font-medium text-ink group-hover:text-red transition-colors truncate">
                       {title}
                     </span>
                     {sub && <span className="block text-[13px] text-muted truncate mt-0.5">{sub}</span>}
                   </button>
 
                   {unverified && (
-                    <span className="text-[11px] uppercase tracking-[0.12em] text-gold-ink bg-cream px-2.5 py-1 rounded-[3px] shrink-0">
+                    <span className="text-[11px] uppercase tracking-[0.12em] text-red bg-cream px-2.5 py-1 rounded-[3px] shrink-0">
                       Needs checking
                     </span>
                   )}
@@ -437,7 +437,7 @@ function EditView({
       )}
 
       <div className="sticky bottom-0 bg-paper border-t border-rule py-4 flex items-center gap-4">
-        <button onClick={save} disabled={saving} className="btn-gold disabled:opacity-50">
+        <button onClick={save} disabled={saving} className="btn-red disabled:opacity-50">
           {saving && <Loader2 className="w-4 h-4 animate-spin" />}
           {saving ? 'Saving…' : 'Save'}
         </button>

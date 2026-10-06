@@ -8,10 +8,10 @@ import { CountUp } from '@/src/components/Counter';
 
 /**
  * Colour for a programme or story category, taken from the brand palette.
- * Enterprise gold, Education navy, Community bronze.
+ * Enterprise red, Education navy, Community bronze.
  */
 const PILLAR_COLOURS = [
-  'bg-gold text-ink',        // Enterprise — the logo gold, 10:1 with ink
+  'bg-red text-white',      // Enterprise — OCHF red, 7.8:1 with white
   'bg-ink-soft text-white',  // Education — the wordmark navy
   'bg-bronze text-white',    // Community — the gradient's middle stop, 5:1
 ];
@@ -151,7 +151,7 @@ export function Stat({ metric, dark = false }: { metric: Metric; dark?: boolean 
             </span>
           )}
           <span
-            className={cn('block h-px w-10 md:w-14', dark ? 'bg-gold/50' : 'bg-rule')}
+            className={cn('block h-px w-10 md:w-14', dark ? 'bg-red/50' : 'bg-rule')}
             aria-hidden="true"
           />
           {metric.prefix && (
@@ -161,10 +161,9 @@ export function Stat({ metric, dark = false }: { metric: Metric; dark?: boolean 
           )}
         </div>
       ) : (
-        // A verified figure reads in gold — the palette's one accent — so a checked
-        // number is visibly different from one still awaiting verification.
-        // Only these gold weights work as text: 10:1 on ink, 4.9:1 on page.
-        <p className={cn('figure-num', dark ? 'text-gold' : 'text-gold-ink')}>
+        // Key numbers carry the accent, per the brief. On a navy band they cannot:
+        // red on ink is 2.3:1, so figures there stay white (17.6:1).
+        <p className={cn('figure-num', dark ? 'text-white' : 'text-red')}>
           {metric.prefix}
           <CountUp value={metric.value} />
         </p>
@@ -187,7 +186,7 @@ export function CtaBand({
 }) {
   const ink = tone === 'ink';
   return (
-    <section className={cn('band-tight relative', ink ? 'band-ink' : 'bg-gold-tint')}>
+    <section className={cn('band-tight relative', ink ? 'band-ink' : 'bg-red-tint')}>
       {/* The signature gradient, as a rule across the top of every strip. */}
       <span className="surface-gradient absolute inset-x-0 top-0 h-1" aria-hidden="true" />
       <div className="shell text-center">

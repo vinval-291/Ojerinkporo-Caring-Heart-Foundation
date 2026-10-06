@@ -55,7 +55,7 @@ export default function Governance() {
       </section>
 
       <CtaBand title="Questions about how we operate?">
-        <Link to="/contact" className="btn-gold">Contact Our Team</Link>
+        <Link to="/contact" className="btn-red">Contact Our Team</Link>
       </CtaBand>
     </>
   );
