@@ -59,8 +59,20 @@ const team = [
 ];
 
 export default function Leadership() {
-  const { site } = useContent();
-  const founder = makeFounder(site);
+  const { site, people } = useContent();
+
+  /* The CMS wins where it has someone; the code is the fallback. A person is only
+     counted once they have a biography written — see the filter in ContentProvider. */
+  const cmsFounder = people.find((p) => p.group === 'founder');
+  const founder = cmsFounder
+    ? { name: cmsFounder.name, role: cmsFounder.role, bio: cmsFounder.bio }
+    : makeFounder(site);
+  const founderPhoto = cmsFounder?.portrait ?? photo.founder;
+
+  const cmsTeam = people.filter((p) => p.group !== 'founder');
+  const members = cmsTeam.length
+    ? cmsTeam.map((p) => ({ name: p.name, role: p.role, bio: p.bio, photo: p.portrait ?? photo.angelaChukwu }))
+    : team;
   return (
     <>
       <section className="bg-paper border-b border-rule">
@@ -76,7 +88,7 @@ export default function Leadership() {
       <section className="band bg-paper">
         <div className="shell grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           <div className="lg:col-span-5">
-            <Figure photo={photo.founder} ratio="aspect-[4/5]" priority />
+            <Figure photo={founderPhoto} ratio="aspect-[4/5]" priority />
           </div>
 
           <div className="lg:col-span-7 max-w-[58ch]">
@@ -91,7 +103,7 @@ export default function Leadership() {
       </section>
 
       {/* Same weight as the founder's profile, mirrored: portrait right, text left. */}
-      {team.map((member) => (
+      {members.map((member) => (
         <section key={member.name} className="band bg-surface border-t border-rule">
           <div className="shell grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             <div className="lg:col-span-7 lg:order-1 max-w-[58ch]">

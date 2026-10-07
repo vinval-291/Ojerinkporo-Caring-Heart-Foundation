@@ -25,6 +25,26 @@ export interface Partner {
   category?: string;
 }
 
+/** A person on the Leadership page. `group` decides where they appear. */
+export interface CmsPerson {
+  name: string;
+  role: string;
+  group: 'founder' | 'leadership' | 'board';
+  portrait?: Photo;
+  bio: string[];
+  order: number;
+}
+
+/** A gallery album, in the shape the Gallery page already renders. */
+export interface CmsAlbum {
+  id: string;
+  title: string;
+  year: string;
+  description: string;
+  cover?: string;
+  sets: { name: string; images: string[] }[];
+}
+
 interface Content {
   site: Site;
   programmes: Programme[];
@@ -34,6 +54,9 @@ interface Content {
   stories: Story[];
   partners: Partner[];
   faqs: Faq[];
+  /** Empty means "nothing in the CMS yet" — each page falls back to its own data. */
+  people: CmsPerson[];
+  albums: CmsAlbum[];
   /** True once a CMS response has been applied. */
   fromCms: boolean;
 }
@@ -47,6 +70,8 @@ const fallback: Content = {
   stories: localStories,
   partners: localPartners as Partner[],
   faqs: localFaqs,
+  people: [],
+  albums: [],
   fromCms: false,
 };
 
@@ -90,15 +115,18 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 
   const load = useCallback(async (cancelledRef: { current: boolean }) => {
     {
-      const [settings, programmes, metrics, milestones, stories, partners, faqs] = await Promise.all([
-        fetchCms<Record<string, unknown> | null>(queries.settings, null),
-        fetchCms<Record<string, unknown>[]>(queries.programmes, []),
-        fetchCms<Record<string, unknown>[]>(queries.impactMetrics, []),
-        fetchCms<{ year: string; body: string }[]>(queries.milestones, []),
-        fetchCms<Record<string, unknown>[]>(queries.stories, []),
-        fetchCms<Partner[]>(queries.partners, []),
-        fetchCms<Faq[]>(queries.faqs, []),
-      ]);
+      const [settings, programmes, metrics, milestones, stories, partners, faqs, people, albums] =
+        await Promise.all([
+          fetchCms<Record<string, unknown> | null>(queries.settings, null),
+          fetchCms<Record<string, unknown>[]>(queries.programmes, []),
+          fetchCms<Record<string, unknown>[]>(queries.impactMetrics, []),
+          fetchCms<{ year: string; body: string }[]>(queries.milestones, []),
+          fetchCms<Record<string, unknown>[]>(queries.stories, []),
+          fetchCms<Partner[]>(queries.partners, []),
+          fetchCms<Faq[]>(queries.faqs, []),
+          fetchCms<Record<string, unknown>[]>(queries.people, []),
+          fetchCms<Record<string, unknown>[]>(queries.albums, []),
+        ]);
 
       if (cancelledRef.current) return;
 
@@ -156,7 +184,49 @@ export function ContentProvider({ children }: { children: ReactNode }) {
           })
         : fallback.stories;
 
+      /* A person with no biography written yet is left out rather than published as a
+         name and a job title — the launch brief's rule is hide it, do not fake it. */
+      const mappedPeople: CmsPerson[] = people
+        .map((p) => ({
+          name: String(p.name ?? '').trim(),
+          role: String(p.role ?? '').trim(),
+          group: (p.group as CmsPerson['group']) ?? 'leadership',
+          portrait: p.portrait ? toPhoto(p.portrait, localStories[0].image) : undefined,
+          bio: toParagraphs(p.bio) ?? [],
+          order: Number(p.order ?? 100),
+        }))
+        .filter((p) => p.name && p.bio.length > 0)
+        .sort((a, b) => a.order - b.order);
+
+      /* Albums arrive with full asset URLs; the Gallery renders whatever string it is
+         given, so postimg paths and Sanity URLs can coexist while photographs move. */
+      const mappedAlbums: CmsAlbum[] = albums
+        .map((a) => {
+          const sets = (Array.isArray(a.sets) ? a.sets : [])
+            .map((s) => {
+              const set = s as { name?: unknown; images?: unknown[] };
+              return {
+                name: String(set.name ?? '').trim(),
+                images: (Array.isArray(set.images) ? set.images : [])
+                  .map((im) => toPhoto(im, localStories[0].image).src)
+                  .filter(Boolean),
+              };
+            })
+            .filter((s) => s.images.length > 0);
+          return {
+            id: String(a.slug ?? a.title ?? '').trim(),
+            title: String(a.title ?? '').trim(),
+            year: String(a.year ?? '').trim(),
+            description: String(a.description ?? '').trim(),
+            cover: sets[0]?.images[0],
+            sets,
+          };
+        })
+        .filter((a) => a.id && a.sets.length > 0);
+
       setContent({
+        people: mappedPeople,
+        albums: mappedAlbums,
         site: settings
           ? {
               ...localSite,

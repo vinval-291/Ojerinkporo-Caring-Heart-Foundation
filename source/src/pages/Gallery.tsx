@@ -5,6 +5,7 @@ import {
   populatedAlbums, albumCover, albumCount, img, type GalleryAlbum,
 } from '@/src/data/media';
 import { Breadcrumb, CtaBand } from '@/src/components/ui';
+import { useContent } from '@/src/content/ContentProvider';
 
 /**
  * Visual documentation.
@@ -18,7 +19,11 @@ import { Breadcrumb, CtaBand } from '@/src/components/ui';
  * which the original click-only overlay was not.
  */
 export default function Gallery() {
-  const albums = populatedAlbums();
+  const { albums: cmsAlbums } = useContent();
+
+  // The CMS wins once it holds an album with photographs in it; the code keeps the
+  // inauguration archive until those images have been moved across.
+  const albums = cmsAlbums.length ? cmsAlbums : populatedAlbums();
   const [openId, setOpenId] = useState<string | null>(null);
   const album = albums.find((a) => a.id === openId) ?? null;
 

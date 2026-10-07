@@ -199,5 +199,14 @@ export const albumCover = (a: GalleryAlbum) =>
 export const albumCount = (a: GalleryAlbum) =>
   a.sets.reduce((n, s) => n + s.images.length, 0);
 
-/** postimg paths above are stored short; expand them for use. */
-export const img = (path: string) => `https://i.postimg.cc/${path}.jpg`;
+/**
+ * postimg paths above are stored short; expand them for use.
+ *
+ * Anything that is already a URL or a local path is returned untouched, so CMS
+ * albums (full cdn.sanity.io URLs) and the code archive can be rendered by the
+ * same component while the photographs are moved across.
+ */
+export const img = (path: string) =>
+  /^(https?:)?\/\//.test(path) || path.startsWith('/')
+    ? path
+    : `https://i.postimg.cc/${path}.jpg`;
