@@ -44,7 +44,7 @@ export const photo = {
     alt: 'An OCHF grant recipient at their business',
   },
   angelaChukwu: {
-    src: '/images/angela-chukwu.webp',
+    src: '/images/angela-chukwu.jpg',
     credit: '',
     alt: 'Portrait of Professor Angela Unna Chukwu, Director of Programmes',
   },
