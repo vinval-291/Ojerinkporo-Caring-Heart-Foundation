@@ -117,25 +117,13 @@ export function StoryDetail() {
         </div>
       </section>
 
-      {/* No fixed aspect here. Story images are whatever shape OCHF supplies — the
-          Quarterly Grant one is 1600x1827, and a 16:9 frame cropped half its height
-          away, taking the headline off the top. It is shown whole and sized to the
-          screen instead. */}
+      {/* Fixed 16:9 at the client's instruction. Note that this crops: a portrait
+          image like the Quarterly Grant poster (1600x1827) loses the top and bottom
+          of its frame. Swapping object-cover for object-contain here would keep the
+          same 16:9 band and show the whole image inside it. */}
       <section className="bg-paper pt-12">
         <div className="shell">
-          <figure className="relative overflow-hidden rounded-[3px]">
-            <img
-              src={story.image.src}
-              alt={story.image.alt}
-              loading="eager"
-              decoding="async"
-              referrerPolicy="no-referrer"
-              className="w-full max-h-[80vh] object-contain mx-auto"
-            />
-            {story.image.credit && (
-              <figcaption className="photo-credit">{story.image.credit}</figcaption>
-            )}
-          </figure>
+          <Figure photo={story.image} ratio="aspect-[16/9]" priority />
         </div>
       </section>
 
