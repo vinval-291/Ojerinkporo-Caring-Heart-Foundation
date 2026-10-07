@@ -89,15 +89,36 @@ export const photo = {
   },
 } satisfies Record<string, Photo>;
 
-/** Full inauguration archive, used by the Gallery page. */
-export const galleryAlbums = [
+/**
+ * Gallery albums.
+ *
+ * The Gallery opens on album covers rather than one long list of photographs, so a
+ * reader chooses what to look at instead of scrolling past everything.
+ *
+ * An album with no photographs is not rendered. The launch brief's rule is "hide it,
+ * do not fake it" — an empty card advertising a gallery that does not exist costs
+ * more credibility than a shorter page. Add images below and the album appears.
+ */
+export interface GalleryAlbum {
+  id: string;
+  title: string;
+  year: string;
+  description: string;
+  /** postimg path used as the album's cover. Falls back to its first photograph. */
+  cover?: string;
+  sets: { name: string; images: string[] }[];
+}
+
+export const galleryAlbums: GalleryAlbum[] = [
   {
     id: 'inauguration',
-    title: 'Inauguration of Ojerinkporo Caring Hearts Foundation',
+    title: 'Inauguration',
     year: '2024',
     description:
       'Documentation from the formal inauguration of the foundation — the arrival of guests, ' +
       'the addresses given, and the first grant awards and equipment handovers to entrepreneurs.',
+    // Client's choice: the fourth photograph under Grant award presentations.
+    cover: 'hvfJJ3rB/presentation-4',
     sets: [
       {
         name: 'Arrival of dignitaries and guests',
@@ -131,7 +152,47 @@ export const galleryAlbums = [
       },
     ],
   },
+
+  /* Awaiting photographs from OCHF. Each stays hidden until its `images` array has
+     entries — nothing empty reaches the page. Drop the files into
+     source/public/images/ and list them as '/images/<name>.jpeg', or add postimg
+     paths in the same short form as above. */
+  {
+    id: 'beneficiaries-2026',
+    title: '2026 Beneficiaries',
+    year: '2026',
+    description:
+      'The businesses funded under the 2026 Annual Grant, and what the awards were put towards.',
+    sets: [{ name: 'Beneficiaries', images: [] }],
+  },
+  {
+    id: 'outreach-2026',
+    title: '2026 Outreach',
+    year: '2026',
+    description:
+      'Community outreach carried out through the year, and the people and places it reached.',
+    sets: [{ name: 'Outreach', images: [] }],
+  },
+  {
+    id: 'quarterly-2026',
+    title: '2026 Quarterly Beneficiaries',
+    year: '2026',
+    description:
+      'Recipients of the Quarterly Business Growth Grant — smaller awards, made more often.',
+    sets: [{ name: 'Quarterly beneficiaries', images: [] }],
+  },
 ];
+
+/** Albums with at least one photograph. Everything else stays off the page. */
+export const populatedAlbums = () =>
+  galleryAlbums.filter((a) => a.sets.some((s) => s.images.length > 0));
+
+/** An album's cover: the chosen one, or its first photograph. */
+export const albumCover = (a: GalleryAlbum) =>
+  a.cover ?? a.sets.flatMap((s) => s.images)[0];
+
+export const albumCount = (a: GalleryAlbum) =>
+  a.sets.reduce((n, s) => n + s.images.length, 0);
 
 /** postimg paths above are stored short; expand them for use. */
 export const img = (path: string) => `https://i.postimg.cc/${path}.jpg`;

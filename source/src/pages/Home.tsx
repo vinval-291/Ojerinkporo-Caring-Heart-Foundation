@@ -11,7 +11,11 @@ export default function Home() {
   return (
     <>
       {/* ------------------------------------------------------------- hero */}
-      <section className="relative bg-ink text-white">
+      {/* Full-height hero. 74px is the sticky header above it (4px accent rule + 70px
+          bar), so hero plus header fills exactly one screen and nothing is clipped.
+          svh rather than vh: on phones, vh ignores the browser's address bar and the
+          bottom of the hero ends up behind it. */}
+      <section className="relative bg-ink text-white flex items-center min-h-[calc(100svh-74px)]">
         <div className="absolute inset-0">
           <img
             src={photo.heroGrant.src}
@@ -24,12 +28,9 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-ink/40" />
         </div>
 
-        {/* Deliberately short. The figures are the strongest proof on the page and the
-            brief asks for them without scrolling, so the hero is sized to leave room
-            for the strip below it on a laptop screen. */}
-        <div className="shell relative py-14 md:py-16 lg:py-20">
+        <div className="shell relative w-full py-16 md:py-20">
           <p className="eyebrow eyebrow-dark mb-6">{site.name}</p>
-          <h1 className="text-white text-[34px] sm:text-[46px] lg:text-[56px] max-w-[16ch] leading-[1.06]">
+          <h1 className="text-white text-[40px] sm:text-[52px] lg:text-[64px] max-w-[16ch] leading-[1.06]">
             Investing in people.
             <br />
             Building stronger communities.
@@ -99,17 +100,18 @@ export default function Home() {
       </section>
 
       {/* -------------------------------------------------- flagship programme */}
-      <section className="bg-surface">
-        <div className="grid grid-cols-1 lg:grid-cols-2">
-          <Figure photo={flagship.image} ratio="aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[520px]" />
+      {/* Held inside the page gutter rather than bled to the window edge. The image is
+          a 16:9 poster with its own wordmark and caption set into it, so a full-bleed
+          panel cropped the sides off and cut the lettering in half. */}
+      <section className="band-tight bg-surface">
+        <div className="shell grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          <Figure photo={flagship.image} ratio="aspect-[16/9]" />
 
-          <div className="flex items-center px-6 md:px-14 lg:px-20 py-16 lg:py-24">
-            <div className="max-w-[46ch]">
-              <p className="eyebrow mb-4">{flagship.eyebrow}</p>
-              <h2 className="text-[30px] md:text-[38px]">{flagship.title}</h2>
-              <p className="mt-6 text-[15px] leading-relaxed text-body">{flagship.body}</p>
-              <ArrowLink to={flagship.cta.path} className="mt-7">{flagship.cta.label}</ArrowLink>
-            </div>
+          <div className="max-w-[46ch]">
+            <p className="eyebrow mb-4">{flagship.eyebrow}</p>
+            <h2 className="text-[30px] md:text-[38px]">{flagship.title}</h2>
+            <p className="mt-6 text-[15px] leading-relaxed text-body">{flagship.body}</p>
+            <ArrowLink to={flagship.cta.path} className="mt-7">{flagship.cta.label}</ArrowLink>
           </div>
         </div>
       </section>

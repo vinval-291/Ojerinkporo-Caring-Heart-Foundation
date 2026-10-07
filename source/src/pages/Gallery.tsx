@@ -1,24 +1,99 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { galleryAlbums, img } from '@/src/data/media';
+import { X, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
+import {
+  populatedAlbums, albumCover, albumCount, img, type GalleryAlbum,
+} from '@/src/data/media';
 import { Breadcrumb, CtaBand } from '@/src/components/ui';
 
 /**
  * Visual documentation.
  *
- * All stock photography has been removed per the client directive — every image here
- * is OCHF's own. The lightbox is keyboard-operable (Escape closes, arrows navigate),
- * which the previous build's click-only overlay was not.
+ * Opens on album covers rather than every photograph at once: choose Inauguration,
+ * then look through it. The previous version listed the whole archive on one page,
+ * which meant 33 images loading at once — enough for postimg to start throttling.
+ *
+ * Every image is OCHF's own; all stock photography was removed per the client
+ * directive. The lightbox is keyboard-operable (Escape closes, arrows navigate),
+ * which the original click-only overlay was not.
  */
 export default function Gallery() {
-  const album = galleryAlbums[0];
+  const albums = populatedAlbums();
+  const [openId, setOpenId] = useState<string | null>(null);
+  const album = albums.find((a) => a.id === openId) ?? null;
 
-  // Flat list so the lightbox can step through the whole album.
+  // Always land on the covers, even while only one album has photographs. Opening
+  // straight into it would hide the structure the rest are about to fill.
+  return album
+    ? <AlbumView album={album} onBack={() => setOpenId(null)} />
+    : <AlbumIndex albums={albums} onOpen={setOpenId} />;
+}
+
+/* --------------------------------------------------------------------- index */
+
+function AlbumIndex({
+  albums, onOpen,
+}: {
+  albums: GalleryAlbum[];
+  onOpen: (id: string) => void;
+}) {
+  return (
+    <>
+      <GalleryHeader
+        title="Visual documentation"
+        lede="Photographs from the foundation's programmes, grouped by event."
+      />
+
+      <section className="band bg-paper">
+        <div className="shell">
+          {albums.length === 0 ? (
+            <p className="lede">Photographs will be published here as programmes are documented.</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+              {albums.map((a) => (
+                <button
+                  key={a.id}
+                  type="button"
+                  onClick={() => onOpen(a.id)}
+                  className="group text-left"
+                >
+                  <div className="surface-gradient relative aspect-[4/3] overflow-hidden rounded-[3px]">
+                    <img
+                      src={img(albumCover(a))}
+                      alt={`${a.title} — OCHF documentation`}
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    />
+                    <span className="absolute inset-0 bg-ink/0 group-hover:bg-ink/20 transition-colors" />
+                  </div>
+                  <h2 className="text-[21px] mt-5 group-hover:text-red transition-colors">
+                    {a.title}
+                  </h2>
+                  <p className="text-[12.5px] text-faint mt-1.5 tabular-nums">
+                    {albumCount(a)} photographs · {a.year}
+                  </p>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      <CtaBand title="See what these programmes produced.">
+        <Link to="/impact" className="btn-red">Explore Our Impact</Link>
+      </CtaBand>
+    </>
+  );
+}
+
+/* ---------------------------------------------------------------- one album */
+
+function AlbumView({ album, onBack }: { album: GalleryAlbum; onBack?: () => void }) {
   const allImages = album.sets.flatMap((s) =>
     s.images.map((path) => ({ path, setName: s.name })),
   );
-
   const [lightbox, setLightbox] = useState<number | null>(null);
 
   const step = useCallback((delta: number) => {
@@ -44,25 +119,18 @@ export default function Gallery() {
 
   return (
     <>
-      <section className="bg-paper border-b border-rule">
-        <div className="shell pt-8">
-          <Breadcrumb trail={[{ name: 'Our Work', path: '/our-work' }, { name: 'Gallery' }]} />
-        </div>
-        <div className="shell pt-10 pb-14">
-          <p className="eyebrow mb-5">Visual documentation</p>
-          <h1 className="text-[38px] md:text-[50px] max-w-[20ch]">{album.title}</h1>
-          <p className="mt-6 lede">{album.description}</p>
-          <p className="mt-5 text-[12.5px] text-faint">
-            {allImages.length} photographs · {album.year}
-          </p>
-        </div>
-      </section>
+      <GalleryHeader
+        title={album.title}
+        lede={album.description}
+        meta={`${allImages.length} photographs · ${album.year}`}
+        onBack={onBack}
+      />
 
       <section className="band bg-paper">
         <div className="shell space-y-16">
-          {album.sets.map((set) => (
+          {album.sets.filter((s) => s.images.length > 0).map((set, setIndex) => (
             <div key={set.name}>
-              <div className={`flex items-baseline gap-4 mb-7 pillar-bar pt-5 ${["pillar-enterprise","pillar-education","pillar-community"][album.sets.indexOf(set) % 3]}`}>
+              <div className={`flex items-baseline gap-4 mb-7 pillar-bar pt-5 ${['pillar-enterprise', 'pillar-education', 'pillar-community'][setIndex % 3]}`}>
                 <h2 className="text-[21px] md:text-[24px]">{set.name}</h2>
                 <span className="text-[12px] text-faint tabular-nums ml-auto shrink-0">
                   {set.images.length}
@@ -98,7 +166,6 @@ export default function Gallery() {
         </div>
       </section>
 
-      {/* Lightbox */}
       {current && (
         <div
           role="dialog"
@@ -153,3 +220,36 @@ export default function Gallery() {
     </>
   );
 }
+
+/* -------------------------------------------------------------------- shared */
+
+function GalleryHeader({
+  title, lede, meta, onBack,
+}: {
+  title: string; lede: string; meta?: string; onBack?: () => void;
+}) {
+  return (
+    <section className="bg-paper border-b border-rule">
+      <div className="shell pt-8">
+        <Breadcrumb trail={[{ name: 'Our Work', path: '/our-work' }, { name: 'Gallery' }]} />
+      </div>
+      <div className="shell pt-10 pb-14">
+        {onBack && (
+          <button
+            type="button"
+            onClick={onBack}
+            className="link-arrow mb-5"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
+            All albums
+          </button>
+        )}
+        <p className="eyebrow mb-5">Visual documentation</p>
+        <h1 className="text-[38px] md:text-[50px] max-w-[20ch]">{title}</h1>
+        <p className="mt-6 lede">{lede}</p>
+        {meta && <p className="mt-5 text-[12.5px] text-faint tabular-nums">{meta}</p>}
+      </div>
+    </section>
+  );
+}
+
