@@ -27,25 +27,36 @@ export function CountUp({
   const tail = match?.[3] ?? '';
 
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-40px' });
+  // Positive margin starts the count before the figure is on screen, so it is already
+  // running by the time it is visible rather than snapping from the final value to 0.
+  const inView = useInView(ref, { once: true, margin: '200px' });
   const motionValue = useMotionValue(0);
   const spring = useSpring(motionValue, { duration: duration * 1000, bounce: 0 });
   const [shown, setShown] = useState(0);
+  const [counting, setCounting] = useState(false);
+
+  // Someone who asked for less motion gets the number, not the performance.
+  const reduceMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
-    if (inView && target !== null) motionValue.set(target);
-  }, [inView, target, motionValue]);
+    if (!inView || target === null || reduceMotion) return;
+    setCounting(true);
+    motionValue.set(target);
+  }, [inView, target, motionValue, reduceMotion]);
 
   useEffect(() => spring.on('change', (v) => setShown(Math.floor(v))), [spring]);
 
   // Anything we cannot parse is published exactly as the CMS holds it.
   if (target === null) return <span className={className}>{value}</span>;
 
+  // Until the count actually starts, the real figure is on the page. Rendering 0
+  // by default meant the homepage literally read "0M+" to anyone who had not
+  // scrolled — including anything reading the page without a viewport.
   return (
     <span ref={ref} className={className}>
-      {lead}
-      {shown.toLocaleString()}
-      {tail}
+      {counting ? `${lead}${shown.toLocaleString()}${tail}` : value}
     </span>
   );
 }
