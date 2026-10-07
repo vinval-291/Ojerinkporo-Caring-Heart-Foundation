@@ -57,6 +57,24 @@ export const useContent = () => useContext(ContentContext);
 /* ---------------------------------------------------------------- mapping */
 
 /** Sanity's image shape → the site's Photo shape. */
+/**
+ * Flattens Sanity's Portable Text into plain paragraphs.
+ *
+ * The site renders story bodies as paragraphs of text, so only the spans are kept.
+ * Marks, links and embedded objects are dropped rather than rendered half-correctly.
+ */
+function toParagraphs(body: unknown): string[] | undefined {
+  if (!Array.isArray(body)) return undefined;
+  const paragraphs = body
+    .map((block) => {
+      const children = (block as { children?: { text?: unknown }[] })?.children;
+      if (!Array.isArray(children)) return '';
+      return children.map((c) => String(c?.text ?? '')).join('').trim();
+    })
+    .filter(Boolean);
+  return paragraphs.length ? paragraphs : undefined;
+}
+
 function toPhoto(src: unknown, fallbackPhoto: Photo): Photo {
   const raw = src as { url?: string; alt?: string; credit?: string } | undefined;
   if (!raw?.url) return fallbackPhoto;
@@ -126,13 +144,14 @@ export function ContentProvider({ children }: { children: ReactNode }) {
         ? stories.map((s, i) => {
             const local = localStories[i];
             return {
-              slug: String(s.slug),
+              slug: String(s.slug).trim(),
               category: s.category as Story['category'],
-              title: String(s.title),
-              standfirst: String(s.standfirst ?? ''),
+              title: String(s.title).trim(),
+              standfirst: String(s.standfirst ?? '').trim(),
               date: String(s.date ?? '').slice(0, 4),
               image: toPhoto(s.image, local?.image ?? localStories[0].image),
               draft: false,
+              body: toParagraphs(s.body),
             };
           })
         : fallback.stories;

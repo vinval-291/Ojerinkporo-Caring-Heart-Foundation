@@ -78,7 +78,12 @@ export function StoriesIndex() {
 
 export function StoryDetail() {
   const { slug } = useParams();
-  const found = getStory(slug);
+  const { stories } = useContent();
+
+  // Resolve against the same list the index renders. This used to read a hardcoded
+  // local array instead, so every story written in the CMS appeared on the index and
+  // then 404'd when opened — the index was reading the CMS, the detail page was not.
+  const found = stories.find((s) => s.slug === slug) ?? getStory(slug);
   const story = found && !found.draft ? found : undefined;
 
   if (!story) {

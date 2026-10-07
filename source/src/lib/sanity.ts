@@ -93,9 +93,15 @@ export const queries = {
 
   milestones: `*[_type == "milestone"] | order(year asc){ year, body }`,
 
-  /** Published, and only where consent has been recorded. */
+  /**
+   * Published, and only where consent has been recorded.
+   *
+   * `body` is fetched with the list rather than separately: the detail page reads
+   * from this same list, so that a story shown on the index can always be opened.
+   * They used to come from different places, and every CMS story 404'd.
+   */
   stories: `*[_type == "story" && published == true && consent == true] | order(date desc){
-    title, "slug": slug.current, category, date, standfirst, image ${IMAGE}
+    title, "slug": slug.current, category, date, standfirst, body, image ${IMAGE}
   }`,
 
   story: `*[_type == "story" && slug.current == $slug && published == true && consent == true][0]{

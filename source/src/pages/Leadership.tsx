@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { useContent } from '@/src/content/ContentProvider';
 import { photo } from '@/src/data/media';
 import { Figure, Breadcrumb, CtaBand } from '@/src/components/ui';
-import { cn } from '@/src/lib/utils';
 
 /**
  * Founder profile.
@@ -40,19 +39,21 @@ const team = [
     name: 'Prof. Angela Unna Chukwu',
     role: 'Director of Programmes',
     photo: photo.angelaChukwu,
+    // As supplied by the client, with only the source citations removed — those were
+    // references for us, not copy for the page.
     bio: [
       'Professor Angela Unna Chukwu is a Professor of Statistics at the University of Ibadan, ' +
-      'specialising in biostatistics, mathematical statistics and demography. Her work applies ' +
-      'statistical methods to public health, clinical research and the life sciences.',
-
-      'She holds a B.Sc. in Mathematics from the University of Calabar, and M.Sc. and Ph.D. ' +
-      'degrees in Statistics from the University of Ibadan. She is a Fellow of the Royal ' +
+      'Nigeria, specialising in biostatistics, mathematical statistics and demography. Her work ' +
+      'applies statistical methods to public health, clinical research and the life sciences. ' +
+      'She holds a B.Sc. in Mathematics from the University of Calabar and M.Sc. and Ph.D. ' +
+      'degrees in Statistics from the University of Ibadan, and is a Fellow of the Royal ' +
       'Statistical Society.',
 
-      'Through the University of Ibadan Research Foundation and the ARISE Network she has ' +
-      'contributed to international research partnerships, public health initiatives and ' +
-      'research capacity development across Africa, alongside teaching and postgraduate ' +
-      'supervision.',
+      'Through her work with the University of Ibadan Research Foundation and the ARISE Network, ' +
+      'she has contributed to international research partnerships, public health initiatives and ' +
+      'research capacity development across Africa. An educator and mentor, Professor Chukwu ' +
+      'combines research with teaching and postgraduate supervision, supporting emerging scholars ' +
+      'and advancing the use of statistics to address health and development challenges.',
     ],
   },
 ];
@@ -89,31 +90,25 @@ export default function Leadership() {
         </div>
       </section>
 
-      <section className="band-tight bg-surface border-t border-rule">
-        <div className="shell">
-          <p className="eyebrow mb-10">Leadership team</p>
+      {/* Same weight as the founder's profile, mirrored: portrait right, text left. */}
+      {team.map((member) => (
+        <section key={member.name} className="band bg-surface border-t border-rule">
+          <div className="shell grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            <div className="lg:col-span-7 lg:order-1 max-w-[58ch]">
+              <p className="eyebrow mb-4">{member.role}</p>
+              <h2 className="text-[32px] md:text-[40px]">{member.name}</h2>
 
-          {/* Two columns only once there is someone to put in the second one. */}
-          <div className={cn('grid grid-cols-1 gap-12 lg:gap-16', team.length > 1 && 'lg:grid-cols-2')}>
-            {team.map((member) => (
-              <article
-                key={member.name}
-                className="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-7 max-w-[62ch]"
-              >
-                <Figure photo={member.photo} ratio="aspect-square" className="sm:self-start" />
+              <div className="mt-8 space-y-5 text-[15px] leading-relaxed text-body">
+                {member.bio.map((para, i) => <p key={i}>{para}</p>)}
+              </div>
+            </div>
 
-                <div>
-                  <p className="eyebrow mb-3">{member.role}</p>
-                  <h3 className="text-[23px] md:text-[26px]">{member.name}</h3>
-                  <div className="mt-5 space-y-4 text-[14.5px] leading-relaxed text-body">
-                    {member.bio.map((para, i) => <p key={i}>{para}</p>)}
-                  </div>
-                </div>
-              </article>
-            ))}
+            <div className="lg:col-span-5 lg:order-2">
+              <Figure photo={member.photo} ratio="aspect-[4/5]" />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ))}
 
       <CtaBand title="Understand how we're held accountable.">
         <Link to="/about/governance" className="btn-red">How We’re Governed</Link>
