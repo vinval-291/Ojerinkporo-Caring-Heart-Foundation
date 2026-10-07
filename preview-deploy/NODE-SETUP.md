@@ -74,6 +74,8 @@ dashboard fix that reports errors instead of showing empty sections.
 | `/api/health` shows the website or a 404 | The `.htaccess` line from step 4 is missing, or the Application URL isn't `api` |
 | Dashboard says "isn't available" although `/api/health` works | The browser is calling a path the host blocks. LiteSpeed answers `POST /api/admin` with its own HTML "429 Too Many Requests" brute-force page, which never reaches the app. The dashboard now uses `/api/content` instead — upload the latest `ochf-preview-site.zip` |
 | "Incomplete response" or 503 | Open `ochf-admin-api/stderr.log` in File Manager for the error, then **Restart** the app |
+| `/api/health` returns 404 after an upload | The `api` folder inside the preview folder was deleted. cPanel keeps its Passenger directives in `api/.htaccess` there. Recreate the `api` folder with an empty `.htaccess` inside it, then **Restart** |
+| Restart fails: `FileNotFoundError: .../api/.htaccess` | Same cause. cPanel cannot stop the app because it reads that file first. Recreate it as above, then Restart |
 | Dashboard says "isn't available at this address" | The server isn't answering — check `/api/health` first |
 | "That password is not right" | It must match `ADMIN_PASSWORD` exactly. After changing a variable, click **Restart** |
 | Sign-in works but saving fails | The token is missing or doesn't have the **Editor** role |

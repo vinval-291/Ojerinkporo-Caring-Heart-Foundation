@@ -40,7 +40,13 @@ Then open `/our-work/community` directly and refresh — it should load, not sho
 ## Updating the preview later
 
 1. In File Manager, delete `index.html`, the `assets` folder and the `images` folder.
-   **Do not delete `.htaccess`.**
+   **Nothing else.** Leave `.htaccess` and the `api` folder exactly where they are.
+
+   `api/` belongs to cPanel. "Setup Node.js App" keeps its Passenger directives in
+   `api/.htaccess`, not in the root `.htaccess`. Deleting it unmounts the dashboard's
+   server, and cPanel then cannot even Stop the app — Restart fails with
+   `FileNotFoundError: .../api/.htaccess`. Recover by recreating the `api` folder with
+   an empty `.htaccess` inside it, then Restart.
 2. Upload the new `ochf-preview-site.zip` and extract it.
 3. Reload the preview, with a hard refresh (Ctrl+Shift+R) the first time.
 

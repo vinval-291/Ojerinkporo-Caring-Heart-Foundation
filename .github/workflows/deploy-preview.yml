@@ -61,8 +61,17 @@ jobs:
           protocol: ftps              # encrypted; plain ftp would send the password in clear
           local-dir: source/dist/
           server-dir: ${{ secrets.FTP_PREVIEW_DIR }}
+          # The sync deletes remote files that are not in the build, so anything the
+          # server owns has to be named here.
+          #
+          # api/ is cPanel's: "Setup Node.js App" keeps its Passenger directives in
+          # api/.htaccess inside this folder, not in the root .htaccess. Deleting that
+          # folder unmounts the dashboard's server AND leaves cPanel unable to stop the
+          # app, because its own Stop step reads that file. A manual upload already
+          # caused exactly that.
           exclude: |
             **/.htaccess
+            api/**
             **/.git*
             **/.well-known/**
             **/cgi-bin/**
