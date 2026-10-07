@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useContent } from '@/src/content/ContentProvider';
 import { photo } from '@/src/data/media';
 import { Figure, Breadcrumb, CtaBand } from '@/src/components/ui';
+import { cn } from '@/src/lib/utils';
 
 /**
  * Founder profile.
@@ -27,6 +28,34 @@ const makeFounder = (site: { name: string; short: string }) => ({
     'and measure what actually happened.',
   ],
 });
+
+/**
+ * Everyone else accountable for the work.
+ *
+ * The launch brief is blunt about why this section exists: one named person reads as
+ * a personal project, three reads as an institution. An institutional reader checks.
+ */
+const team = [
+  {
+    name: 'Prof. Angela Unna Chukwu',
+    role: 'Director of Programmes',
+    photo: photo.angelaChukwu,
+    bio: [
+      'Professor Angela Unna Chukwu is a Professor of Statistics at the University of Ibadan, ' +
+      'specialising in biostatistics, mathematical statistics and demography. Her work applies ' +
+      'statistical methods to public health, clinical research and the life sciences.',
+
+      'She holds a B.Sc. in Mathematics from the University of Calabar, and M.Sc. and Ph.D. ' +
+      'degrees in Statistics from the University of Ibadan. She is a Fellow of the Royal ' +
+      'Statistical Society.',
+
+      'Through the University of Ibadan Research Foundation and the ARISE Network she has ' +
+      'contributed to international research partnerships, public health initiatives and ' +
+      'research capacity development across Africa, alongside teaching and postgraduate ' +
+      'supervision.',
+    ],
+  },
+];
 
 export default function Leadership() {
   const { site } = useContent();
@@ -56,6 +85,32 @@ export default function Leadership() {
             <div className="mt-8 space-y-5 text-[15px] leading-relaxed text-body">
               {founder.bio.map((para, i) => <p key={i}>{para}</p>)}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="band-tight bg-surface border-t border-rule">
+        <div className="shell">
+          <p className="eyebrow mb-10">Leadership team</p>
+
+          {/* Two columns only once there is someone to put in the second one. */}
+          <div className={cn('grid grid-cols-1 gap-12 lg:gap-16', team.length > 1 && 'lg:grid-cols-2')}>
+            {team.map((member) => (
+              <article
+                key={member.name}
+                className="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-7 max-w-[62ch]"
+              >
+                <Figure photo={member.photo} ratio="aspect-square" className="sm:self-start" />
+
+                <div>
+                  <p className="eyebrow mb-3">{member.role}</p>
+                  <h3 className="text-[23px] md:text-[26px]">{member.name}</h3>
+                  <div className="mt-5 space-y-4 text-[14.5px] leading-relaxed text-body">
+                    {member.bio.map((para, i) => <p key={i}>{para}</p>)}
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>
