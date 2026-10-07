@@ -107,24 +107,52 @@ export function StoryDetail() {
             ]}
           />
         </div>
-        <div className="shell pt-10 pb-14 max-w-[62ch]">
+        {/* `shell` centres what it holds, so adding a max-width here pushed the whole
+            header into the middle of the page and left a gap down its left side. The
+            width belongs on the standfirst, not on the shell. */}
+        <div className="shell pt-10 pb-14">
           <p className="eyebrow mb-5">{story.category} · {story.date}</p>
-          <h1 className="text-[34px] md:text-[46px]">{story.title}</h1>
+          <h1 className="text-[34px] md:text-[46px] max-w-[22ch]">{story.title}</h1>
           <p className="mt-6 lede">{story.standfirst}</p>
         </div>
       </section>
 
+      {/* No fixed aspect here. Story images are whatever shape OCHF supplies — the
+          Quarterly Grant one is 1600x1827, and a 16:9 frame cropped half its height
+          away, taking the headline off the top. It is shown whole and sized to the
+          screen instead. */}
       <section className="bg-paper pt-12">
         <div className="shell">
-          <Figure photo={story.image} ratio="aspect-[16/9]" priority />
+          <figure className="relative overflow-hidden rounded-[3px]">
+            <img
+              src={story.image.src}
+              alt={story.image.alt}
+              loading="eager"
+              decoding="async"
+              referrerPolicy="no-referrer"
+              className="w-full max-h-[80vh] object-contain mx-auto"
+            />
+            {story.image.credit && (
+              <figcaption className="photo-credit">{story.image.credit}</figcaption>
+            )}
+          </figure>
         </div>
       </section>
 
+      {/* Two columns from lg, so the body uses the page instead of leaving half of it
+          empty — while each line stays a readable length. A single column stretched to
+          1160px would run to about 140 characters a line; the launch brief asks for
+          600–700px, and this holds roughly to that. */}
       <section className="band bg-paper">
         <div className="shell">
-          <div className="max-w-[64ch] space-y-6 text-[16px] leading-relaxed text-body">
-              {story.body?.map((para, i) => <p key={i}>{para}</p>)}
-            </div>
+          {/* Multi-column, not a grid: text flows down the first column and continues
+              at the top of the second, so the reading order is preserved. A two-column
+              grid would have put the second paragraph beside the first. */}
+          <div className="columns-1 lg:columns-2 gap-14 xl:gap-20
+                          text-[16.5px] leading-relaxed text-body
+                          [&>p]:mb-6 [&>p]:break-inside-avoid">
+            {story.body?.map((para, i) => <p key={i}>{para}</p>)}
+          </div>
 
           <ArrowLink to="/stories" className="mt-10">All stories</ArrowLink>
         </div>
