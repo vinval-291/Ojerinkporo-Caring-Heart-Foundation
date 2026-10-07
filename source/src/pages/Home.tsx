@@ -40,7 +40,7 @@ export default function Home() {
             education and direct community investment.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/our-work" className="btn-red">Explore Our Work</Link>
+            <Link to="/our-work" className="btn-accent">Explore Our Work</Link>
             <Link to="/partners" className="btn-ghost">Partner With Us</Link>
           </div>
         </div>
@@ -50,7 +50,7 @@ export default function Home() {
 
       {/* ------------------------------------------------- headline figures */}
       {/* On cream, not a navy band: the brief wants key numbers in the accent, and
-          red on navy is 2.3:1. On cream the figures read at 7.2:1 and carry colour. */}
+          the accent on navy is 2.1:1. On cream the figures read at 7.8:1. */}
       <section className="bg-cream border-y border-rule">
         <div className="shell py-10 md:py-12">
           <h2 className="text-[22px] md:text-[26px] mb-8">
@@ -88,7 +88,7 @@ export default function Home() {
                     {p.name}
                   </span>
                 </div>
-                <h3 className="text-[21px] mt-5 group-hover:text-red transition-colors">{p.name}</h3>
+                <h3 className="text-[21px] mt-5 group-hover:text-accent transition-colors">{p.name}</h3>
                 <p className="text-[13.5px] text-muted mt-2 leading-relaxed">
                   {p.focusAreas.join(' | ')}
                 </p>
@@ -134,7 +134,7 @@ export default function Home() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
                 {portfolioStory.stages.map((s, i) => (
                   <div key={s.heading} className="rule-top">
-                    <p className={`eyebrow mb-2 ${i === 1 ? 'text-red' : 'text-faint'}`}>{s.heading}</p>
+                    <p className={`eyebrow mb-2 ${i === 1 ? 'text-accent' : 'text-faint'}`}>{s.heading}</p>
                     <p className="text-[13.5px] text-body leading-relaxed">{s.body}</p>
                   </div>
                 ))}
@@ -147,13 +147,13 @@ export default function Home() {
       </section>
 
       {/* ------------------------------------------------------- partnership */}
-      <section className="band-tight bg-red-tint">
+      <section className="band-tight bg-accent-tint">
         <div className="shell text-center">
           <h2 className="text-[28px] md:text-[36px] max-w-[24ch] mx-auto">{partnerIntro.title}</h2>
           <p className="mt-5 text-[14.5px] text-body/80 leading-relaxed max-w-[64ch] mx-auto">
             {partnerIntro.body}
           </p>
-          <Link to="/partners" className="btn-red mt-9">Partner With Us</Link>
+          <Link to="/partners" className="btn-accent mt-9">Partner With Us</Link>
 
           {partners.length > 0 && (
             <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
@@ -188,7 +188,7 @@ export default function Home() {
                     {s.category}
                   </span>
                 </div>
-                <h3 className="text-[18px] mt-5 leading-snug group-hover:text-red transition-colors">
+                <h3 className="text-[18px] mt-5 leading-snug group-hover:text-accent transition-colors">
                   {s.title}
                 </h3>
                 <span className="link-arrow mt-3">Read story →</span>
@@ -201,7 +201,7 @@ export default function Home() {
 
       {/* --------------------------------------------------------------- CTA */}
       <CtaBand title="Help us expand what works." tone="ink">
-        <Link to="/partners" className="btn-red">Partner With Us</Link>
+        <Link to="/partners" className="btn-accent">Partner With Us</Link>
       </CtaBand>
     </>
   );

@@ -71,7 +71,7 @@ export default function Story() {
       </section>
 
       <CtaBand title="See where the work stands now.">
-        <Link to="/partners" className="btn-red">Partner With Us</Link>
+        <Link to="/partners" className="btn-accent">Partner With Us</Link>
       </CtaBand>
     </>
   );

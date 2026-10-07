@@ -21,7 +21,7 @@ export default function NotFound() {
               to={item.path}
               className="flex items-baseline justify-between gap-6 py-4 border-b border-rule group"
             >
-              <span className="font-sans text-[19px] font-semibold text-ink group-hover:text-red transition-colors">
+              <span className="font-sans text-[19px] font-semibold text-ink group-hover:text-accent transition-colors">
                 {item.name}
               </span>
               <span className="text-[12.5px] text-muted">
@@ -32,7 +32,7 @@ export default function NotFound() {
         </div>
 
         <div className="mt-10 flex flex-wrap gap-3">
-          <Link to="/" className="btn-red">Back to home</Link>
+          <Link to="/" className="btn-accent">Back to home</Link>
           <Link to="/contact" className="btn-outline">Contact us</Link>
         </div>
       </div>

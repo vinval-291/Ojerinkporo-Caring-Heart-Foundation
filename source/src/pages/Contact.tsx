@@ -69,7 +69,7 @@ function ContactForm() {
   }
 
   const field = 'w-full px-4 py-3 bg-surface border border-rule rounded-[3px] text-[14px] ' +
-                'focus:border-red focus:ring-1 focus:ring-red outline-none transition-colors';
+                'focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors';
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
@@ -108,7 +108,7 @@ function ContactForm() {
         </p>
       )}
 
-      <button type="submit" disabled={status === 'sending'} className="btn-red w-full sm:w-auto">
+      <button type="submit" disabled={status === 'sending'} className="btn-accent w-full sm:w-auto">
         {status === 'sending' ? 'Sending…' : FORM_ENDPOINT ? 'Send enquiry' : 'Send by email'}
       </button>
 
@@ -132,7 +132,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         onClick={() => setOpen(!open)}
         className="flex w-full items-start justify-between gap-6 py-5 text-left group"
       >
-        <span className="font-sans text-[17px] font-semibold text-ink group-hover:text-red transition-colors">
+        <span className="font-sans text-[17px] font-semibold text-ink group-hover:text-accent transition-colors">
           {q}
         </span>
         <ChevronDown
@@ -172,27 +172,27 @@ export default function Contact() {
               <p className="eyebrow mb-5">Direct channels</p>
               <ul className="space-y-5">
                 <li className="flex items-start gap-3.5">
-                  <Mail className="w-4 h-4 text-red mt-1 shrink-0" aria-hidden="true" />
+                  <Mail className="w-4 h-4 text-accent mt-1 shrink-0" aria-hidden="true" />
                   <div>
                     <p className="text-[11px] uppercase tracking-[0.14em] text-faint mb-0.5">Email</p>
-                    <a href={`mailto:${site.email}`} className="text-[14.5px] text-ink hover:text-red transition-colors break-all">
+                    <a href={`mailto:${site.email}`} className="text-[14.5px] text-ink hover:text-accent transition-colors break-all">
                       {site.email}
                     </a>
                   </div>
                 </li>
                 <li className="flex items-start gap-3.5">
-                  <Phone className="w-4 h-4 text-red mt-1 shrink-0" aria-hidden="true" />
+                  <Phone className="w-4 h-4 text-accent mt-1 shrink-0" aria-hidden="true" />
                   <div>
                     <p className="text-[11px] uppercase tracking-[0.14em] text-faint mb-0.5">Telephone</p>
                     {site.phones.map((p) => (
-                      <a key={p} href={`tel:${p.replace(/\s/g, '')}`} className="block text-[14.5px] text-ink hover:text-red transition-colors">
+                      <a key={p} href={`tel:${p.replace(/\s/g, '')}`} className="block text-[14.5px] text-ink hover:text-accent transition-colors">
                         {p}
                       </a>
                     ))}
                   </div>
                 </li>
                 <li className="flex items-start gap-3.5">
-                  <MapPin className="w-4 h-4 text-red mt-1 shrink-0" aria-hidden="true" />
+                  <MapPin className="w-4 h-4 text-accent mt-1 shrink-0" aria-hidden="true" />
                   <div>
                     <p className="text-[11px] uppercase tracking-[0.14em] text-faint mb-0.5">Head office</p>
                     <p className="text-[14.5px] text-ink leading-snug">{site.address}</p>

@@ -120,7 +120,7 @@ export default function Programme() {
                   <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
                     {portfolioStory.stages.map((s, i) => (
                       <div key={s.heading} className="rule-top">
-                        <p className={`eyebrow mb-2 ${i === 1 ? 'text-red' : 'text-faint'}`}>
+                        <p className={`eyebrow mb-2 ${i === 1 ? 'text-accent' : 'text-faint'}`}>
                           {s.heading}
                         </p>
                         <p className="text-[13px] text-body leading-relaxed">{s.body}</p>
@@ -154,7 +154,7 @@ export default function Programme() {
                       {p.name}
                     </span>
                   </div>
-                  <h3 className="text-[21px] mt-5 group-hover:text-red transition-colors">{p.name}</h3>
+                  <h3 className="text-[21px] mt-5 group-hover:text-accent transition-colors">{p.name}</h3>
                   <p className="text-[13.5px] text-muted mt-2">{p.focusAreas.join(' | ')}</p>
                 </Link>
               ))}
@@ -167,9 +167,9 @@ export default function Programme() {
           Education and Community send the reader to the evidence. */}
       <CtaBand title={detail ? detail.ctaTitle : 'Work with us on this pillar.'}>
         {programme.slug === 'enterprise' ? (
-          <Link to="/partners" className="btn-red">Partner With Us</Link>
+          <Link to="/partners" className="btn-accent">Partner With Us</Link>
         ) : (
-          <Link to="/impact" className="btn-red">Explore Our Impact</Link>
+          <Link to="/impact" className="btn-accent">Explore Our Impact</Link>
         )}
       </CtaBand>
     </>

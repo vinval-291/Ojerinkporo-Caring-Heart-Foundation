@@ -21,19 +21,24 @@
   --color-ink-deep:   #001840;   /* logo navy — 17.4:1 under white */
   --color-ink-soft:   #232B42;   /* derived */
 
-  /* ---- OCHF red: the one accent ---------------------------------
-     Buttons, key numbers, small labels. Never as the background of a
-     whole section — the launch brief is explicit about that.
+  /* ---- The one accent --------------------------------------------
+     Buttons, key numbers, small labels. Never the background of a whole
+     section — the launch brief is explicit about that.
 
-     Red fills carry WHITE text (7.8:1). Red works as text on every light
-     ground (7.2:1 on cream), which gold never did — gold needed a separate
-     darkened weight for small text.
+     This is the logo's teal-blue, the colour where the navy turns toward
+     the green. It replaced an invented red that appeared nowhere in the
+     mark; the two behave almost identically (7.8:1 against the red's 7.2
+     as text, 8.3:1 against 7.8 with white on a fill), so the swap changed
+     the hue and nothing else.
 
-     It must NOT be used on the navy bands: red on ink is 2.3:1. Anything
-     sitting on a dark band stays white. */
-  --color-red:       #A4161A;   /* 7.2:1 on cream · 7.8:1 under white */
-  --color-red-deep:  #7E1115;   /* hover fill — 10.6:1 under white */
-  --color-red-tint:  #F3EDE4;   /* call-to-action strips; ink on it is 15.0:1 */
+     Named `accent` rather than by colour, because this is the third time
+     it has changed and renaming the whole codebase each time is waste.
+
+     It must NOT sit on the navy bands: 2.1:1 there. Anything on a dark
+     band stays white. */
+  --color-accent:       #205080;   /* 7.8:1 on cream · 8.3:1 under white */
+  --color-accent-deep:  #17395C;   /* hover fill — 11.8:1 under white */
+  --color-accent-tint:  #F3EDE4;   /* call-to-action strips; ink on it is 15.0:1 */
 
   /* ---- Bronze: the Community pillar -----------------------------
      The middle stop of the signature gradient. It stands in for the logo
@@ -44,8 +49,8 @@
   /* ---- Signature gradient (135°) ---------------------------------
      Reworked to run from the accent into the navy, since gold is no
      longer part of the scheme. */
-  --color-grad-red:    #A4161A;
-  --color-grad-mid:    #5E1626;
+  --color-grad-accent: #205080;
+  --color-grad-mid:    #1A3A5E;
   --color-grad-navy:   #16233E;
 
   /* ---- Icon only -------------------------------------------------
@@ -56,7 +61,7 @@
 
   /* ---- Grounds ---------------------------------------------------
      Warm off-white, per the brief. The page was a cool grey before, which
-     read as cold next to the red. */
+     read as cold next to the accent. */
   --color-paper:      #FBF6EF;   /* page — warm off-white */
   --color-surface:    #FFFFFF;   /* panels and cards */
   --color-cream:      #F7F1E8;   /* a half-step down for alternating bands */
@@ -94,16 +99,16 @@
     text-wrap: balance;
   }
 
-  ::selection { background: var(--color-red); color: #fff; }
+  ::selection { background: var(--color-accent); color: #fff; }
 
   :focus-visible {
-    outline: 2px solid var(--color-red);
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
   }
 }
 
 /* Component classes live in the components layer so Tailwind utilities can
-   override them. Unlayered, `.btn-red { display: inline-flex }` would beat `hidden`,
+   override them. Unlayered, `.btn-accent { display: inline-flex }` would beat `hidden`,
    which is why the header Support button showed on phones. */
 @layer components {
   /* ---- layout primitives ---- */
@@ -115,9 +120,9 @@
 
   /* Small uppercase letterspaced label used above every section heading. */
   .eyebrow {
-    @apply font-sans text-[12px] font-semibold uppercase tracking-[0.14em] text-red;
+    @apply font-sans text-[12px] font-semibold uppercase tracking-[0.14em] text-accent;
   }
-  /* Red is 2.3:1 on the navy bands, so anything sitting on one turns white. */
+  /* The accent is 2.1:1 on the navy bands, so anything on one turns white. */
   .eyebrow-dark { @apply text-white/75; }
 
   .lede { @apply text-[17px] md:text-lg leading-relaxed text-muted max-w-[62ch]; }
@@ -126,12 +131,12 @@
 
   /* Shared base. Tailwind v4 cannot @apply a custom class, so the variants below
      extend this via the comma selector rather than `@apply btn`. */
-  .btn, .btn-red, .btn-ink, .btn-bronze, .btn-outline, .btn-ghost {
+  .btn, .btn-accent, .btn-ink, .btn-bronze, .btn-outline, .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 px-6 py-3
            text-[15px] font-semibold rounded-[3px] transition-colors duration-200;
   }
-  /* White on red: 7.8:1, darkening to 10.6:1 on hover. */
-  .btn-red     { @apply bg-red text-white hover:bg-red-deep; }
+  /* White on the accent: 8.3:1, darkening to 11.8:1 on hover. */
+  .btn-accent     { @apply bg-accent text-white hover:bg-accent-deep; }
   .btn-ink     { @apply bg-ink text-white hover:bg-ink-soft; }
   .btn-bronze  { @apply bg-bronze text-white hover:bg-ink; }
   .btn-outline { @apply border border-rule bg-surface text-ink hover:border-ink hover:bg-paper; }
@@ -139,7 +144,7 @@
 
   /* Inline "Learn more →" style link. */
   .link-arrow {
-    @apply inline-flex items-center gap-1.5 text-[13px] font-semibold text-red
+    @apply inline-flex items-center gap-1.5 text-[13px] font-semibold text-accent
            hover:text-ink transition-colors;
   }
   .link-arrow-dark { @apply text-white/75 hover:text-white; }
@@ -150,19 +155,19 @@
     background: linear-gradient(158deg, var(--color-ink-deep) 0%, var(--color-ink) 52%, var(--color-grad-navy) 100%);
   }
 
-  /* The signature gradient, 135°, red → deep navy. Used as a standing rule and
+  /* The signature gradient, 135°, accent → deep navy. Used as a standing rule and
      behind every image slot, so a photograph that has not arrived yet still
      shows the brand rather than a grey box. */
   .surface-gradient {
-    background: linear-gradient(135deg, var(--color-grad-red) 0%, var(--color-grad-mid) 50%, var(--color-grad-navy) 100%);
+    background: linear-gradient(135deg, var(--color-grad-accent) 0%, var(--color-grad-mid) 50%, var(--color-grad-navy) 100%);
   }
 
-  /* Enterprise red, Education navy, Community bronze.
+  /* Enterprise accent, Education navy, Community bronze.
 
-     Every pillar needs two values. On a navy band the red is 2.3:1 and the navy
+     Every pillar needs two values. On a navy band the accent is 2.1:1 and the navy
      is 1.2:1 — each is invisible on the ground the other is made for, so the
      dark-band set uses light weights instead. */
-  .pillar-enterprise { --pillar: var(--color-red); }        /* 7.2:1 on page */
+  .pillar-enterprise { --pillar: var(--color-accent); }        /* 7.2:1 on page */
   .pillar-education  { --pillar: var(--color-ink-soft); }   /* 13.0:1 on page */
   .pillar-community  { --pillar: var(--color-bronze); }     /* 4.7:1 on page */
 
@@ -170,7 +175,7 @@
   .band-ink .pillar-education,  .bg-ink .pillar-education  { --pillar: rgb(255 255 255 / 0.55); }
   .band-ink .pillar-community,  .bg-ink .pillar-community  { --pillar: var(--color-bronze); }
 
-  .pillar-bar { border-top: 2px solid var(--pillar, var(--color-red)); }
+  .pillar-bar { border-top: 2px solid var(--pillar, var(--color-accent)); }
 
   /* ---- figures & numbers ---- */
 

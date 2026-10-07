@@ -68,7 +68,7 @@ function AlbumIndex({
                     />
                     <span className="absolute inset-0 bg-ink/0 group-hover:bg-ink/20 transition-colors" />
                   </div>
-                  <h2 className="text-[21px] mt-5 group-hover:text-red transition-colors">
+                  <h2 className="text-[21px] mt-5 group-hover:text-accent transition-colors">
                     {a.title}
                   </h2>
                   <p className="text-[12.5px] text-faint mt-1.5 tabular-nums">
@@ -82,7 +82,7 @@ function AlbumIndex({
       </section>
 
       <CtaBand title="See what these programmes produced.">
-        <Link to="/impact" className="btn-red">Explore Our Impact</Link>
+        <Link to="/impact" className="btn-accent">Explore Our Impact</Link>
       </CtaBand>
     </>
   );
@@ -215,7 +215,7 @@ function AlbumView({ album, onBack }: { album: GalleryAlbum; onBack?: () => void
       )}
 
       <CtaBand title="See what these programmes produced.">
-        <Link to="/impact" className="btn-red">Explore Our Impact</Link>
+        <Link to="/impact" className="btn-accent">Explore Our Impact</Link>
       </CtaBand>
     </>
   );

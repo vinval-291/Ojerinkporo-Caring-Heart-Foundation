@@ -40,7 +40,7 @@ function MegaPanel({
           <Link
             to={intro.path}
             onClick={onNavigate}
-            className="group inline-flex items-center gap-2 font-sans text-[26px] font-semibold text-ink hover:text-red transition-colors"
+            className="group inline-flex items-center gap-2 font-sans text-[26px] font-semibold text-ink hover:text-accent transition-colors"
           >
             {intro.title}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
@@ -62,7 +62,7 @@ function MegaPanel({
                 {col.links.map((link) => (
                   <li key={link.path}>
                     <Link to={link.path} onClick={onNavigate} className="group block">
-                      <span className="font-sans text-[17px] font-semibold text-ink group-hover:text-red transition-colors">
+                      <span className="font-sans text-[17px] font-semibold text-ink group-hover:text-accent transition-colors">
                         {link.name}
                       </span>
                       {link.desc && (
@@ -83,7 +83,7 @@ function MegaPanel({
               key={f.path}
               to={f.path}
               onClick={onNavigate}
-              className="group block bg-red-tint rounded-[3px] overflow-hidden hover:bg-cream transition-colors"
+              className="group block bg-accent-tint rounded-[3px] overflow-hidden hover:bg-cream transition-colors"
             >
               {f.image && (
                 <div className="aspect-[16/9] overflow-hidden bg-ink/5">
@@ -202,8 +202,8 @@ export function Navbar() {
                     className={cn(
                       'flex items-center gap-1.5 text-[14px] font-medium py-6 border-b-2 -mb-px transition-colors',
                       openMega === item.name || isActive(item.path)
-                        ? 'text-red border-red'
-                        : 'text-ink border-transparent hover:text-red',
+                        ? 'text-accent border-accent'
+                        : 'text-ink border-transparent hover:text-accent',
                     )}
                   >
                     {item.name}
@@ -219,8 +219,8 @@ export function Navbar() {
                     className={cn(
                       'block text-[14px] font-medium py-6 border-b-2 -mb-px transition-colors',
                       isActive(item.path)
-                        ? 'text-red border-red'
-                        : 'text-ink border-transparent hover:text-red',
+                        ? 'text-accent border-accent'
+                        : 'text-ink border-transparent hover:text-accent',
                     )}
                   >
                     {item.name}
@@ -233,7 +233,7 @@ export function Navbar() {
           <div className="flex items-center gap-3">
             {/* Desktop only. On phones Support lives inside the menu panel instead,
                 so the header carries just the wordmark and the menu button. */}
-            <Link to="/partners" className="hidden lg:inline-flex btn-red">
+            <Link to="/partners" className="hidden lg:inline-flex btn-accent">
               Partner With Us
             </Link>
             <button
@@ -314,7 +314,7 @@ export function Navbar() {
               ))}
             </ul>
 
-            <Link to="/partners" className="btn-red w-full mt-8">Partner With Us</Link>
+            <Link to="/partners" className="btn-accent w-full mt-8">Partner With Us</Link>
           </div>
         </div>
       )}

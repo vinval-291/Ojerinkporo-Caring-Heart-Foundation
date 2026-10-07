@@ -82,7 +82,7 @@ export default function Impact() {
       </section>
 
       <CtaBand title="See the people behind the numbers.">
-        <Link to="/partners" className="btn-red">Partner With Us</Link>
+        <Link to="/partners" className="btn-accent">Partner With Us</Link>
       </CtaBand>
     </>
   );
