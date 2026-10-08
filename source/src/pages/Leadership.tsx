@@ -14,17 +14,23 @@ import { Figure, Breadcrumb, CtaBand } from '@/src/components/ui';
 const makeFounder = (site: { name: string; short: string }) => ({
   name: 'Mr. Ikechukwu Agwu',
   role: 'Founder',
+  // As supplied by the client, October 2026.
   bio: [
-    `Mr. Ikechukwu Agwu is the founder of ${site.name}. He holds a degree in Pure and Applied ` +
-    'Mathematics from the University of Ibadan, and has completed leadership and management ' +
-    'programmes at Harvard University and other institutions internationally.',
+    'Mr. Ikechukwu Agwu is a Nigerian entrepreneur, business leader and philanthropist ' +
+    'committed to creating opportunities and driving meaningful change.',
 
-    'He is Chief Executive of DAVRIC International Limited, which he built from a one-man ' +
-    'startup in 2008 into an organisation of over 100 professionals.',
+    'A graduate of Pure and Applied Mathematics from the University of Ibadan, he has also ' +
+    'completed leadership and management programmes at Harvard University and other ' +
+    'international institutions.',
 
-    `That operating experience shapes how ${site.short} is run. The foundation applies the same ` +
-    'discipline it would apply to a business: fund what can grow, pair capital with support, ' +
-    'and measure what actually happened.',
+    'In 2008, he founded Dav-Ric Nigeria Limited as a one-man venture, growing it into DAVRIC ' +
+    'Group, a diversified enterprise spanning multiple industries, with operations across two ' +
+    'continents and a workforce of over 100 professionals.',
+
+    'Guided by his belief that success should create opportunities for others, he established ' +
+    `${site.name} to advance entrepreneurship, education and community development. Over the ` +
+    'past three years, the Foundation has deployed more than ₦200 million across its ' +
+    'programmes, translating his vision of empowerment into tangible impact.',
   ],
 });
 
@@ -39,21 +45,22 @@ const team = [
     name: 'Prof. Angela Unna Chukwu',
     role: 'Director of Programmes',
     photo: photo.angelaChukwu,
-    // As supplied by the client, with only the source citations removed — those were
-    // references for us, not copy for the page.
+    // As supplied by the client, October 2026.
     bio: [
-      'Professor Angela Unna Chukwu is a Professor of Statistics at the University of Ibadan, ' +
-      'Nigeria, specialising in biostatistics, mathematical statistics and demography. Her work ' +
-      'applies statistical methods to public health, clinical research and the life sciences. ' +
-      'She holds a B.Sc. in Mathematics from the University of Calabar and M.Sc. and Ph.D. ' +
-      'degrees in Statistics from the University of Ibadan, and is a Fellow of the Royal ' +
-      'Statistical Society.',
+      'Professor Angela Unna Chukwu is a distinguished statistician, researcher and educator at ' +
+      'the University of Ibadan, Nigeria, with expertise in biostatistics, mathematical ' +
+      'statistics and demography.',
 
-      'Through her work with the University of Ibadan Research Foundation and the ARISE Network, ' +
-      'she has contributed to international research partnerships, public health initiatives and ' +
-      'research capacity development across Africa. An educator and mentor, Professor Chukwu ' +
-      'combines research with teaching and postgraduate supervision, supporting emerging scholars ' +
-      'and advancing the use of statistics to address health and development challenges.',
+      'She holds a B.Sc. in Mathematics from the University of Calabar, an M.Sc. and Ph.D. in ' +
+      'Statistics from the University of Ibadan, and is a Fellow of the Royal Statistical Society.',
+
+      'Her career spans academic research, public health and international research ' +
+      'collaboration, including contributions to the University of Ibadan Research Foundation ' +
+      'and initiatives focused on advancing research capacity across Africa.',
+
+      'As Director of Programmes at Ojerinkporo Caring Hearts Foundation, she brings her ' +
+      'analytical expertise and commitment to evidence-based development to the Foundation’s ' +
+      'work in entrepreneurship, education and community empowerment.',
     ],
   },
 ];
