@@ -48,6 +48,13 @@ export const photo = {
     credit: '',
     alt: 'Portrait of Professor Angela Unna Chukwu, Director of Programmes',
   },
+  /* Supplied as an 11.3 MB, 3600px PNG. Resized to 1600px and converted to JPEG —
+     209 KB — because the largest it is ever drawn is a half-width card. */
+  educationStudents: {
+    src: '/images/education-students.jpg',
+    credit: 'Students supported through OCHF scholarships',
+    alt: 'Students supported through the OCHF education programme',
+  },
   workshopFloor: {
     src: 'https://i.postimg.cc/T1gKq5z2/equipment-2.jpg',
     credit: "OCHF Photography — Grant recipient's workshop floor",
@@ -179,12 +186,12 @@ export const galleryAlbums: GalleryAlbum[] = [
     sets: [{ name: 'Outreach', images: [] }],
   },
   {
-    id: 'quarterly-2026',
-    title: '2026 Quarterly Beneficiaries',
+    id: 'quarterly-grant',
+    title: 'Quarterly Grant',
     year: '2026',
     description:
       'Recipients of the Quarterly Business Growth Grant — smaller awards, made more often.',
-    sets: [{ name: 'Quarterly beneficiaries', images: [] }],
+    sets: [{ name: 'Quarterly grant', images: [] }],
   },
 ];
 

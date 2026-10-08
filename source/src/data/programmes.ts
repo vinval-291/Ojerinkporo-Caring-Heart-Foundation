@@ -89,7 +89,7 @@ export const programmes: Programme[] = [
     summary:
       'OCHF funds scholarships, training programmes and skills development for people whose ' +
       'progress is limited by cost rather than ability.',
-    image: photo.keynote,
+    image: photo.educationStudents,
     detail: null,
   }),
   pillar({

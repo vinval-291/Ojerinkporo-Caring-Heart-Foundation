@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { X, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
 import {
-  populatedAlbums, albumCover, albumCount, img, type GalleryAlbum,
+  galleryAlbums, albumCover, albumCount, img, type GalleryAlbum,
 } from '@/src/data/media';
 import { Breadcrumb, CtaBand } from '@/src/components/ui';
 import { useContent } from '@/src/content/ContentProvider';
@@ -23,7 +23,11 @@ export default function Gallery() {
 
   // The CMS wins once it holds an album with photographs in it; the code keeps the
   // inauguration archive until those images have been moved across.
-  const albums = cmsAlbums.length ? cmsAlbums : populatedAlbums();
+  //
+  // All four folders are shown, including the ones still waiting on photographs, at
+  // the client's instruction. An empty folder is not clickable and says what it is
+  // waiting for, rather than opening onto nothing.
+  const albums = cmsAlbums.length ? cmsAlbums : galleryAlbums;
   const [openId, setOpenId] = useState<string | null>(null);
   const album = albums.find((a) => a.id === openId) ?? null;
 
@@ -55,32 +59,51 @@ function AlbumIndex({
             <p className="lede">Photographs will be published here as programmes are documented.</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
-              {albums.map((a) => (
-                <button
-                  key={a.id}
-                  type="button"
-                  onClick={() => onOpen(a.id)}
-                  className="group text-left"
-                >
-                  <div className="surface-gradient relative aspect-[4/3] overflow-hidden rounded-[3px]">
-                    <img
-                      src={img(albumCover(a))}
-                      alt={`${a.title} — OCHF documentation`}
-                      loading="lazy"
-                      decoding="async"
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                    />
-                    <span className="absolute inset-0 bg-ink/0 group-hover:bg-ink/20 transition-colors" />
-                  </div>
-                  <h2 className="text-[21px] mt-5 group-hover:text-accent transition-colors">
-                    {a.title}
-                  </h2>
-                  <p className="text-[12.5px] text-faint mt-1.5 tabular-nums">
-                    {albumCount(a)} photographs · {a.year}
-                  </p>
-                </button>
-              ))}
+              {albums.map((a) => {
+                const count = albumCount(a);
+                const cover = albumCover(a);
+
+                // No photographs yet: the folder is shown so the structure is visible,
+                // but it is a static card rather than a button that opens onto nothing.
+                if (!count) {
+                  return (
+                    <div key={a.id} aria-label={`${a.title} — no photographs yet`}>
+                      <div className="surface-gradient relative aspect-[4/3] overflow-hidden rounded-[3px] opacity-45" />
+                      <h2 className="text-[21px] mt-5 text-muted">{a.title}</h2>
+                      <p className="text-[12.5px] text-faint mt-1.5">
+                        Photographs to follow · {a.year}
+                      </p>
+                    </div>
+                  );
+                }
+
+                return (
+                  <button
+                    key={a.id}
+                    type="button"
+                    onClick={() => onOpen(a.id)}
+                    className="group text-left"
+                  >
+                    <div className="surface-gradient relative aspect-[4/3] overflow-hidden rounded-[3px]">
+                      <img
+                        src={img(cover)}
+                        alt={`${a.title} — OCHF documentation`}
+                        loading="lazy"
+                        decoding="async"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                      />
+                      <span className="absolute inset-0 bg-ink/0 group-hover:bg-ink/20 transition-colors" />
+                    </div>
+                    <h2 className="text-[21px] mt-5 group-hover:text-accent transition-colors">
+                      {a.title}
+                    </h2>
+                    <p className="text-[12.5px] text-faint mt-1.5 tabular-nums">
+                      {count} photographs · {a.year}
+                    </p>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
