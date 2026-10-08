@@ -29,7 +29,7 @@ const makeFounder = (site: { name: string; short: string }) => ({
 
     'Guided by his belief that success should create opportunities for others, he established ' +
     `${site.name} to advance entrepreneurship, education and community development. Over the ` +
-    'past three years, the Foundation has deployed more than ₦200 million across its ' +
+    'past three years, the Foundation has deployed more than ₦250 million across its ' +
     'programmes, translating his vision of empowerment into tangible impact.',
   ],
 });
