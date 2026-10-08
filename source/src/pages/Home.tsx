@@ -56,8 +56,9 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Lifted clear of the figures bar from md, where the bar covers this corner. */}
-        <p className="photo-credit md:bottom-[174px]">{photo.heroGrant.credit}</p>
+        {/* No credit strip on the hero: with the figures bar across the foot there is
+            nowhere for it to sit that does not look like an afterthought. The same
+            photograph still carries its credit in the flagship section below. */}
 
         {/* Figures bar, overlapping the foot of the hero. From md it is pinned over the
             photograph; below that it would swallow the screen, so it sits underneath
