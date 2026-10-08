@@ -183,15 +183,23 @@ export const galleryAlbums: GalleryAlbum[] = [
     year: '2026',
     description:
       'Community outreach carried out through the year, and the people and places it reached.',
-    sets: [{ name: 'Outreach', images: [] }],
-  },
-  {
-    id: 'quarterly-grant',
-    title: 'Quarterly Grant',
-    year: '2026',
-    description:
-      'Recipients of the Quarterly Business Growth Grant — smaller awards, made more often.',
-    sets: [{ name: 'Quarterly grant', images: [] }],
+    // Client's choice of cover.
+    cover: '/images/outreach/outreach-5023.jpg',
+    sets: [
+      {
+        name: 'Outreach',
+        images: [
+          '/images/outreach/outreach-4946.jpg', '/images/outreach/outreach-4951.jpg',
+          '/images/outreach/outreach-4977.jpg', '/images/outreach/outreach-4989.jpg',
+          '/images/outreach/outreach-5012.jpg', '/images/outreach/outreach-5016.jpg',
+          '/images/outreach/outreach-5020.jpg', '/images/outreach/outreach-5023.jpg',
+          '/images/outreach/outreach-5061.jpg', '/images/outreach/outreach-5069.jpg',
+          '/images/outreach/outreach-5070.jpg', '/images/outreach/outreach-5083.jpg',
+          '/images/outreach/outreach-5084.jpg', '/images/outreach/outreach-5089.jpg',
+          '/images/outreach/outreach-5093.jpg', '/images/outreach/outreach-5159.jpg',
+        ],
+      },
+    ],
   },
 ];
 
