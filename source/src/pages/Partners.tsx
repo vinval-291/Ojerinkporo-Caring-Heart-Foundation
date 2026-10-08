@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { useContent } from '@/src/content/ContentProvider';
 import { partnerIntro } from '@/src/data/stories';
 import { photo } from '@/src/data/media';
@@ -35,14 +36,66 @@ export default function Partners() {
   const { partners } = useContent();
   return (
     <>
-      <section className="bg-paper border-b border-rule">
+      {/* Hero built to the client's reference: text left, photograph right behind a
+          curved edge. The curve is a CSS border-radius on the image panel rather than
+          an image mask, so it survives any photograph OCHF puts behind it. */}
+      <section className="bg-cream border-b border-rule overflow-hidden">
         <div className="shell pt-8">
           <Breadcrumb trail={[{ name: 'Partners' }]} />
         </div>
-        <div className="shell pt-10 pb-14">
-          <p className="eyebrow mb-5">Partnership</p>
-          <h1 className="text-[38px] md:text-[50px] max-w-[20ch]">{partnerIntro.title}</h1>
-          <p className="mt-6 lede">{partnerIntro.body}</p>
+
+        {/* From lg the photograph is taken out of the shell and pinned to the right of
+            the window, so it runs off the edge as in the reference rather than stopping
+            at the gutter. The curve is a border-radius on its left corners only. */}
+        <div className="relative">
+          <div className="shell relative z-10 py-14 lg:py-28">
+            <div className="lg:max-w-[46%]">
+              <div className="flex items-center gap-4 mb-6">
+                <p className="eyebrow whitespace-nowrap">Partner with us</p>
+                <span className="h-px flex-1 max-w-[160px] bg-accent/35" aria-hidden="true" />
+              </div>
+
+              <h1 className="text-[34px] md:text-[44px] lg:text-[50px] leading-[1.1] max-w-[15ch]">
+                Greater impact through{' '}
+                <span className="font-serif italic font-normal text-accent">partnership.</span>
+              </h1>
+
+              <p className="mt-6 text-[16px] md:text-[17px] leading-relaxed text-body max-w-[44ch]">
+                {partnerIntro.body}
+              </p>
+
+              <Link to="/contact" className="btn-ink mt-9">
+                Contact Our Team
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+
+          <div
+            className="hidden lg:block absolute right-0 top-0 bottom-0 w-[50%] overflow-hidden"
+            style={{ borderTopLeftRadius: '38% 60%', borderBottomLeftRadius: '38% 60%' }}
+          >
+            <img
+              src={photo.keynoteAlt.src}
+              alt={photo.keynoteAlt.alt}
+              loading="eager"
+              decoding="async"
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
+        {/* Below lg the curve would crop faces awkwardly, so the photograph sits square. */}
+        <div className="lg:hidden shell pb-12">
+          <img
+            src={photo.keynoteAlt.src}
+            alt={photo.keynoteAlt.alt}
+            loading="lazy"
+            decoding="async"
+            referrerPolicy="no-referrer"
+            className="w-full aspect-[16/10] object-cover rounded-[3px]"
+          />
         </div>
       </section>
 

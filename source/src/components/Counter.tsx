@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useInView, useMotionValue, useSpring } from 'motion/react';
+import { useMotionValue, useSpring } from 'motion/react';
 
 /**
  * Counts a figure up to its final value when it scrolls into view.
@@ -27,9 +27,6 @@ export function CountUp({
   const tail = match?.[3] ?? '';
 
   const ref = useRef<HTMLSpanElement>(null);
-  // Positive margin starts the count before the figure is on screen, so it is already
-  // running by the time it is visible rather than snapping from the final value to 0.
-  const inView = useInView(ref, { once: true, margin: '200px' });
   const motionValue = useMotionValue(0);
   const spring = useSpring(motionValue, { duration: duration * 1000, bounce: 0 });
   const [shown, setShown] = useState(0);
@@ -40,11 +37,17 @@ export function CountUp({
     typeof window !== 'undefined' &&
     window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
+  /* Counts as soon as the page loads rather than waiting to be scrolled to. The hero
+     is full height, so the figures sit below the fold — waiting meant the count had
+     already finished by the time most people reached it, and nobody saw it happen. */
   useEffect(() => {
-    if (!inView || target === null || reduceMotion) return;
-    setCounting(true);
-    motionValue.set(target);
-  }, [inView, target, motionValue, reduceMotion]);
+    if (target === null || reduceMotion) return;
+    const start = window.setTimeout(() => {
+      setCounting(true);
+      motionValue.set(target);
+    }, 250);
+    return () => window.clearTimeout(start);
+  }, [target, motionValue, reduceMotion]);
 
   useEffect(() => spring.on('change', (v) => setShown(Math.floor(v))), [spring]);
 

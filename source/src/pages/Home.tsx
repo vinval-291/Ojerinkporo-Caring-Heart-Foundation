@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { useContent } from '@/src/content/ContentProvider';
 import { flagship, portfolioStory } from '@/src/data/programmes';
 import { partnerIntro } from '@/src/data/stories';
@@ -30,7 +31,10 @@ export default function Home() {
 
         <div className="shell relative w-full py-16 md:py-20">
           <p className="eyebrow eyebrow-dark mb-6">{site.name}</p>
-          <h1 className="text-white text-[40px] sm:text-[52px] lg:text-[64px] max-w-[16ch] leading-[1.06]">
+          {/* Set in capitals at the client's request. Capitals need a little letter
+              spacing and more line height to stay readable at this size. */}
+          <h1 className="text-white text-[34px] sm:text-[46px] lg:text-[56px] max-w-[18ch]
+                         uppercase tracking-[0.01em] leading-[1.14]">
             Investing in people.
             <br />
             Building stronger communities.
@@ -39,9 +43,14 @@ export default function Home() {
             OCHF expands opportunity across Nigeria through enterprise funding,
             education and direct community investment.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          {/* One button, one text link — the brief's homepage hero. Partner With Us is
+              the page's closing CTA, so it does not need to be a second button up here. */}
+          <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3">
             <Link to="/our-work" className="btn-accent">Explore Our Work</Link>
-            <Link to="/partners" className="btn-ghost">Partner With Us</Link>
+            <Link to="/partners" className="link-arrow link-arrow-dark">
+              Partner With Us
+              <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+            </Link>
           </div>
         </div>
 
@@ -153,7 +162,8 @@ export default function Home() {
           <p className="mt-5 text-[14.5px] text-body/80 leading-relaxed max-w-[64ch] mx-auto">
             {partnerIntro.body}
           </p>
-          <Link to="/partners" className="btn-accent mt-9">Partner With Us</Link>
+          {/* No button here. The page's single closing CTA is Partner With Us, and the
+              brief allows one per page — two invitations to the same place is one too many. */}
 
           {partners.length > 0 && (
             <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
