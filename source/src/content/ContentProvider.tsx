@@ -218,7 +218,8 @@ export function ContentProvider({ children }: { children: ReactNode }) {
             title: String(a.title ?? '').trim(),
             year: String(a.year ?? '').trim(),
             description: String(a.description ?? '').trim(),
-            cover: sets[0]?.images[0],
+            // The chosen cover, falling back to the album's first photograph.
+            cover: a.cover ? toPhoto(a.cover, localStories[0].image).src : sets[0]?.images[0],
             sets,
           };
         })

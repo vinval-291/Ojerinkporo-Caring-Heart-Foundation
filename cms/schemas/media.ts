@@ -27,6 +27,13 @@ export const galleryAlbum = defineType({
       validation: (r) => r.required().regex(/^\d{4}$/, { name: 'four-digit year' }),
     }),
     defineField({
+      name: 'cover',
+      title: 'Cover photograph',
+      type: 'documentaryImage',
+      description:
+        'Shown on the gallery index. Leave empty to use the first photograph in the album.',
+    }),
+    defineField({
       name: 'description',
       title: 'What this album shows',
       type: 'text',

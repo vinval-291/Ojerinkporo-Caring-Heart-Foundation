@@ -70,6 +70,7 @@ const albums = [
     _id: 'album-inauguration',
     title: 'Inauguration',
     slug: 'inauguration',
+    cover: { postimg: 'hvfJJ3rB/presentation-4', filename: 'presentation-4.jpg' },
     year: '2024',
     description:
       'Documentation from the formal inauguration of the foundation — the arrival of guests, ' +
@@ -92,6 +93,26 @@ const albums = [
       ] },
       { name: 'Equipment distribution to entrepreneurs', images: [
         '9X7wjsrL/equipment-1', 'T1gKq5z2/equipment-2', 'G2B8t5zy/equipment-3',
+      ] },
+    ],
+  },
+  {
+    /* Must be here. The Gallery takes CMS albums over the code ones as a set, not one
+       by one, so publishing only the inauguration would have removed Outreach from the
+       site entirely — its photographs live in source/public/images. */
+    _id: 'album-outreach-2026',
+    title: '2026 Outreach',
+    slug: 'outreach-2026',
+    cover: { file: 'source/public/images/outreach/outreach-5023.jpg' },
+    year: '2026',
+    description:
+      'Community outreach carried out through the year, and the people and places it reached.',
+    sets: [
+      { name: 'Outreach', local: 'source/public/images/outreach', images: [
+        'outreach-4946', 'outreach-4951', 'outreach-4977', 'outreach-4989',
+        'outreach-5012', 'outreach-5016', 'outreach-5020', 'outreach-5023',
+        'outreach-5061', 'outreach-5069', 'outreach-5070', 'outreach-5083',
+        'outreach-5084', 'outreach-5089', 'outreach-5093', 'outreach-5159',
       ] },
     ],
   },
@@ -221,7 +242,10 @@ async function main() {
       for (const short of set.images) {
         const filename = `${basename(short)}.jpg`;
         try {
-          const assetId = await uploadFromUrl(POSTIMG(short), filename);
+          // `local` sets come from the repo; everything else is still on postimg.
+          const assetId = set.local
+            ? await uploadFromFile(`${set.local}/${filename}`)
+            : await uploadFromUrl(POSTIMG(short), filename);
           if (WRITE) images.push(imageField(assetId, `${set.name} — OCHF documentation`));
           n++;
         } catch (err) {
@@ -231,11 +255,18 @@ async function main() {
       }
       sets.push({ _type: 'photoSet', _key: set.name.slice(0, 12).replace(/\W/g, ''), name: set.name, images });
     }
+    let cover;
+    if (a.cover) {
+      const id = a.cover.file
+        ? await uploadFromFile(a.cover.file)
+        : await uploadFromUrl(POSTIMG(a.cover.postimg), a.cover.filename);
+      if (WRITE) cover = imageField(id, `${a.title} — OCHF documentation`);
+    }
     if (WRITE) {
       await client.createOrReplace({
         _id: a._id, _type: 'galleryAlbum', title: a.title,
         slug: { _type: 'slug', current: a.slug }, year: a.year,
-        description: a.description, sets, published: true,
+        description: a.description, cover, sets, published: true,
       });
     }
     console.log(`  ${WRITE ? 'wrote' : 'would write'} ${a.title}: ${n} photographs${failed ? `, ${failed} failed` : ''}`);

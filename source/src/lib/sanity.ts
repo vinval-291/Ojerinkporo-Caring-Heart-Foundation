@@ -120,7 +120,7 @@ export const queries = {
   faqs: `*[_type == "faq"] | order(order asc){ question, answer }`,
 
   albums: `*[_type == "galleryAlbum" && published == true]{
-    title, "slug": slug.current, year, description,
+    title, "slug": slug.current, year, description, cover ${IMAGE},
     sets[]{ name, images[] ${IMAGE} }
   }`,
 };
