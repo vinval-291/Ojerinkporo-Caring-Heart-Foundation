@@ -170,7 +170,7 @@ export function Stat({ metric, dark = false }: { metric: Metric; dark?: boolean 
       )}
 
       <p className={cn('figure-label', dark && 'text-white')}>{metric.label}</p>
-      <p className={cn('figure-note', dark && 'text-white/60')}>
+      <p className={cn('figure-note', dark && 'text-white/75')}>
         {metric.period}
       </p>
     </div>

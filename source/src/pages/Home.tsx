@@ -29,7 +29,9 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-ink/40" />
         </div>
 
-        <div className="shell relative w-full py-16 md:py-20">
+        {/* Extra bottom padding from md, so the headline clears the figures bar that
+            overlaps the foot of the hero. */}
+        <div className="shell relative w-full py-16 md:pt-20 md:pb-52 lg:pb-56">
           <p className="eyebrow eyebrow-dark mb-6">{site.name}</p>
           {/* Set in capitals at the client's request. Capitals need a little letter
               spacing and more line height to stay readable at this size. */}
@@ -54,22 +56,31 @@ export default function Home() {
           </div>
         </div>
 
-        <p className="photo-credit">{photo.heroGrant.credit}</p>
+        {/* Lifted clear of the figures bar from md, where the bar covers this corner. */}
+        <p className="photo-credit md:bottom-[174px]">{photo.heroGrant.credit}</p>
+
+        {/* Figures bar, overlapping the foot of the hero. From md it is pinned over the
+            photograph; below that it would swallow the screen, so it sits underneath
+            instead. White on the accent is 8.3:1 — the accent could not carry text on
+            the navy, but as a solid fill behind white it reads well. */}
+        <div className="hidden md:block absolute inset-x-0 bottom-0 z-10">
+          <div className="shell">
+            <div className="bg-accent text-white px-7 lg:px-10 py-8 lg:py-9
+                            grid grid-cols-3 lg:grid-cols-5 gap-7 lg:gap-6">
+              {headlineMetrics.map((m) => (
+                <Stat key={m.label} metric={m} dark />
+              ))}
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* ------------------------------------------------- headline figures */}
-      {/* On cream, not a navy band: the brief wants key numbers in the accent, and
-          the accent on navy is 2.1:1. On cream the figures read at 7.8:1. */}
-      <section className="bg-cream border-y border-rule">
-        <div className="shell py-10 md:py-12">
-          <h2 className="text-[22px] md:text-[26px] mb-8">
-            Impact, measured beyond the grant.
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-6">
-            {headlineMetrics.map((m) => (
-              <Stat key={m.label} metric={m} />
-            ))}
-          </div>
+      {/* Below md the same figures run full width under the hero. */}
+      <section className="md:hidden bg-accent text-white">
+        <div className="shell py-9 grid grid-cols-2 gap-7">
+          {headlineMetrics.map((m) => (
+            <Stat key={m.label} metric={m} dark />
+          ))}
         </div>
       </section>
 
