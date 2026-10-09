@@ -78,13 +78,22 @@ export function StoriesIndex() {
 
 export function StoryDetail() {
   const { slug } = useParams();
-  const { stories } = useContent();
+  const { stories, fromCms } = useContent();
 
   // Resolve against the same list the index renders. This used to read a hardcoded
   // local array instead, so every story written in the CMS appeared on the index and
   // then 404'd when opened — the index was reading the CMS, the detail page was not.
   const found = stories.find((s) => s.slug === slug) ?? getStory(slug);
   const story = found && !found.draft ? found : undefined;
+
+  /* Until the CMS answers we do not know whether this story exists: stories live
+     there, and the local fallback carries different slugs. Opening a story link
+     directly used to read "Story not found" for the second or two before the fetch
+     landed — longer on a slow connection, and indefinitely to a crawler that does
+     not wait. Say nothing until there is something true to say. */
+  if (!story && !fromCms) {
+    return <div className="shell band" aria-busy="true" aria-label="Loading story" />;
+  }
 
   if (!story) {
     return (
