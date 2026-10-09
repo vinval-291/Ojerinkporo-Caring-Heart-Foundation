@@ -1,0 +1,77 @@
+# Builds the site and publishes it to preview.ojerinkporofoundation.com.
+#
+# Runs on every push to `redesign` that touches the site, so updating the preview
+# becomes "git push" rather than zipping a folder and uploading it by hand.
+#
+# It never touches .htaccess, which carries the routing rules, the noindex header
+# and the password protection. Losing that file has broken the preview twice, so
+# it is excluded from the sync rather than trusted to survive it.
+
+name: Deploy preview
+
+on:
+  push:
+    branches: [redesign]
+    paths:
+      - 'source/**'
+      - '.github/workflows/deploy-preview.yml'
+  workflow_dispatch:        # lets you run it by hand from the Actions tab
+
+concurrency:
+  group: deploy-preview     # never let two deploys overlap mid-upload
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: source/package-lock.json
+
+      - name: Install
+        working-directory: source
+        run: npm ci
+
+      - name: Typecheck
+        working-directory: source
+        run: npm run lint          # tsc --noEmit — a broken build never reaches the server
+
+      - name: Build
+        working-directory: source
+        # Not secrets: the project id and dataset ship inside the client bundle and are
+        # readable by anyone. They live in repo variables so CI builds the same way a
+        # local build does. Without them the site silently falls back to the figures
+        # baked into the code instead of reading the CMS.
+        env:
+          VITE_SANITY_PROJECT_ID: ${{ vars.VITE_SANITY_PROJECT_ID }}
+          VITE_SANITY_DATASET: ${{ vars.VITE_SANITY_DATASET || 'production' }}
+        run: npm run build
+
+      - name: Publish to preview
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps              # encrypted; plain ftp would send the password in clear
+          local-dir: source/dist/
+          server-dir: ${{ secrets.FTP_PREVIEW_DIR }}
+          # The sync deletes remote files that are not in the build, so anything the
+          # server owns has to be named here.
+          #
+          # api/ is cPanel's: "Setup Node.js App" keeps its Passenger directives in
+          # api/.htaccess inside this folder, not in the root .htaccess. Deleting that
+          # folder unmounts the dashboard's server AND leaves cPanel unable to stop the
+          # app, because its own Stop step reads that file. A manual upload already
+          # caused exactly that.
+          exclude: |
+            **/.htaccess
+            api/**
+            **/.git*
+            **/.well-known/**
+            **/cgi-bin/**
