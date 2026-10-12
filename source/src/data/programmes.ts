@@ -110,13 +110,19 @@ export const getProgramme = (slug?: string) =>
 /** Flagship programme block on the homepage. */
 export const flagship = {
   eyebrow: 'Flagship programme',
-  title: 'Backing entrepreneurs who create jobs.',
+  title: 'Backing businesses built to grow.',
   body:
-    "Through OCHF's Entrepreneurship Grant Programme, businesses receive growth funding — " +
-    '₦1,000,000 to ₦3,000,000 per recipient — alongside structured mentorship designed to ' +
-    'strengthen operations, create employment and build sustainable enterprises.',
+    "Through OCHF's Entrepreneurship Grant Programme, selected businesses receive ₦2 million " +
+    'to ₦3 million in growth capital, alongside structured mentorship to strengthen ' +
+    'operations, create jobs and support sustainable growth.',
+  /** The award, called out beside the copy. */
+  award: {
+    label: '2026 Entrepreneurship Grant',
+    figure: '₦2M–₦3M',
+    note: 'in growth capital awarded per business',
+  },
   cta: { label: 'Explore the Programme', path: '/our-work/enterprise' },
-  image: photo.heroGrant,
+  image: photo.grantRecipients,
 };
 
 /**

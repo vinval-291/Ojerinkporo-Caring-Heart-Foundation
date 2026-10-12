@@ -48,6 +48,14 @@ export const photo = {
     credit: '',
     alt: 'Portrait of Professor Angela Unna Chukwu, Director of Programmes',
   },
+  /* The same photograph as the hero, with the poster's own caption band cropped off
+     the bottom — it carried "Funding received. Futures begin." burned into the image,
+     which the section's own caption now replaces. */
+  grantRecipients: {
+    src: '/images/grant-recipients.jpg',
+    credit: 'Grant recipients · Ebonyi State',
+    alt: 'Recipients of the 2026 Entrepreneurship Grant holding their awards, Ebonyi State',
+  },
   /* Supplied as an 11.3 MB, 3600px PNG. Resized to 1600px and converted to JPEG —
      209 KB — because the largest it is ever drawn is a half-width card. */
   educationStudents: {

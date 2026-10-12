@@ -132,6 +132,15 @@ export default function Home() {
             <p className="eyebrow mb-4">{flagship.eyebrow}</p>
             <h2 className="text-[30px] md:text-[38px]">{flagship.title}</h2>
             <p className="mt-6 text-[15px] leading-relaxed text-body">{flagship.body}</p>
+
+            {/* The award itself, set apart from the prose so it reads as a figure
+                rather than another sentence. */}
+            <div className="mt-8 pt-6 border-t border-rule">
+              <p className="eyebrow mb-3">{flagship.award.label}</p>
+              <p className="figure-num text-accent">{flagship.award.figure}</p>
+              <p className="text-[14px] text-muted mt-2">{flagship.award.note}</p>
+            </div>
+
             <ArrowLink to={flagship.cta.path} className="mt-7">{flagship.cta.label}</ArrowLink>
           </div>
         </div>
