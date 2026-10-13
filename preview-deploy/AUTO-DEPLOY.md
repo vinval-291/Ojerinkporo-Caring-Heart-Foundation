@@ -77,14 +77,59 @@ The workflow cannot delete or overwrite it — change that file by hand in cPane
 The Node app in your home directory is outside the FTP account's reach entirely,
 so `/admin` and `/api` are unaffected by any deploy.
 
-## Going live later
+## The live site
 
-Copy the workflow to `deploy-live.yml` and change three things: the branch to
-`main`, the name, and add an `FTP_LIVE_DIR` secret pointing at `public_html`.
-Then merging to `main` publishes the real site, and `redesign` stays the preview.
+`deploy-live.yml` publishes to ojerinkporofoundation.com when you push to `main`.
 
-Do that only once the under-construction block is removed from
-`public_html/.htaccess` and WordPress is backed up.
+How the two fit together:
+
+| Branch | Deploys to | What it is |
+|---|---|---|
+| `redesign` | preview.ojerinkporofoundation.com | where the work happens |
+| `main` | ojerinkporofoundation.com | what the public sees |
+
+So the routine becomes: work on `redesign`, check it on the preview, then merge
+into `main` when you are happy. Merging is what publishes.
+
+### Setup
+
+**1. A second FTP account, scoped to `public_html`.**
+
+cPanel → FTP Accounts → Add. Log in `deploy-live`, Directory `public_html`.
+Use a different account from the preview one, so neither can reach the other.
+
+**2. Three more secrets** (Settings → Secrets and variables → Actions):
+
+| Name | Value |
+|---|---|
+| `FTP_LIVE_USERNAME` | the full username, usually `deploy-live@ojerinkporofoundation.com` |
+| `FTP_LIVE_PASSWORD` | that account's password |
+| `FTP_LIVE_DIR` | `/` — the account already starts in `public_html` |
+
+`FTP_SERVER` and the two `VITE_` variables are shared with the preview workflow.
+
+**3. Move WordPress out of `public_html` first.** See step 2 of `LAUNCH.md`.
+
+### What it will not touch
+
+The sync removes files on the server that are not in the build, so everything the
+server owns is excluded by name in the workflow:
+
+- `.htaccess` — the redirects, the canonical rules, the routing
+- `api/**` — cPanel's Passenger directives for the dashboard
+- `wp-admin`, `wp-includes`, `wp-content`, `wp-*.php`, `index.php` — WordPress,
+  while it is still in `public_html`
+
+Those WordPress exclusions exist because the installation has not been moved yet.
+Once it has, they are dead weight and can come out — but leaving them costs
+nothing, and removing them before the move would be the one mistake that deletes
+the old site irrecoverably.
+
+### First run
+
+Use **Actions → Deploy live → Run workflow** rather than a push, and watch the
+log. Then open the site in a private window and check a deep address such as
+`/our-work/community` still loads on refresh — that proves `.htaccess` survived.
 
 ## If a deploy fails
 
