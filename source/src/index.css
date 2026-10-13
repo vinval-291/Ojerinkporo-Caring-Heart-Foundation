@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Manrope throughout, per the launch brief. Newsreader is kept as an accent serif
+     for occasional pull quotes only — it is no longer the heading face. */
+  --font-sans:  "Manrope", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+
+  /* ==================================================================
+     OCHF Brand Palette.
+
+     Ratios in the comments are WCAG contrast, measured not estimated.
+     Body text needs 4.5:1; large text and borders need 3:1.
+     ================================================================== */
+
+  /* ---- Ink: the palette's primary dark ----------------------------
+     `ink-deep` is the logo navy, used as the darkest gradient stop.
+     `ink-soft` is derived — a lifted ink for hover on dark fills. */
+  --color-ink:        #12182B;   /* 16.3:1 on page, 17.6:1 under white */
+  --color-ink-deep:   #001840;   /* logo navy — 17.4:1 under white */
+  --color-ink-soft:   #232B42;   /* derived */
+
+  /* ---- The one accent --------------------------------------------
+     Buttons, key numbers, small labels. Never the background of a whole
+     section — the launch brief is explicit about that.
+
+     This is the logo's teal-blue, the colour where the navy turns toward
+     the green. It replaced an invented red that appeared nowhere in the
+     mark; the two behave almost identically (7.8:1 against the red's 7.2
+     as text, 8.3:1 against 7.8 with white on a fill), so the swap changed
+     the hue and nothing else.
+
+     Named `accent` rather than by colour, because this is the third time
+     it has changed and renaming the whole codebase each time is waste.
+
+     It must NOT sit on the navy bands: 2.1:1 there. Anything on a dark
+     band stays white. */
+  --color-accent:       #205080;   /* 7.8:1 on cream · 8.3:1 under white */
+  --color-accent-deep:  #17395C;   /* hover fill — 11.8:1 under white */
+  --color-accent-tint:  #F3EDE4;   /* call-to-action strips; ink on it is 15.0:1 */
+
+  /* ---- Bronze: the Community pillar -----------------------------
+     The middle stop of the signature gradient. It stands in for the logo
+     green, which the palette reserves for the icon — and which could not
+     have carried text anyway at 2.2:1 on white. */
+  --color-bronze:     #8A6A2E;   /* 5.0:1 on white, 5.0:1 under white */
+
+  /* ---- Signature gradient (135°) ---------------------------------
+     Reworked to run from the accent into the navy, since gold is no
+     longer part of the scheme. */
+  --color-grad-accent: #205080;
+  --color-grad-mid:    #1A3A5E;
+  --color-grad-navy:   #16233E;
+
+  /* ---- Icon only -------------------------------------------------
+     Present so the mark can be reproduced faithfully. Not for interface
+     use: green is 2.2:1 on white and cannot carry text at any size. */
+  --color-icon-green: #90C030;
+  --color-icon-teal:  #205080;
+
+  /* ---- Grounds ---------------------------------------------------
+     Warm off-white, per the brief. The page was a cool grey before, which
+     read as cold next to the accent. */
+  --color-paper:      #FBF6EF;   /* page — warm off-white */
+  --color-surface:    #FFFFFF;   /* panels and cards */
+  --color-cream:      #F7F1E8;   /* a half-step down for alternating bands */
+
+  /* ---- Type ------------------------------------------------------
+     Warm charcoals rather than the blue-greys, so the text sits on the
+     cream instead of floating above it. All three steps clear 4.5:1 on
+     every ground: these carry the phone number, the email address and the
+     reporting period under each figure. */
+  --color-body:       #33322E;   /* 11.9:1 on page */
+  --color-muted:      #5A574F;   /* 6.7:1 on page */
+  --color-faint:      #6B675E;   /* 5.2:1 on page */
+
+  /* ---- Lines ------------------------------------------------------ */
+  --color-rule:       #E5E0D6;
+  --color-rule-dark:  #2A3247;
+
+  --radius-institutional: 3px;
+}
+
+@layer base {
+  body {
+    @apply bg-paper text-body font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.5;   /* the brief's figure for body copy */
+  }
+
+  /* Manrope SemiBold sets every heading now. Newsreader is reserved for the
+     occasional pull quote, which is the only place the brief still allows it. */
+  h1, h2, h3, h4 {
+    @apply font-sans text-ink;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  ::selection { background: var(--color-accent); color: #fff; }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+/* Component classes live in the components layer so Tailwind utilities can
+   override them. Unlayered, `.btn-accent { display: inline-flex }` would beat `hidden`,
+   which is why the header Support button showed on phones. */
+@layer components {
+  /* ---- layout primitives ---- */
+
+  .shell        { @apply max-w-[1240px] mx-auto px-6 md:px-10; }
+  .shell-narrow { @apply max-w-[860px] mx-auto px-6 md:px-10; }
+  .band         { @apply py-20 md:py-28; }
+  .band-tight   { @apply py-14 md:py-20; }
+
+  /* Small uppercase letterspaced label used above every section heading. */
+  .eyebrow {
+    @apply font-sans text-[12px] font-semibold uppercase tracking-[0.14em] text-accent;
+  }
+  /* The accent is 2.1:1 on the navy bands, so anything on one turns white. */
+  .eyebrow-dark { @apply text-white/75; }
+
+  .lede { @apply text-[17px] md:text-lg leading-relaxed text-muted max-w-[62ch]; }
+
+  /* ---- buttons: near-square, institutional ---- */
+
+  /* Shared base. Tailwind v4 cannot @apply a custom class, so the variants below
+     extend this via the comma selector rather than `@apply btn`. */
+  .btn, .btn-accent, .btn-ink, .btn-bronze, .btn-outline, .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3
+           text-[15px] font-semibold rounded-[3px] transition-colors duration-200;
+  }
+  /* White on the accent: 8.3:1, darkening to 11.8:1 on hover. */
+  .btn-accent     { @apply bg-accent text-white hover:bg-accent-deep; }
+  .btn-ink     { @apply bg-ink text-white hover:bg-ink-soft; }
+  .btn-bronze  { @apply bg-bronze text-white hover:bg-ink; }
+  .btn-outline { @apply border border-rule bg-surface text-ink hover:border-ink hover:bg-paper; }
+  .btn-ghost   { @apply border border-white/25 text-white hover:bg-white/10; }
+
+  /* Inline "Learn more →" style link. */
+  .link-arrow {
+    @apply inline-flex items-center gap-1.5 text-[13px] font-semibold text-accent
+           hover:text-ink transition-colors;
+  }
+  .link-arrow-dark { @apply text-white/75 hover:text-white; }
+
+  /* Dark bands move through the palette's three navies rather than a flat fill.
+     Kept subtle: it should read as depth, not as a gradient effect. */
+  .band-ink {
+    background: linear-gradient(158deg, var(--color-ink-deep) 0%, var(--color-ink) 52%, var(--color-grad-navy) 100%);
+  }
+
+  /* The signature gradient, 135°, accent → deep navy. Used as a standing rule and
+     behind every image slot, so a photograph that has not arrived yet still
+     shows the brand rather than a grey box. */
+  .surface-gradient {
+    background: linear-gradient(135deg, var(--color-grad-accent) 0%, var(--color-grad-mid) 50%, var(--color-grad-navy) 100%);
+  }
+
+  /* Enterprise accent, Education navy, Community bronze.
+
+     Every pillar needs two values. On a navy band the accent is 2.1:1 and the navy
+     is 1.2:1 — each is invisible on the ground the other is made for, so the
+     dark-band set uses light weights instead. */
+  .pillar-enterprise { --pillar: var(--color-accent); }        /* 7.2:1 on page */
+  .pillar-education  { --pillar: var(--color-ink-soft); }   /* 13.0:1 on page */
+  .pillar-community  { --pillar: var(--color-bronze); }     /* 4.7:1 on page */
+
+  .band-ink .pillar-enterprise, .bg-ink .pillar-enterprise { --pillar: rgb(255 255 255 / 0.85); }
+  .band-ink .pillar-education,  .bg-ink .pillar-education  { --pillar: rgb(255 255 255 / 0.55); }
+  .band-ink .pillar-community,  .bg-ink .pillar-community  { --pillar: var(--color-bronze); }
+
+  .pillar-bar { border-top: 2px solid var(--pillar, var(--color-accent)); }
+
+  /* ---- figures & numbers ---- */
+
+  .rule-top { @apply border-t border-rule pt-5; }
+
+  /* Stat figures line up in columns across the impact bands. */
+  .figure-num {
+    @apply font-sans text-3xl md:text-[40px] leading-none text-ink;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  /* Red fails on navy (2.3:1); figures on a dark band stay white. */
+  .figure-num-dark { @apply text-white; }
+
+  /* Uppercase regardless of how the label was typed in the CMS, so a band of figures
+     reads as one set. */
+  .figure-label { @apply text-[12px] font-semibold uppercase tracking-[0.06em] text-ink mt-3; }
+  .figure-note  { @apply text-[11.5px] text-faint mt-1 leading-snug; }
+
+  /* Photo credit strip that sits over the bottom-left of every image. */
+  .photo-credit {
+    @apply absolute bottom-0 left-0 bg-ink/85 text-white/90
+           text-[9.5px] font-semibold uppercase tracking-[0.14em] px-3 py-2;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,280 @@
+/**
+ * Moves the content that still lives in code into Sanity, so the foundation can edit
+ * it without a developer.
+ *
+ * What it does:
+ *   1. Uploads the gallery photographs (currently on postimg.cc) and the local
+ *      portraits into Sanity's asset store.
+ *   2. Creates the gallery albums from those uploads.
+ *   3. Fills in the two `person` records, which exist but hold no biography,
+ *      portrait or group — which is why the Leadership page has been ignoring them.
+ *
+ * It is safe to run more than once. Documents are addressed by fixed ids and
+ * patched, and an image already uploaded is matched by its filename rather than
+ * uploaded again.
+ *
+ * Usage:
+ *   1. sanity.io/manage -> OCHF -> API -> Tokens -> Add API token, Editor role
+ *   2. Put it in cms/.env.local as SANITY_WRITE_TOKEN=... (that file is gitignored)
+ *   3. node scripts/populate.mjs            # dry run, changes nothing
+ *      node scripts/populate.mjs --write    # actually writes
+ */
+
+import { createClient } from '@sanity/client';
+import { readFileSync, existsSync } from 'node:fs';
+import { resolve, dirname, basename } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const here = dirname(fileURLToPath(import.meta.url));
+const repo = resolve(here, '../..');
+const WRITE = process.argv.includes('--write');
+
+/* ----------------------------------------------------------------- config */
+
+function readToken() {
+  const envFile = resolve(here, '../.env.local');
+  if (process.env.SANITY_WRITE_TOKEN) return process.env.SANITY_WRITE_TOKEN;
+  if (!existsSync(envFile)) return null;
+  const line = readFileSync(envFile, 'utf8')
+    .split(/\r?\n/)
+    .find((l) => l.trim().startsWith('SANITY_WRITE_TOKEN='));
+  return line ? line.split('=').slice(1).join('=').trim().replace(/^["']|["']$/g, '') : null;
+}
+
+const token = readToken();
+if (!token) {
+  console.error(
+    'No SANITY_WRITE_TOKEN found.\n\n' +
+    '  1. sanity.io/manage -> OCHF -> API -> Tokens -> Add API token (Editor)\n' +
+    '  2. Add this line to cms/.env.local:\n\n' +
+    '       SANITY_WRITE_TOKEN=your-token-here\n\n' +
+    '  The file is gitignored, so the token stays on this machine.',
+  );
+  process.exit(1);
+}
+
+const client = createClient({
+  projectId: 'essbj1jr',
+  dataset: 'production',
+  apiVersion: '2023-05-03',
+  token,
+  useCdn: false,
+});
+
+/* ------------------------------------------------------------------ content */
+
+const POSTIMG = (p) => `https://i.postimg.cc/${p}.jpg`;
+
+const albums = [
+  {
+    _id: 'album-inauguration',
+    title: 'Inauguration',
+    slug: 'inauguration',
+    cover: { postimg: 'hvfJJ3rB/presentation-4', filename: 'presentation-4.jpg' },
+    year: '2024',
+    description:
+      'Documentation from the formal inauguration of the foundation — the arrival of guests, ' +
+      'the addresses given, and the first grant awards and equipment handovers to entrepreneurs.',
+    sets: [
+      { name: 'Arrival of dignitaries and guests', images: [
+        'gkLdxPvn/arrival-1', 'ZYM4Yqym/arrival-2', 'RhNm1k2M/arrival-3', 'gjnpyCQB/arrival-4',
+        '76PwhGVL/arrival-5', 'Vvdw9xpF/arrival-6', 'CKgFy6nk/arrival-7', 'tgjX0mnX/arrival-8',
+        'jSNsFr5g/arrival-9', 'bwbzBjJ4/arrival-10', 'X7tjLvVx/arrival-11', 'NfZsD0g4/arrival-12',
+      ] },
+      { name: 'Addresses by distinguished personnel', images: [
+        'nLWfFRC0/speaker-1', 'Pq7nX3Pv/speaker-2', 'mrkGGf2k/speaker-3', 'wBMdd8TT/speaker-4',
+        'hGvqqWPg/speaker-5', 'BvbGG9Q0/speaker-7', 'W12vXqBn/speaker-8', '2SzD2Ls4/speaker-9',
+        'X7KWfkzN/speaker-10', 'xTGQv34n/speaker-11',
+      ] },
+      { name: 'Grant award presentations', images: [
+        'Bbkj2cY1/presentation-1', 'nrCssw1y/presentation-2', 'bJYSPvSF/presentation-3',
+        'hvfJJ3rB/presentation-4', 'Y92L7SLS/presentation-5', 'xd2bs505/presentation-7',
+        'zGWgS61F/presentation-8', 'CKgfv7Fr/presentation-9',
+      ] },
+      { name: 'Equipment distribution to entrepreneurs', images: [
+        '9X7wjsrL/equipment-1', 'T1gKq5z2/equipment-2', 'G2B8t5zy/equipment-3',
+      ] },
+    ],
+  },
+  {
+    /* Must be here. The Gallery takes CMS albums over the code ones as a set, not one
+       by one, so publishing only the inauguration would have removed Outreach from the
+       site entirely — its photographs live in source/public/images. */
+    _id: 'album-outreach-2026',
+    title: '2026 Outreach',
+    slug: 'outreach-2026',
+    cover: { file: 'source/public/images/outreach/outreach-5023.jpg' },
+    year: '2026',
+    description:
+      'Community outreach carried out through the year, and the people and places it reached.',
+    sets: [
+      { name: 'Outreach', local: 'source/public/images/outreach', images: [
+        'outreach-4946', 'outreach-4951', 'outreach-4977', 'outreach-4989',
+        'outreach-5012', 'outreach-5016', 'outreach-5020', 'outreach-5023',
+        'outreach-5061', 'outreach-5069', 'outreach-5070', 'outreach-5083',
+        'outreach-5084', 'outreach-5089', 'outreach-5093', 'outreach-5159',
+      ] },
+    ],
+  },
+];
+
+const people = [
+  {
+    match: 'Ikechukwu',
+    name: 'Mr. Ikechukwu Agwu',
+    role: 'Founder',
+    group: 'founder',
+    order: 1,
+    portrait: null, // no local file; upload in Studio
+    bio: [
+      'Mr. Ikechukwu Agwu is a Nigerian entrepreneur, business leader and philanthropist ' +
+      'committed to creating opportunities and driving meaningful change.',
+      'A graduate of Pure and Applied Mathematics from the University of Ibadan, he has also ' +
+      'completed leadership and management programmes at Harvard University and other ' +
+      'international institutions.',
+      'In 2008, he founded Dav-Ric Nigeria Limited as a one-man venture, growing it into DAVRIC ' +
+      'Group, a diversified enterprise spanning multiple industries, with operations across two ' +
+      'continents and a workforce of over 100 professionals.',
+      'Guided by his belief that success should create opportunities for others, he established ' +
+      'Ojerinkporo Caring Hearts Foundation to advance entrepreneurship, education and community ' +
+      'development. Over the past three years, the Foundation has deployed more than ₦250 ' +
+      'million across its programmes, translating his vision of empowerment into tangible impact.',
+    ],
+  },
+  {
+    match: 'Angela',
+    name: 'Prof. Angela Unna Chukwu',
+    role: 'Director of Programmes',
+    group: 'leadership',
+    order: 2,
+    portrait: 'source/public/images/angela-chukwu.jpg',
+    bio: [
+      'Professor Angela Unna Chukwu is a distinguished statistician, researcher and educator at ' +
+      'the University of Ibadan, Nigeria, with expertise in biostatistics, mathematical ' +
+      'statistics and demography.',
+      'She holds a B.Sc. in Mathematics from the University of Calabar, an M.Sc. and Ph.D. in ' +
+      'Statistics from the University of Ibadan, and is a Fellow of the Royal Statistical Society.',
+      'Her career spans academic research, public health and international research ' +
+      'collaboration, including contributions to the University of Ibadan Research Foundation ' +
+      'and initiatives focused on advancing research capacity across Africa.',
+      'As Director of Programmes at Ojerinkporo Caring Hearts Foundation, she brings her ' +
+      'analytical expertise and commitment to evidence-based development to the Foundation’s ' +
+      'work in entrepreneurship, education and community empowerment.',
+    ],
+  },
+];
+
+/* ------------------------------------------------------------------ helpers */
+
+const blocks = (paragraphs) =>
+  paragraphs.map((text, i) => ({
+    _type: 'block',
+    _key: `p${i}`,
+    style: 'normal',
+    children: [{ _type: 'span', _key: `s${i}`, text }],
+  }));
+
+/** Assets already in the project, by original filename, so reruns do not duplicate. */
+let existingAssets = new Map();
+async function loadExistingAssets() {
+  const rows = await client.fetch('*[_type=="sanity.imageAsset"]{_id, originalFilename}');
+  existingAssets = new Map(rows.filter((r) => r.originalFilename).map((r) => [r.originalFilename, r._id]));
+  console.log(`  ${existingAssets.size} image assets already in the project`);
+}
+
+async function uploadFromUrl(url, filename) {
+  if (existingAssets.has(filename)) return existingAssets.get(filename);
+  if (!WRITE) return `(would upload ${filename})`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`${res.status} fetching ${url}`);
+  const buf = Buffer.from(await res.arrayBuffer());
+  const asset = await client.assets.upload('image', buf, { filename });
+  existingAssets.set(filename, asset._id);
+  return asset._id;
+}
+
+async function uploadFromFile(relPath) {
+  const full = resolve(repo, relPath);
+  const filename = basename(full);
+  if (existingAssets.has(filename)) return existingAssets.get(filename);
+  if (!existsSync(full)) throw new Error(`missing file ${relPath}`);
+  if (!WRITE) return `(would upload ${filename})`;
+  const asset = await client.assets.upload('image', readFileSync(full), { filename });
+  existingAssets.set(filename, asset._id);
+  return asset._id;
+}
+
+const imageField = (assetId, alt) => ({
+  _type: 'documentaryImage',
+  _key: Math.random().toString(36).slice(2, 10),
+  asset: { _type: 'reference', _ref: assetId },
+  alt,
+  credit: '',
+});
+
+/* --------------------------------------------------------------------- run */
+
+async function main() {
+  console.log(WRITE ? 'WRITING to Sanity\n' : 'DRY RUN — nothing will be written. Pass --write to apply.\n');
+  await loadExistingAssets();
+
+  console.log('\nPeople');
+  const existingPeople = await client.fetch('*[_type=="person"]{_id, name}');
+  for (const p of people) {
+    const doc = existingPeople.find((d) => (d.name ?? '').includes(p.match));
+    if (!doc) { console.log(`  ! no person record matching "${p.match}" — create it in Studio first`); continue; }
+    const patch = { name: p.name, role: p.role, group: p.group, order: p.order, bio: blocks(p.bio) };
+    if (p.portrait) {
+      const assetId = await uploadFromFile(p.portrait);
+      if (WRITE) patch.portrait = imageField(assetId, `Portrait of ${p.name}`);
+      console.log(`  portrait: ${assetId}`);
+    }
+    if (WRITE) await client.patch(doc._id).set(patch).commit();
+    console.log(`  ${WRITE ? 'patched' : 'would patch'} ${doc._id} -> ${p.name} (${p.group}, ${p.bio.length} paragraphs)`);
+  }
+
+  console.log('\nGallery albums');
+  for (const a of albums) {
+    const sets = [];
+    let n = 0, failed = 0;
+    for (const set of a.sets) {
+      const images = [];
+      for (const short of set.images) {
+        const filename = `${basename(short)}.jpg`;
+        try {
+          // `local` sets come from the repo; everything else is still on postimg.
+          const assetId = set.local
+            ? await uploadFromFile(`${set.local}/${filename}`)
+            : await uploadFromUrl(POSTIMG(short), filename);
+          if (WRITE) images.push(imageField(assetId, `${set.name} — OCHF documentation`));
+          n++;
+        } catch (err) {
+          failed++;
+          console.log(`    ! ${filename}: ${err.message}`);
+        }
+      }
+      sets.push({ _type: 'photoSet', _key: set.name.slice(0, 12).replace(/\W/g, ''), name: set.name, images });
+    }
+    let cover;
+    if (a.cover) {
+      const id = a.cover.file
+        ? await uploadFromFile(a.cover.file)
+        : await uploadFromUrl(POSTIMG(a.cover.postimg), a.cover.filename);
+      if (WRITE) cover = imageField(id, `${a.title} — OCHF documentation`);
+    }
+    if (WRITE) {
+      await client.createOrReplace({
+        _id: a._id, _type: 'galleryAlbum', title: a.title,
+        slug: { _type: 'slug', current: a.slug }, year: a.year,
+        description: a.description, cover, sets, published: true,
+      });
+    }
+    console.log(`  ${WRITE ? 'wrote' : 'would write'} ${a.title}: ${n} photographs${failed ? `, ${failed} failed` : ''}`);
+  }
+
+  console.log(WRITE
+    ? '\nDone. Check Studio, then reload the site.'
+    : '\nDry run complete. Rerun with --write to apply.');
+}
+
+main().catch((err) => { console.error('\nFailed:', err.message); process.exit(1); });

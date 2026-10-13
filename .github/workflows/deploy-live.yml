@@ -1,0 +1,80 @@
+# Builds the site and publishes it to ojerinkporofoundation.com.
+#
+# Pushing to `main` publishes. Day to day the work happens on `redesign`, which
+# deploys to the preview; merging redesign into main is what makes it public.
+#
+# WHAT THIS WILL NOT TOUCH
+# The sync removes files on the server that are not in the build, so everything the
+# server owns is excluded by name below: .htaccess, cPanel's api/ folder, and the
+# WordPress installation that is still sitting in public_html. Without those
+# exclusions the first run would delete WordPress and unmount the dashboard.
+
+name: Deploy live
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'source/**'
+      - '.github/workflows/deploy-live.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-live
+  cancel-in-progress: false      # never interrupt a publish to the live site
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: source/package-lock.json
+
+      - name: Install
+        working-directory: source
+        run: npm ci
+
+      - name: Typecheck
+        working-directory: source
+        run: npm run lint          # a build that does not compile never reaches the site
+
+      - name: Refresh the sitemap
+        working-directory: source
+        continue-on-error: true    # a bad minute at the CMS must not stop a deploy
+        run: node scripts/sitemap.mjs
+
+      - name: Build
+        working-directory: source
+        env:
+          VITE_SANITY_PROJECT_ID: ${{ vars.VITE_SANITY_PROJECT_ID }}
+          VITE_SANITY_DATASET: ${{ vars.VITE_SANITY_DATASET || 'production' }}
+        run: npm run build
+
+      - name: Publish
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_LIVE_USERNAME }}
+          password: ${{ secrets.FTP_LIVE_PASSWORD }}
+          protocol: ftps
+          local-dir: source/dist/
+          server-dir: ${{ secrets.FTP_LIVE_DIR }}
+          exclude: |
+            **/.htaccess
+            api/**
+            .well-known/**
+            cgi-bin/**
+            wp-admin/**
+            wp-includes/**
+            wp-content/**
+            wp-*.php
+            xmlrpc.php
+            index.php
+            license.txt
+            readme.html
+            **/.git*

@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ojerinkporo Caring Hearts Foundation — New website coming soon</title>
+  <meta name="description" content="Ojerinkporo Caring Hearts Foundation is building a new website. Contact the foundation directly in the meantime." />
+  <meta name="theme-color" content="#0A1F4A" />
+  <link rel="icon" type="image/png" href="/under-construction/ochf-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&display=swap" />
+  <style>
+    :root {
+      --ink: #0A1F4A;
+      --ink-deep: #06152F;
+      --teal-deep: #06414F;
+      --gold: #F0A81E;
+      --gold-ink: #8A5A12;
+      --green: #3FA84E;
+      --paper: #FAF9F7;
+      --body: #3A424E;
+      --muted: #6B7480;
+      --rule: #E1E2E0;
+      --serif: "Newsreader", Georgia, "Times New Roman", serif;
+      --sans: "Public Sans", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; }
+
+    body {
+      min-height: 100vh;
+      background: var(--paper);
+      color: var(--body);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    }
+
+    /* ---------- left: message ---------- */
+    .main {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 56px;
+      padding: 48px clamp(24px, 6vw, 88px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .brand img { width: 44px; height: 44px; object-fit: contain; }
+    .brand span {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 17px;
+      line-height: 1.2;
+      color: var(--ink);
+      max-width: 22ch;
+    }
+
+    .eyebrow {
+      margin: 0 0 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-ink);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: clamp(38px, 5.4vw, 64px);
+      line-height: 1.05;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      text-wrap: balance;
+      max-width: 14ch;
+    }
+
+    .lede {
+      margin: 24px 0 0;
+      max-width: 52ch;
+      font-size: 17px;
+      color: var(--muted);
+    }
+
+    .rule {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      margin: 40px 0 28px;
+      border: 0;
+    }
+
+    .contact {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 18px;
+    }
+    .contact li { display: grid; gap: 2px; }
+    .contact .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #99A1AC;
+    }
+    .contact a, .contact .value {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+    .contact a:hover { color: var(--gold-ink); }
+    .contact a:focus-visible { outline: 2px solid var(--gold-ink); outline-offset: 3px; }
+    .phones { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+
+    footer {
+      font-size: 12.5px;
+      color: #99A1AC;
+    }
+    .foot-mobile { display: none; }
+
+    /* ---------- right: the three pillars ---------- */
+    .aside {
+      background: linear-gradient(158deg, var(--ink-deep) 0%, var(--ink) 52%, var(--teal-deep) 100%);
+      color: #fff;
+      padding: 48px clamp(24px, 5vw, 72px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .aside .eyebrow { color: #FBB837; }
+    .aside h2 {
+      margin: 0 0 40px;
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: clamp(26px, 2.6vw, 34px);
+      line-height: 1.15;
+      color: #fff;
+      max-width: 16ch;
+    }
+    .pillars { list-style: none; margin: 0; padding: 0; display: grid; gap: 28px; }
+    .pillars li { padding-top: 16px; border-top: 2px solid var(--c); }
+    .pillars strong {
+      display: block;
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 22px;
+      line-height: 1.2;
+      color: #fff;
+    }
+    .pillars span {
+      display: block;
+      margin-top: 4px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    @media (max-width: 860px) {
+      body { grid-template-columns: 1fr; }
+      .main { gap: 40px; padding: 32px 24px 40px; }
+      .aside { padding: 44px 24px; }
+      .foot-desktop { display: none; }
+      .foot-mobile { display: block; margin-top: 44px; color: rgba(255, 255, 255, 0.5); }
+    }
+  </style>
+</head>
+<body>
+  <main class="main">
+    <a class="brand" href="/" aria-label="Ojerinkporo Caring Hearts Foundation">
+      <img src="/under-construction/ochf-logo.png" alt="" width="44" height="44" />
+      <span>Ojerinkporo Caring Hearts Foundation</span>
+    </a>
+
+    <section aria-labelledby="headline">
+      <p class="eyebrow">Website update</p>
+      <h1 id="headline">A new website is on its way.</h1>
+      <p class="lede">
+        We are rebuilding our website to better present our work across Nigeria.
+        Our programmes continue as normal. In the meantime, please reach us directly.
+      </p>
+
+      <hr class="rule" />
+
+      <ul class="contact">
+        <li>
+          <span class="label">Email</span>
+          <a href="mailto:info@ojerinkporofoundation.com">info@ojerinkporofoundation.com</a>
+        </li>
+        <li>
+          <span class="label">Telephone</span>
+          <span class="phones">
+            <a href="tel:+2348066667882">+234 806 666 7882</a>
+            <a href="tel:+2347060726910">+234 706 072 6910</a>
+          </span>
+        </li>
+        <li>
+          <span class="label">Head office</span>
+          <span class="value">Amas Autonomous Community, Ebonyi State, Nigeria</span>
+        </li>
+      </ul>
+    </section>
+
+    <footer class="foot-desktop">&copy; <span class="year">2026</span> Ojerinkporo Caring Hearts Foundation</footer>
+  </main>
+
+  <aside class="aside" aria-labelledby="pillars">
+    <p class="eyebrow">What we do</p>
+    <h2 id="pillars">Three pillars.<br />One direction.</h2>
+    <ul class="pillars">
+      <li style="--c: #F0A81E">
+        <strong>Enterprise</strong>
+        <span>Entrepreneurship · Agribusiness · Technology</span>
+      </li>
+      <li style="--c: #7FA2D8">
+        <strong>Education</strong>
+        <span>Scholarships · Training Programmes · Skills Development</span>
+      </li>
+      <li style="--c: #3FA84E">
+        <strong>Community</strong>
+        <span>Direct Support · Infrastructure</span>
+      </li>
+    </ul>
+    <footer class="foot-mobile">&copy; <span class="year">2026</span> Ojerinkporo Caring Hearts Foundation</footer>
+  </aside>
+
+  <script>document.querySelectorAll('.year').forEach((el) => { el.textContent = new Date().getFullYear(); });</script>
+</body>
+</html>
