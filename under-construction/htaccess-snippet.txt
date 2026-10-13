@@ -1,0 +1,24 @@
+# BEGIN OCHF under-construction
+# Shows /under-construction/index.html to every visitor while the new website is built.
+# WordPress is untouched and still reachable at /wp-admin for site owners.
+# TO TURN OFF: delete everything from "BEGIN" to "END" in this block.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Keep WordPress admin and its assets working so you can still sign in.
+RewriteCond %{REQUEST_URI} !^/wp-admin [NC]
+RewriteCond %{REQUEST_URI} !^/wp-login\.php [NC]
+RewriteCond %{REQUEST_URI} !^/wp-content/ [NC]
+RewriteCond %{REQUEST_URI} !^/wp-includes/ [NC]
+RewriteCond %{REQUEST_URI} !^/wp-json/ [NC]
+
+# Let the holding page load its own files, and don't loop.
+RewriteCond %{REQUEST_URI} !^/under-construction/ [NC]
+
+# Leave hosting verification and SSL renewal paths alone.
+RewriteCond %{REQUEST_URI} !^/\.well-known/ [NC]
+RewriteCond %{REQUEST_URI} !^/cpanel [NC]
+
+RewriteRule ^ /under-construction/index.html [L]
+</IfModule>
+# END OCHF under-construction
