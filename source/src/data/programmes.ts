@@ -57,7 +57,7 @@ export const programmes: Programme[] = [
     image: photo.workshopFloor,
     detail: {
       modelEyebrow: 'The grant model',
-      modelTitle: 'Catalytic funding, paired with real support.',
+      modelTitle: 'Growth funding, paired with real support.',
       terms: [
         {
           value: '₦1M–₦3M',
