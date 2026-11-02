@@ -8,7 +8,7 @@ import { ContentProvider } from './content/ContentProvider';
 import Home from './pages/Home';
 import About from './pages/About';
 import Story from './pages/Story';
-import Leadership from './pages/Leadership';
+import Leadership, { LeadershipProfile } from './pages/Leadership';
 import Governance from './pages/Governance';
 import OurWork from './pages/OurWork';
 import Programme from './pages/Programme';
@@ -65,6 +65,7 @@ function PublicSite() {
             <Route path="/about" element={<About />} />
             <Route path="/about/story" element={<Story />} />
             <Route path="/about/leadership" element={<Leadership />} />
+            <Route path="/about/leadership/:slug" element={<LeadershipProfile />} />
             <Route path="/about/governance" element={<Governance />} />
 
             {/* Our Work */}

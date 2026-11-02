@@ -1,19 +1,47 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useContent } from '@/src/content/ContentProvider';
-import { photo } from '@/src/data/media';
-import { Figure, Breadcrumb, CtaBand } from '@/src/components/ui';
+import { photo, type Photo } from '@/src/data/media';
+import { Figure, Breadcrumb, CtaBand, ArrowLink } from '@/src/components/ui';
 
 /**
- * Founder profile.
+ * Leadership.
+ *
+ * The index carries a portrait, a role and the opening paragraph; the full profile
+ * lives on its own page. Four full biographies stacked down one page buried the
+ * names, which are the part an institutional reader is checking for.
  *
  * Confirmed by the client (7 September 2026): Mr. Ikechukwu Agwu is the founder and
  * visionary of the foundation. The previous build named a different person as founder
  * on one of its event pages; that attribution was incorrect and has been removed.
- * This page is the single source for founder attribution — do not reintroduce another.
  */
-const makeFounder = (site: { name: string; short: string }) => ({
+
+export interface Person {
+  slug: string;
+  name: string;
+  role: string;
+  photo: Photo;
+  bio: string[];
+}
+
+/**
+ * Addresses are built from the name, since the CMS has no slug field for a person.
+ * Honorifics come off first: /about/leadership/prof-angela-unna-chukwu would date
+ * the moment a title changed.
+ */
+export const personSlug = (name: string) =>
+  name
+    .replace(/^(Mr|Mrs|Ms|Miss|Dr|Prof|Professor|Engr|Chief|Barr|Hon)\.?\s+/i, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+/* ---------------------------------------------------- the code fallback ---- */
+
+const makeFounder = (site: { name: string; short: string }): Person => ({
+  slug: 'ikechukwu-agwu',
   name: 'Mr. Ikechukwu Agwu',
   role: 'Founder',
+  photo: photo.founder,
   // As supplied by the client, October 2026.
   bio: [
     'Mr. Ikechukwu Agwu is a Nigerian entrepreneur, business leader and philanthropist ' +
@@ -34,14 +62,9 @@ const makeFounder = (site: { name: string; short: string }) => ({
   ],
 });
 
-/**
- * Everyone else accountable for the work.
- *
- * The launch brief is blunt about why this section exists: one named person reads as
- * a personal project, three reads as an institution. An institutional reader checks.
- */
-const team = [
+const team: Person[] = [
   {
+    slug: 'angela-unna-chukwu',
     name: 'Prof. Angela Unna Chukwu',
     role: 'Director of Programmes',
     photo: photo.angelaChukwu,
@@ -65,21 +88,28 @@ const team = [
   },
 ];
 
-export default function Leadership() {
+/** One list, used by both the index and the profile pages so they cannot disagree. */
+function useLeadership(): Person[] {
   const { site, people } = useContent();
 
-  /* The CMS wins where it has someone; the code is the fallback. A person is only
-     counted once they have a biography written — see the filter in ContentProvider. */
-  const cmsFounder = people.find((p) => p.group === 'founder');
-  const founder = cmsFounder
-    ? { name: cmsFounder.name, role: cmsFounder.role, bio: cmsFounder.bio }
-    : makeFounder(site);
-  const founderPhoto = cmsFounder?.portrait ?? photo.founder;
+  if (people.length) {
+    return people.map((p) => ({
+      slug: personSlug(p.name),
+      name: p.name,
+      role: p.role,
+      photo: p.portrait ?? (p.group === 'founder' ? photo.founder : photo.angelaChukwu),
+      bio: p.bio,
+    }));
+  }
+  return [makeFounder(site), ...team];
+}
 
-  const cmsTeam = people.filter((p) => p.group !== 'founder');
-  const members = cmsTeam.length
-    ? cmsTeam.map((p) => ({ name: p.name, role: p.role, bio: p.bio, photo: p.portrait ?? photo.angelaChukwu }))
-    : team;
+/* ------------------------------------------------------------- the index ---- */
+
+export default function Leadership() {
+  const { site } = useContent();
+  const people = useLeadership();
+
   return (
     <>
       <section className="bg-paper border-b border-rule">
@@ -93,41 +123,104 @@ export default function Leadership() {
       </section>
 
       <section className="band bg-paper">
-        <div className="shell grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-          <div className="lg:col-span-5">
-            <Figure photo={founderPhoto} ratio="aspect-[4/5]" priority />
-          </div>
+        <div className="shell grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
+          {people.map((p) => (
+            <article key={p.slug}>
+              <Link
+                to={`/about/leadership/${p.slug}`}
+                className="group block"
+                aria-label={`Read ${p.name}'s profile`}
+              >
+                <div className="surface-gradient overflow-hidden rounded-[3px] aspect-[4/5]">
+                  <img
+                    src={p.photo.src}
+                    alt={p.photo.alt}
+                    loading="lazy"
+                    decoding="async"
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                </div>
+                <p className="eyebrow mt-6 mb-2">{p.role}</p>
+                <h2 className="text-[23px] md:text-[25px] group-hover:text-accent transition-colors">
+                  {p.name}
+                </h2>
+              </Link>
 
-          <div className="lg:col-span-7 max-w-[58ch]">
-            <p className="eyebrow mb-4">{founder.role}</p>
-            <h2 className="text-[32px] md:text-[40px]">{founder.name}</h2>
+              {/* The opening paragraph only. The rest is on the profile page. */}
+              <p className="mt-3 text-[14.5px] leading-relaxed text-muted">{p.bio[0]}</p>
 
-            <div className="mt-8 space-y-5 text-[15px] leading-relaxed text-body">
-              {founder.bio.map((para, i) => <p key={i}>{para}</p>)}
-            </div>
-          </div>
+              <ArrowLink to={`/about/leadership/${p.slug}`} className="mt-4">
+                Read full profile
+              </ArrowLink>
+            </article>
+          ))}
         </div>
       </section>
 
-      {/* Same weight as the founder's profile, mirrored: portrait right, text left. */}
-      {members.map((member) => (
-        <section key={member.name} className="band bg-surface border-t border-rule">
-          <div className="shell grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-            <div className="lg:col-span-7 lg:order-1 max-w-[58ch]">
-              <p className="eyebrow mb-4">{member.role}</p>
-              <h2 className="text-[32px] md:text-[40px]">{member.name}</h2>
+      <CtaBand title="Understand how we're held accountable.">
+        <Link to="/about/governance" className="btn-accent">How We’re Governed</Link>
+      </CtaBand>
+    </>
+  );
+}
 
-              <div className="mt-8 space-y-5 text-[15px] leading-relaxed text-body">
-                {member.bio.map((para, i) => <p key={i}>{para}</p>)}
-              </div>
-            </div>
+/* ------------------------------------------------------ one person's page ---- */
 
-            <div className="lg:col-span-5 lg:order-2">
-              <Figure photo={member.photo} ratio="aspect-[4/5]" />
-            </div>
+export function LeadershipProfile() {
+  const { slug } = useParams();
+  const { fromCms } = useContent();
+  const people = useLeadership();
+  const person = people.find((p) => p.slug === slug);
+
+  /* The CMS may hold someone the code fallback does not. Until it answers we cannot
+     tell a missing profile from one we have not heard about yet, so say nothing. */
+  if (!person && !fromCms) {
+    return <div className="shell band" aria-busy="true" aria-label="Loading profile" />;
+  }
+
+  if (!person) {
+    return (
+      <div className="shell band text-center">
+        <h1 className="text-[32px] mb-4">Profile not found</h1>
+        <Link to="/about/leadership" className="btn-outline mt-4">All leadership</Link>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <section className="bg-paper border-b border-rule">
+        <div className="shell pt-8">
+          <Breadcrumb
+            trail={[
+              { name: 'About', path: '/about' },
+              { name: 'Leadership', path: '/about/leadership' },
+              { name: person.name },
+            ]}
+          />
+        </div>
+        <div className="shell pt-10 pb-14">
+          <p className="eyebrow mb-5">{person.role}</p>
+          <h1 className="text-[36px] md:text-[46px] max-w-[20ch]">{person.name}</h1>
+        </div>
+      </section>
+
+      <section className="band bg-paper">
+        <div className="shell grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <Figure photo={person.photo} ratio="aspect-[4/5]" priority />
           </div>
-        </section>
-      ))}
+
+          <div className="lg:col-span-7 max-w-[58ch]">
+            <div className="space-y-5 text-[15.5px] leading-relaxed text-body">
+              {person.bio.map((para, i) => <p key={i}>{para}</p>)}
+            </div>
+
+            <ArrowLink to="/about/leadership" className="mt-10">All leadership</ArrowLink>
+          </div>
+        </div>
+      </section>
 
       <CtaBand title="Understand how we're held accountable.">
         <Link to="/about/governance" className="btn-accent">How We’re Governed</Link>

@@ -51,7 +51,20 @@ try {
   const stories = await cms('*[_type=="story" && published==true && consent==true]{"slug":slug.current}');
   for (const s of stories) if (s.slug) urls.push([`/stories/${s.slug}`, '0.7', 'monthly']);
 
-  console.log(`  ${programmes.length} programmes, ${stories.length} stories from the CMS`);
+  /* Leadership profiles are addressed by a slug built from the name, the same way the
+     page builds it — honorifics stripped, so a change of title does not change a URL. */
+  const people = await cms('*[_type=="person" && count(bio) > 0]{name}');
+  for (const p of people) {
+    const slug = String(p.name ?? '')
+      .replace(/^(Mr|Mrs|Ms|Miss|Dr|Prof|Professor|Engr|Chief|Barr|Hon)\.?\s+/i, '')
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    if (slug) urls.push([`/about/leadership/${slug}`, '0.7', 'yearly']);
+  }
+
+  console.log(`  ${programmes.length} programmes, ${stories.length} stories, ${people.length} profiles from the CMS`);
 } catch (err) {
   console.log(`  CMS unreachable (${err.message}) — writing the fixed pages only`);
 }
