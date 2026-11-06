@@ -35,6 +35,26 @@ export const structure: StructureResolver = (S) =>
         .title('Photo albums')
         .child(S.documentTypeList('galleryAlbum').title('Photo albums')),
 
+      S.listItem()
+        .title('Programme records')
+        .child(
+          S.documentTypeList('programmeRecord')
+            .title('Programme records')
+            .defaultOrdering([{ field: 'startDate', direction: 'desc' }]),
+        ),
+
+      S.listItem()
+        .title('Grant applications')
+        .child(
+          S.documentTypeList('grantApplication')
+            .title('Grant applications')
+            .defaultOrdering([{ field: 'receivedAt', direction: 'desc' }]),
+        ),
+
+      S.listItem()
+        .title('Publications')
+        .child(S.documentTypeList('publication').title('Publications')),
+
       S.divider(),
 
       // ------------------------------------------------------------ numbers

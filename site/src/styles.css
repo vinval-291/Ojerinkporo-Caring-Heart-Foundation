@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/* ==================================================================
+   OCHF — blue and welcoming.
+
+   A deep cobalt blue carries the header, heroes and closing bands; the logo's lime
+   is the one bright accent, always with navy text on it; a pale blue tint holds the
+   soft cards. Newsreader sets headlines (one italic lime word is the signature),
+   Geist sets everything else.
+
+   Contrast ratios are WCAG, against the ground named.
+   ================================================================== */
+
+@theme {
+  --font-sans:  "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+
+  --color-brand-950:   #061633;   /* footer, mission band */
+  --color-brand-900:   #0A2654;   /* campaign banner */
+  --color-brand-800:   #0F3D85;   /* primary — header, heroes; 10.4:1 under white */
+  --color-brand-700:   #1A52A8;   /* hover on blue fills */
+  --color-lime:    #B9D234;   /* accent — 9.8:1 under lime-ink; 6.1:1 on brand-800 */
+  --color-lime-200:#D6E77E;
+  --color-lime-ink:#0A1F3D;
+  --color-tint:    #E6EEFA;   /* soft cards */
+  --color-tint-50: #F3F7FD;   /* alternating grounds */
+  --color-sand:    #DCE7F7;   /* cool headings on the darkest blue */
+  --color-line:    #D5E0F0;
+
+  /* Text. */
+  --color-ink:     #101C33;   /* 16.6:1 on white */
+  --color-muted:   #414E66;   /* 8.2:1 on white */
+  --color-faint:   #57647C;   /* 6.0:1 on white, 5.1:1 on tint */
+
+  /* Names the /admin dashboard uses, mapped onto this palette. */
+  --color-paper:        #F3F7FD;
+  --color-surface:      #FFFFFF;
+  --color-cream:        #E6EEFA;
+  --color-body:         #101C33;
+  --color-rule:         #D5E0F0;
+  --color-accent:       #0F3D85;
+  --color-accent-deep:  #0A2654;
+  --color-accent-tint:  #E6EEFA;
+
+  --ease-soft: cubic-bezier(.2, .7, .2, 1);
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; scroll-padding-top: 96px; }
+  body {
+    @apply bg-white text-ink font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--color-lime); color: var(--color-lime-ink); }
+  :focus-visible { outline: 3px solid var(--color-lime); outline-offset: 3px; border-radius: 6px; }
+  .on-light :focus-visible, main :focus-visible { outline-color: var(--color-brand-800); }
+  .on-dark :focus-visible { outline-color: var(--color-lime); }
+}
+
+@layer components {
+  .shell { @apply mx-auto w-full max-w-[1280px] px-5 sm:px-8 lg:px-12; }
+
+  /* Headline faces */
+  /* Tailwind v4 cannot @apply one custom class inside another, so the shared serif
+     headline settings are a grouped selector. */
+  .serif-h, .h-hero, .h-page, .h-sec { @apply font-serif font-semibold tracking-[-0.02em]; line-height: 1.04; }
+  .accent-i { @apply font-serif italic font-medium; }
+  .h-hero   { @apply text-[44px] sm:text-[60px] lg:text-[84px]; }
+  .h-page   { @apply text-[40px] sm:text-[52px] lg:text-[68px]; }
+  .h-sec    { @apply text-[34px] sm:text-[42px] lg:text-[52px]; }
+  .h-card   { @apply font-sans font-bold text-[22px] leading-tight tracking-[-0.01em]; }
+
+  .kicker   { @apply text-[13px] font-semibold uppercase tracking-[0.16em]; }
+  .lede     { @apply text-[18px] md:text-[19px] leading-relaxed; }
+
+  /* Buttons: pills. Lime always carries navy text. */
+  .btn-lime, .btn-brand, .btn-ghost-light, .btn-outline, .btn-accent, .btn-white {
+    @apply inline-flex items-center justify-center gap-2 min-h-12 px-6 rounded-full
+           font-sans text-[15.5px] font-bold transition-[background-color,color,border-color,transform] duration-200;
+  }
+  .btn-lime        { @apply bg-lime text-lime-ink hover:bg-lime-200; }
+  .btn-brand, .btn-accent { @apply bg-brand-800 text-white hover:bg-brand-700; }
+  .btn-white       { @apply bg-white text-brand-800 hover:bg-tint; }
+  .btn-ghost-light { @apply border-[1.5px] border-white/50 text-white hover:bg-white/10 hover:border-white; }
+  .btn-outline     { @apply border-[1.5px] border-brand-800/30 text-brand-800 hover:border-brand-800 hover:bg-tint; }
+  .btn-lime:active, .btn-brand:active, .btn-white:active { transform: scale(0.98); }
+
+  .link-arrow {
+    @apply inline-flex items-center gap-1.5 font-bold text-[15px] text-brand-800
+           underline decoration-transparent underline-offset-4 hover:decoration-current transition;
+  }
+  .link-arrow-light { @apply text-white; }
+
+  /* Pills used as labels, never as buttons. */
+  .tag, .tag-lime, .tag-tint { @apply inline-flex items-center rounded-full px-3.5 py-1.5 text-[13.5px] font-semibold; }
+  .tag-lime { @apply bg-lime/15 text-lime-200; }
+  .tag-tint { @apply bg-tint text-brand-800; }
+
+  .card-tint  { @apply bg-tint rounded-[24px] p-3.5; }
+  .photo-r    { @apply rounded-[16px] object-cover; }
+}
+
+/* Scroll reveal: visible by default; hidden only once JS confirms it can observe. */
+html.reveal-ready [data-reveal]:not(.is-in) { opacity: 0; transform: translateY(20px); }
+html.reveal-ready [data-reveal] {
+  transition: opacity .7s var(--ease-soft), transform .7s var(--ease-soft);
+  transition-delay: calc(var(--reveal-i, 0) * 80ms);
+}
+
+/* The hero's floating portraits drift very slowly. */
+@keyframes drift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.float-slow { animation: drift 9s ease-in-out infinite; }
+.float-slower { animation: drift 12s ease-in-out infinite; animation-delay: -4s; }
+
+.img-zoom { transition: transform 1s var(--ease-soft); }
+.group:hover .img-zoom { transform: scale(1.04); }
+
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.fade-in { animation: fade-in .35s ease-out both; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -3,6 +3,7 @@ import { programme } from './programme';
 import { impactMetric, milestone } from './impact';
 import { documentaryImage, story, person, faq } from './editorial';
 import { galleryAlbum, partner } from './media';
+import { programmeRecord, publication, grantApplication } from './records';
 
 export const schemaTypes = [
   // shared object types first
@@ -18,5 +19,8 @@ export const schemaTypes = [
   faq,
   galleryAlbum,
   partner,
+  programmeRecord,
+  publication,
+  grantApplication,
   submission,
 ];

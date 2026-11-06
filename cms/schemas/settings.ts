@@ -14,6 +14,7 @@ export const siteSettings = defineType({
   type: 'document',
   groups: [
     { name: 'identity', title: 'Name & identity', default: true },
+    { name: 'institution', title: 'Values, objectives & registration' },
     { name: 'contact', title: 'Contact details' },
     { name: 'social', title: 'Social profiles' },
     { name: 'seo', title: 'Search & sharing' },
@@ -59,6 +60,46 @@ export const siteSettings = defineType({
       rows: 3,
       group: 'identity',
       validation: (r) => r.required().max(240),
+    }),
+
+    // --------------------------------------------------------- institution
+    // Each of these appears on the website only once it has been filled in.
+    defineField({
+      name: 'values',
+      title: 'Core values',
+      type: 'array',
+      group: 'institution',
+      description: 'The foundation’s approved values, each with one sentence on what it means in practice.',
+      of: [{
+        type: 'object',
+        name: 'value',
+        fields: [
+          defineField({ name: 'name', title: 'Value', type: 'string', validation: (r) => r.required() }),
+          defineField({ name: 'description', title: 'What it means', type: 'text', rows: 2 }),
+        ],
+        preview: { select: { title: 'name', subtitle: 'description' } },
+      }],
+    }),
+    defineField({
+      name: 'objectives',
+      title: 'Objectives',
+      type: 'array',
+      group: 'institution',
+      description: 'The foundation’s approved objectives, one per entry.',
+      of: [{
+        type: 'object',
+        name: 'objective',
+        fields: [defineField({ name: 'text', title: 'Objective', type: 'text', rows: 2 })],
+        preview: { select: { title: 'text' } },
+      }],
+    }),
+    defineField({
+      name: 'registration',
+      title: 'Registration details',
+      type: 'text',
+      rows: 2,
+      group: 'institution',
+      description: 'Legal form, registering body and registration number, exactly as on the certificate. Shown on Governance and in the footer.',
     }),
 
     // ------------------------------------------------------------- contact

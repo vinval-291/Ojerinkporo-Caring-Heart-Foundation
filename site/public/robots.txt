@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# The dashboard is not content.
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://ojerinkporofoundation.com/sitemap.xml

@@ -13,7 +13,7 @@ on:
   push:
     branches: [redesign]
     paths:
-      - 'source/**'
+      - 'site/**'
       - '.github/workflows/deploy-preview.yml'
   workflow_dispatch:        # lets you run it by hand from the Actions tab
 
@@ -31,18 +31,18 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: source/package-lock.json
+          cache-dependency-path: site/package-lock.json
 
       - name: Install
-        working-directory: source
+        working-directory: site
         run: npm ci
 
       - name: Typecheck
-        working-directory: source
+        working-directory: site
         run: npm run lint          # tsc --noEmit — a broken build never reaches the server
 
       - name: Build
-        working-directory: source
+        working-directory: site
         # Not secrets: the project id and dataset ship inside the client bundle and are
         # readable by anyone. They live in repo variables so CI builds the same way a
         # local build does. Without them the site silently falls back to the figures
@@ -59,7 +59,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps              # encrypted; plain ftp would send the password in clear
-          local-dir: source/dist/
+          local-dir: site/dist/
           server-dir: ${{ secrets.FTP_PREVIEW_DIR }}
           # The sync deletes remote files that are not in the build, so anything the
           # server owns has to be named here.
