@@ -36,7 +36,7 @@ console.log(`  content: ${content.fromCms ? 'from the CMS' : 'WARNING: CMS incom
 const fixed = [
   '/', '/about', '/about/story', '/about/leadership', '/about/governance',
   '/our-work', '/impact', '/stories', '/gallery',
-  '/partners', '/support', '/contact', '/resources', '/our-work/enterprise/grants',
+  '/partners', '/support', '/contact', '/resources', '/our-work/enterprise/grants', '/privacy',
 ];
 
 /* Leadership falls back to the two profiles held in code when the CMS has none. */

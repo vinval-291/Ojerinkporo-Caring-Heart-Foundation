@@ -34,6 +34,7 @@ const fixed = [
   ['/our-work/enterprise/grants', '0.8', 'weekly'],
   ['/contact',            '0.7', 'yearly'],
   ['/resources',          '0.6', 'monthly'],
+  ['/privacy',            '0.3', 'yearly'],
 ];
 
 async function cms(query) {

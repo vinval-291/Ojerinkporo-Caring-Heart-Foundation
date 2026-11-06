@@ -68,11 +68,9 @@ excludes them, so they must be edited in cPanel's File Manager.
 
 ## Switching the deploy from `source/` to `site/`
 
-The workflows in `.github/workflows/` build `source/`. To publish this site instead,
-change every `source` in `deploy-preview.yml` and `deploy-live.yml` to `site`
-(`working-directory`, `cache-dependency-path`, `local-dir`, and the `paths:` filter).
-Deploy to the preview first, add the `.htaccess` lines there, check it, then merge to
-`main`.
+Done: both `deploy-preview.yml` and `deploy-live.yml` now build `site/`. The live site
+changes only when `redesign` is merged into `main`. Before that merge, paste
+`preview-deploy/live-htaccess.txt` into `public_html/.htaccess`.
 
 ## Institutional content (added after the content review)
 
@@ -132,6 +130,25 @@ fill time, and per-address limits (20 uploads and 5 applications an hour).
 
 Uploaded PDFs are Sanity file assets: private in practice (long unguessable addresses),
 but not access-controlled. Do not ask applicants for documents more sensitive than these.
+
+## Newsletter and privacy policy
+
+- **Newsletter** — the sign-up band at the top of the footer. Addresses go to the dashboard's
+  server (action `subscribe`), stored under a private `subscribers.` id, one record per address.
+  Read them in `/admin` → **Newsletter subscribers**; set someone to *Unsubscribed* when they ask.
+  The site does not send email: export the list into your mailing tool when you send a newsletter.
+  Needs the current `app.js` on the server (`npm run build:api`, upload, stop/start).
+- **Privacy policy** — `/privacy` (`src/pages/Privacy.tsx`), linked from the footer, the
+  newsletter, the contact form and the grant application. It describes only what the site does.
+  Have it reviewed against the Nigeria Data Protection Act 2023 before launch, and change
+  `UPDATED` in that file whenever the text changes.
+
+## Real 404s
+
+`preview-deploy/preview-htaccess.txt` and `live-htaccess.txt` serve each prebuilt page, send
+old addresses on with a 301, let the browser draw only the dashboard and newly published
+stories, people and programmes, and answer everything else with `404.html` and a 404 status.
+The deploy never uploads `.htaccess`, so paste the new block in cPanel's File Manager.
 
 ## The master file
 

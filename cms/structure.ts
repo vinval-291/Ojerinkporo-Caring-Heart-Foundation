@@ -52,6 +52,14 @@ export const structure: StructureResolver = (S) =>
         ),
 
       S.listItem()
+        .title('Newsletter subscribers')
+        .child(
+          S.documentTypeList('newsletterSubscriber')
+            .title('Newsletter subscribers')
+            .defaultOrdering([{ field: 'subscribedAt', direction: 'desc' }]),
+        ),
+
+      S.listItem()
         .title('Publications')
         .child(S.documentTypeList('publication').title('Publications')),
 

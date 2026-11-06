@@ -328,7 +328,8 @@ function ApplicationDialog({ statusLabel, email, onClose }: { statusLabel: strin
                 ))}
               </div>
               <p className="text-[13px] text-faint leading-relaxed">
-                Please do not send sensitive personal details beyond what is asked. Applications are read only by the OCHF programme team.
+                Please do not send sensitive personal details beyond what is asked. Applications are read only by the OCHF programme team. See our{' '}
+                <a href="/privacy" target="_blank" rel="noopener" className="underline underline-offset-2 text-brand-800">privacy policy</a> (opens in a new tab).
               </p>
             </fieldset>
 

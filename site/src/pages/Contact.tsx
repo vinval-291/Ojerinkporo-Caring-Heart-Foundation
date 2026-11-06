@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useState, type FormEvent } from 'react';
 import { Mail, Phone, MapPin, Plus } from 'lucide-react';
 import { useContent } from '@/src/content/ContentProvider';
@@ -68,7 +69,7 @@ function ContactForm() {
         </button>
         {!FORM_ENDPOINT && <p className="text-[13.5px] text-faint max-w-[44ch]">This opens your email application with the message ready to send, so nothing is lost in transit.</p>}
       </div>
-      <p className="text-[13.5px] text-faint leading-relaxed max-w-[60ch]">{contact.privacyLine}</p>
+      <p className="text-[13.5px] text-faint leading-relaxed max-w-[60ch]">{contact.privacyLine} See our <Link to="/privacy" className="underline underline-offset-2 text-brand-800">privacy policy</Link>.</p>
     </form>
   );
 }

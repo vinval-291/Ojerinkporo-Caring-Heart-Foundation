@@ -113,6 +113,22 @@ export const sections: Section[] = [
     ],
   },
 
+  /* --------------------------------------------------- newsletter subscribers */
+  {
+    key: 'subscribers',
+    type: 'newsletterSubscriber',
+    title: 'Newsletter subscribers',
+    blurb: 'Addresses from the footer sign-up. Private: only this dashboard can read them. Set someone to Unsubscribed when they ask to stop.',
+    titleField: 'email',
+    subtitleField: 'status',
+    fields: [
+      { name: 'email', label: 'Email', kind: 'text', required: true },
+      { name: 'status', label: 'Status', kind: 'select', required: true, options: ['Subscribed', 'Unsubscribed'] },
+      { name: 'subscribedAt', label: 'Subscribed', kind: 'text' },
+      { name: 'page', label: 'Signed up on', kind: 'text' },
+    ],
+  },
+
   /* ------------------------------------------------------ programme records */
   {
     key: 'records',

@@ -283,6 +283,13 @@ export const contact = {
 
 export const footer = {
   support: 'Support OCHF',
+  // Drawn from About (4.3) so the footer says nothing the rest of the site does not.
+  about:
+    'A Nigerian nonprofit investing in people and communities through enterprise development, ' +
+    'education and direct community support. We fund carefully designed programmes, work alongside ' +
+    'the people we support, and follow up to learn what changed.',
+  newsletterTitle: 'News from the foundation',
+  newsletterBody: 'Grant rounds, programme updates and stories from the communities we serve.',
 };
 
 /** Page titles and descriptions for the pages not covered above (Part 5). */

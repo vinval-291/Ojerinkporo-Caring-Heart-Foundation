@@ -15,7 +15,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'source/**'
+      - 'site/**'
       - '.github/workflows/deploy-live.yml'
   workflow_dispatch:
 
@@ -33,23 +33,23 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: source/package-lock.json
+          cache-dependency-path: site/package-lock.json
 
       - name: Install
-        working-directory: source
+        working-directory: site
         run: npm ci
 
       - name: Typecheck
-        working-directory: source
+        working-directory: site
         run: npm run lint          # a build that does not compile never reaches the site
 
       - name: Refresh the sitemap
-        working-directory: source
+        working-directory: site
         continue-on-error: true    # a bad minute at the CMS must not stop a deploy
         run: node scripts/sitemap.mjs
 
       - name: Build
-        working-directory: source
+        working-directory: site
         env:
           VITE_SANITY_PROJECT_ID: ${{ vars.VITE_SANITY_PROJECT_ID }}
           VITE_SANITY_DATASET: ${{ vars.VITE_SANITY_DATASET || 'production' }}
@@ -62,7 +62,7 @@ jobs:
           username: ${{ secrets.FTP_LIVE_USERNAME }}
           password: ${{ secrets.FTP_LIVE_PASSWORD }}
           protocol: ftps
-          local-dir: source/dist/
+          local-dir: site/dist/
           server-dir: ${{ secrets.FTP_LIVE_DIR }}
           exclude: |
             **/.htaccess

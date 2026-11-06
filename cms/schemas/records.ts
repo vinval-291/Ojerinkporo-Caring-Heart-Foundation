@@ -115,3 +115,22 @@ export const grantApplication = defineType({
     prepare: ({ business, name, status, ref }) => ({ title: `${business ?? 'Application'} — ${name ?? ''}`, subtitle: `${ref ?? ''} · ${status ?? 'New'}` }),
   },
 });
+
+/**
+ * Newsletter subscriber, added by the footer form. Stored under a `subscribers.` id, so,
+ * like applications, the public dataset never serves it.
+ */
+export const newsletterSubscriber = defineType({
+  name: 'newsletterSubscriber',
+  title: 'Newsletter subscriber',
+  type: 'document',
+  fields: [
+    defineField({ name: 'email', title: 'Email', type: 'string', readOnly: true }),
+    defineField({ name: 'subscribedAt', title: 'Subscribed', type: 'datetime', readOnly: true }),
+    defineField({ name: 'page', title: 'Signed up on', type: 'string', readOnly: true }),
+    defineField({ name: 'status', title: 'Status', type: 'string', initialValue: 'Subscribed',
+      options: { list: ['Subscribed', 'Unsubscribed'] } }),
+  ],
+  orderings: [{ title: 'Newest first', name: 'newest', by: [{ field: 'subscribedAt', direction: 'desc' }] }],
+  preview: { select: { title: 'email', subtitle: 'status' } },
+});

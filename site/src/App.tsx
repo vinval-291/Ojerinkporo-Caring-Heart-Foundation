@@ -20,6 +20,7 @@ import Support from './pages/Support';
 import Grants from './pages/Grants';
 import Contact from './pages/Contact';
 import Resources from './pages/Resources';
+import Privacy from './pages/Privacy';
 import NotFound from './pages/NotFound';
 
 /** The dashboard is a separate bundle — visitors to the public site never download it. */
@@ -82,6 +83,7 @@ function PublicSite({ initial }: { initial?: Content }) {
             <Route path="/support/apply" element={<Navigate to="/our-work/enterprise/grants" replace />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/resources" element={<Resources />} />
+            <Route path="/privacy" element={<Privacy />} />
             <Route path="/faq" element={<Navigate to="/contact#faq" replace />} />
 
             {/* Addresses from the previous site, so existing links survive. */}

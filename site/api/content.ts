@@ -23,7 +23,7 @@ const DATASET = process.env.SANITY_STUDIO_DATASET || 'production';
 const WRITABLE = new Set([
   'siteSettings', 'programme', 'impactMetric', 'milestone',
   'story', 'person', 'faq', 'galleryAlbum', 'partner',
-  'programmeRecord', 'publication', 'grantApplication',
+  'programmeRecord', 'publication', 'grantApplication', 'newsletterSubscriber',
 ]);
 
 /* ------------------------------------------------------------------ secrets */
@@ -277,6 +277,28 @@ async function handleApplication(action: string, payload: Record<string, unknown
   return { status: 201, body: { reference } };
 }
 
+/**
+ * Newsletter sign-up from the footer. One record per address: the id is derived from the
+ * address, so signing up twice changes nothing. Stored under `subscribers.`, which the
+ * public dataset never serves, so the list is readable only in the dashboard.
+ */
+async function handleSubscribe(payload: Record<string, unknown>, ip: string): Promise<AdminResult> {
+  if (limited('subscribe', ip, 10)) return { status: 429, body: { error: 'Too many sign-ups from this connection. Please try again later.' } };
+  const ok = { status: 200, body: { ok: true } };
+  if (String(payload.website ?? '')) return ok; // bot: say nothing
+  const email = String(payload.email ?? '').trim().toLowerCase().slice(0, 160);
+  if (!/^[^s@]+@[^s@]+.[^s@]+$/.test(email)) return { status: 400, body: { error: 'Please enter a valid email address.' } };
+  const page = String(payload.page ?? '').slice(0, 120);
+  const id = `subscribers.${createHmac('sha256', 'ochf-newsletter').update(email).digest('hex').slice(0, 32)}`;
+  const client = sanity();
+  await withRetry(() => client.createIfNotExists({
+    _id: id, _type: 'newsletterSubscriber', email, page, status: 'Subscribed', subscribedAt: new Date().toISOString(),
+  } as never));
+  // Someone who unsubscribed and signs up again is subscribed again.
+  await withRetry(() => client.patch(id).set({ status: 'Subscribed' }).commit());
+  return ok;
+}
+
 export async function handleAdmin(
   req: AdminRequest,
   cookieHeader: string | undefined,
@@ -292,6 +314,15 @@ export async function handleAdmin(
     } catch (err) {
       console.error('[apply]', action, err instanceof Error ? err.message : err);
       return { status: 502, body: { error: 'We could not receive that just now. Please try again in a few minutes.' } };
+    }
+  }
+
+  if (action === 'subscribe') {
+    try {
+      return await handleSubscribe(payload, meta.ip ?? 'unknown');
+    } catch (err) {
+      console.error('[subscribe]', err instanceof Error ? err.message : err);
+      return { status: 502, body: { error: 'We could not add you just now. Please try again in a few minutes.' } };
     }
   }
 

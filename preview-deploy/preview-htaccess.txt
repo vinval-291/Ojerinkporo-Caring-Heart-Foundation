@@ -6,6 +6,7 @@
 Header set X-Robots-Tag "noindex, nofollow"
 </IfModule>
 
+# --- the site ---------------------------------------------------------------
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
@@ -13,19 +14,40 @@ RewriteBase /
 # Leave the dashboard's server alone; the Node.js app answers there.
 RewriteRule ^api(/|$) - [L]
 
+# Addresses from earlier versions of the site.
+RewriteRule ^visionary/?$        /about/leadership [L,R=301]
+RewriteRule ^donate/?$           /support [L,R=301]
+RewriteRule ^volunteer/?$        /partners [L,R=301]
+RewriteRule ^faq/?$              /contact#faq [L,R=301,NE]
+RewriteRule ^support/apply/?$    /our-work/enterprise/grants [L,R=301]
+RewriteRule ^events/grant/?$     /our-work/enterprise [L,R=301]
+RewriteRule ^events(/.*)?$       /stories [L,R=301]
+
 # Serve real files and folders as they are.
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# Every other address (/about, /our-work/enterprise, ...) loads the site.
-RewriteRule ^ /index.html [L]
+# Serve the prebuilt HTML for each page: /about/story -> /_pages/about/story.html
+RewriteCond %{REQUEST_URI} !^/(api|_pages|assets|images)(/|$)
+RewriteCond %{DOCUMENT_ROOT}/_pages/$1.html -f
+RewriteRule ^(.+?)/?$ /_pages/$1.html [L]
+
+# Addresses the browser draws without a prebuilt page: the dashboard, and a story,
+# person or programme published in the dashboard since the last build.
+RewriteRule ^(admin(/.*)?|stories/[^/]+|about/leadership/[^/]+|our-work/[^/]+)/?$ /index.html [L]
+
+# Nothing else is rewritten: any other address does not exist and gets a real 404.
 </IfModule>
 
-# Always check for a newer index.html so updates show straight away.
+# Unknown addresses get the site's own "page not found" page, with a 404 status,
+# so search engines do not index them.
+ErrorDocument 404 /404.html
+
+# Always check for newer page files so updates show straight away.
 # The files in /assets have unique names per build, so they can be cached.
 <IfModule mod_headers.c>
-<FilesMatch "index\.html$">
+<FilesMatch "\.html$">
 Header set Cache-Control "no-cache"
 </FilesMatch>
 <FilesMatch "\.(js|css)$">
